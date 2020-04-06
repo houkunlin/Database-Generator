@@ -1,0 +1,13 @@
+{
+  "javaPath": "src/main/java",
+  "sourcesPath": "src/main/resources",
+  "entitySuffix": "Entity",
+  "daoSuffix": "Repository",
+  "serviceSuffix": "Service",
+  "controllerSuffix": "Controller",
+  "entityPackage": "com.example.entity",
+  "daoPackage": "com.example.repository",
+  "servicePackage": "com.example.service",
+  "controllerPackage": "com.example.controller",
+  "xmlPackage": "mapper"
+}

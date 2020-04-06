@@ -1,0 +1,57 @@
+[
+  {
+    "shortName": "Object",
+    "longName": "java.lang.Object",
+    "isDefault": true,
+    "dbTypes": []
+  },
+  {
+    "shortName": "Integer",
+    "longName": "java.lang.Integer",
+    "dbTypes": [
+      "bit",
+      "tinyint",
+      "smallint",
+      "mediumint",
+      "int"
+    ]
+  },
+  {
+    "shortName": "Long",
+    "longName": "java.lang.Long",
+    "dbTypes": [
+      "bigint"
+    ]
+  },
+  {
+    "shortName": "String",
+    "longName": "java.lang.String",
+    "dbTypes": [
+      "char",
+      "varchar",
+      "text",
+      "longtext",
+      "tinytext"
+    ]
+  },
+  {
+    "shortName": "BigDecimal",
+    "longName": "java.math.BigDecimal",
+    "dbTypes": [
+      "decimal",
+      "float",
+      "double",
+      "numeric"
+    ]
+  },
+  {
+    "shortName": "Date",
+    "longName": "java.util.Date",
+    "dbTypes": [
+      "date",
+      "time",
+      "datetime",
+      "timestamp"
+    ]
+  }
+]
