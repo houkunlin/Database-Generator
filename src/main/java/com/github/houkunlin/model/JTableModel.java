@@ -2,15 +2,12 @@ package com.github.houkunlin.model;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import com.intellij.database.model.*;
-import com.intellij.database.psi.DbColumn;
-import com.intellij.database.psi.DbElement;
+import com.intellij.database.model.DasColumn;
 import com.intellij.database.psi.DbTable;
-import com.intellij.util.ReflectionUtil;
+import com.intellij.database.util.DasUtil;
 import com.intellij.util.containers.JBIterable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -25,10 +22,10 @@ import javax.swing.table.TableColumn;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class JTableModel extends AbstractTableModel {
-    Table<Integer, Integer, Object> table = HashBasedTable.create();
     private final JTable columnTable;
     private final DbTable dbTable;
     private final com.github.houkunlin.model.Table tableInfo;
+    Table<Integer, Integer, Object> table = HashBasedTable.create();
     String[] names = {"选中", "列名", "类型", "完整类型", "注释"};
     Boolean[] editable = {true, false, false, false, true};
 
@@ -55,43 +52,17 @@ public class JTableModel extends AbstractTableModel {
         // ((MysqlImplModel.Table) delegate).getKeys().myElements.get(0).getColNames()
         // ((MysqlImplModel.Table) delegate).getPrimaryKey().getColNames()
         int rowIndex = -1;
-        JBIterable<? extends DbElement> dasChildren = dbTable.getDasChildren(ObjectKind.COLUMN);
-        for (DbElement dbElement : dasChildren) {
-            if (dbElement instanceof DbColumn) {
-                DbColumn column = (DbColumn) dbElement;
-                DataType dataType = column.getDataType();
-                com.github.houkunlin.model.TableColumn tableColumn = tableInfo.addColumn(column);
-                int colIndex = -1;
-                ++rowIndex;
-                // 第1列选中复选框
-                table.put(rowIndex, ++colIndex, true);
-                table.put(rowIndex, ++colIndex, tableColumn.getName());
-                table.put(rowIndex, ++colIndex, tableColumn.getType());
-                table.put(rowIndex, ++colIndex, dataType.getSpecification());
-                table.put(rowIndex, ++colIndex, tableColumn.getComment());
-            }
-        }
-    }
-
-    @Deprecated
-    private void initData() {
-        DasTable delegate = (DasTable) dbTable.getDelegate();
-        JBIterable<? extends DasObject> dasChildren = delegate.getDasChildren(ObjectKind.COLUMN);
-        int rowIndex = -1;
-        for (DasObject dasChild : dasChildren) {
-            if (dasChild instanceof DasColumn) {
-                DasColumn column = (DasColumn) dasChild;
-                int colIndex = -1;
-                ++rowIndex;
-                // 第1列选中复选框
-                table.put(rowIndex, ++colIndex, true);
-                table.put(rowIndex, ++colIndex, column.getName());
-                DataType dataType = column.getDataType();
-                table.put(rowIndex, ++colIndex, ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName"));
-                table.put(rowIndex, ++colIndex, dataType.getSpecification());
-                table.put(rowIndex, ++colIndex, StringUtils.defaultString(column.getComment(), ""));
-
-            }
+        JBIterable<? extends DasColumn> columns = DasUtil.getColumns(dbTable);
+        for (DasColumn column : columns) {
+            com.github.houkunlin.model.TableColumn tableColumn = tableInfo.addColumn(column);
+            int colIndex = -1;
+            ++rowIndex;
+            // 第1列选中复选框
+            table.put(rowIndex, ++colIndex, true);
+            table.put(rowIndex, ++colIndex, tableColumn.getName());
+            table.put(rowIndex, ++colIndex, tableColumn.getType());
+            table.put(rowIndex, ++colIndex, column.getDataType().getSpecification());
+            table.put(rowIndex, ++colIndex, tableColumn.getComment());
         }
     }
 

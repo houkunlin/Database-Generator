@@ -1,7 +1,7 @@
 package com.github.houkunlin.model;
 
 import com.google.common.base.CaseFormat;
-import com.intellij.database.psi.DbColumn;
+import com.intellij.database.model.DasColumn;
 import com.intellij.database.psi.DbTable;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
@@ -61,7 +61,7 @@ public class Table {
      * @param column 字段（列）
      * @return 新增的字段对象
      */
-    public TableColumn addColumn(DbColumn column) {
+    public TableColumn addColumn(DasColumn column) {
         TableColumn tableColumn = new TableColumn(this, column);
         columns.add(tableColumn);
         return tableColumn;

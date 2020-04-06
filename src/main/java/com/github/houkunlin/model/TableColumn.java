@@ -1,8 +1,8 @@
 package com.github.houkunlin.model;
 
 import com.google.common.base.CaseFormat;
+import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
-import com.intellij.database.psi.DbColumn;
 import com.intellij.database.util.DasUtil;
 import com.intellij.util.ReflectionUtil;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class TableColumn {
     /**
      * 原始的列对象
      */
-    private final DbColumn dbColumn;
+    private final DasColumn dbColumn;
     /**
      * 是否选中（判定是否需要生成）
      */
@@ -59,7 +59,7 @@ public class TableColumn {
      */
     private TableColumnType columnType;
 
-    public TableColumn(Table table, DbColumn dbColumn) {
+    public TableColumn(Table table, DasColumn dbColumn) {
         this.table = table;
         this.dbColumn = dbColumn;
         DataType dataType = dbColumn.getDataType();
