@@ -1,6 +1,5 @@
 package com.github.houkunlin.model;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -23,73 +22,23 @@ public class SaveFilePath {
         types.add("xml");
     }
 
-    private String filename;
-    private String filepath;
     private String type;
     private String toString;
 
     public SaveFilePath(AtomicReference<String> filename, AtomicReference<String> filepath, String defaultFilename, String defaultFilepath) {
-        String nameValue = filename.get();
-        String pathValue = filepath.get();
-        if (nameValue != null) {
-            this.filename = nameValue;
-        } else {
-            this.filename = defaultFilename;
-        }
-        if (pathValue != null) {
-            this.filepath = pathValue;
-        } else {
-            this.filepath = defaultFilepath;
-        }
-        toString = (this.filepath.replace(".", File.separator) + File.separator + this.filename);
+        String name = getValue(filename, defaultFilename);
+        String path = getValue(filepath, defaultFilepath);
+        toString = (path.replace(".", "/") + "/" + name);
         toString = toString.replace("\\", "/").replaceAll("/+", "/");
     }
 
-    /**
-     * 判断是否是某种类型的文件
-     *
-     * @param type 文件类型
-     * @return 结果
-     */
-    public boolean isType(String type) {
-        return this.type.equals(type);
-    }
-
-    public boolean isEntity() {
-        return "entity".equals(type);
-    }
-
-    public boolean isDao() {
-        return "dao".equals(type);
-    }
-
-    public boolean isService() {
-        return "service".equals(type);
-    }
-
-    public boolean isServiceImpl() {
-        return "serviceImpl".equals(type);
-    }
-
-    public boolean isController() {
-        return "controller".equals(type);
-    }
-
-    public boolean isJava() {
-        return types.contains(type) && !isXml();
-    }
-
-    public boolean isXml() {
-        return "xml".equals(type);
-    }
-
-    public boolean isOther() {
-        return !types.contains(type);
-    }
-
-    @Override
-    public String toString() {
-        return toString;
+    private String getValue(AtomicReference<String> atomicReference, String defaultValue) {
+        String tempValue = atomicReference.get();
+        if (tempValue != null) {
+            return tempValue;
+        } else {
+            return defaultValue;
+        }
     }
 
     public static SaveFilePath create(AtomicReference<String> filename, AtomicReference<String> filepath, AtomicReference<String> type, Table table, Settings settings) {
@@ -138,5 +87,55 @@ public class SaveFilePath {
         }
         saveFilePath.type = type.get();
         return saveFilePath;
+    }
+
+    /**
+     * 判断是否是某种类型的文件
+     *
+     * @param type 文件类型
+     * @return 结果
+     */
+    public boolean isType(String type) {
+        if (this.type == null) {
+            return false;
+        }
+        return this.type.equals(type);
+    }
+
+    public boolean isEntity() {
+        return "entity".equals(type);
+    }
+
+    public boolean isDao() {
+        return "dao".equals(type);
+    }
+
+    public boolean isService() {
+        return "service".equals(type);
+    }
+
+    public boolean isServiceImpl() {
+        return "serviceImpl".equals(type);
+    }
+
+    public boolean isController() {
+        return "controller".equals(type);
+    }
+
+    public boolean isJava() {
+        return types.contains(type) && !isXml();
+    }
+
+    public boolean isXml() {
+        return "xml".equals(type);
+    }
+
+    public boolean isOther() {
+        return !types.contains(type);
+    }
+
+    @Override
+    public String toString() {
+        return toString;
     }
 }
