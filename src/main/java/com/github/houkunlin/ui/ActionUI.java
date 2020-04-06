@@ -98,7 +98,7 @@ public class ActionUI extends JFrame {
     private JTextField emailField;
 
     public ActionUI() {
-        super("MyBatis Plus 插件");
+        super("代码生成器");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setContentPane(jpanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
