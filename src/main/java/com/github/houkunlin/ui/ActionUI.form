@@ -317,67 +317,6 @@
               </grid>
             </children>
           </grid>
-          <grid id="64852" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-            <constraints>
-              <tabbedpane title="Untitled"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <grid id="6322" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
-                <constraints/>
-                <properties>
-                  <preferredSize width="950" height="35"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="3dbd" class="javax.swing.JLabel">
-                    <constraints/>
-                    <properties>
-                      <text value="表名："/>
-                    </properties>
-                  </component>
-                  <component id="f5afa" class="javax.swing.JTextField" binding="tableNameField">
-                    <constraints/>
-                    <properties>
-                      <editable value="false"/>
-                      <preferredSize width="150" height="24"/>
-                    </properties>
-                  </component>
-                  <component id="56705" class="javax.swing.JLabel">
-                    <constraints/>
-                    <properties>
-                      <text value="Entity 名称："/>
-                    </properties>
-                  </component>
-                  <component id="7e3f7" class="javax.swing.JTextField" binding="entityNameField">
-                    <constraints/>
-                    <properties>
-                      <preferredSize width="150" height="24"/>
-                    </properties>
-                  </component>
-                </children>
-              </grid>
-              <scrollpane id="9dd5b">
-                <constraints/>
-                <properties>
-                  <preferredSize width="940" height="220"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <component id="cfb5c" class="javax.swing.JTable" binding="columnTable">
-                    <constraints/>
-                    <properties>
-                      <autoCreateRowSorter value="false"/>
-                      <autoResizeMode value="4"/>
-                      <columnSelectionAllowed value="false"/>
-                      <updateSelectionOnSort value="true"/>
-                    </properties>
-                  </component>
-                </children>
-              </scrollpane>
-            </children>
-          </grid>
         </children>
       </tabbedpane>
       <grid id="49452" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="2">

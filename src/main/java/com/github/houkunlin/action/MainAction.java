@@ -29,18 +29,19 @@ public class MainAction extends AnAction {
     public void actionPerformed(AnActionEvent actionEvent) {
         PsiElement[] psiElements = actionEvent.getData(LangDataKeys.PSI_ELEMENT_ARRAY);
         if (psiElements == null || psiElements.length == 0) {
-            Messages.showMessageDialog("请选择一张表", "通知", Messages.getInformationIcon());
+            Messages.showMessageDialog("请至少选择一张表", "通知", Messages.getInformationIcon());
             return;
         }
-        if (psiElements.length > 1) {
-            Messages.showMessageDialog("请选择一张表(暂时无法处理多表)", "通知", Messages.getInformationIcon());
-            return;
-        }
+        boolean isOk = false;
         for (PsiElement psiElement : psiElements) {
-            if (!(psiElement instanceof DbTable)) {
-                Messages.showMessageDialog("请选择一张表", "通知", Messages.getInformationIcon());
-                return;
+            if (psiElement instanceof DbTable) {
+                isOk = true;
+                break;
             }
+        }
+        if (!isOk) {
+            Messages.showMessageDialog("请至少选择一张表", "通知", Messages.getInformationIcon());
+            return;
         }
         Project project = actionEvent.getData(PlatformDataKeys.PROJECT);
         if (project == null) {

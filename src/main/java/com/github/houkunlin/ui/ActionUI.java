@@ -77,16 +77,7 @@ public class ActionUI extends JFrame {
     private JButton selectDaoPackageButton;
     private JButton selectServicePackageButton;
     private JButton selectControllerPackageButton;
-    private JTable columnTable;
     private JTabbedPane tabbedPane;
-    /**
-     * 数据库表名
-     */
-    private JTextField tableNameField;
-    /**
-     * Entity 名称
-     */
-    private JTextField entityNameField;
     /**
      * 完成事件按钮
      */
@@ -109,10 +100,6 @@ public class ActionUI extends JFrame {
         pack();
         setVisible(true);
         tabbedPane.setTitleAt(0, "构建选项");
-        tabbedPane.setTitleAt(1, "字段信息");
-//        initTable();
-        columnTable.setRowHeight(30);
-//        setAlwaysOnTop(true);
     }
 
     public void showWindows() {
@@ -120,9 +107,25 @@ public class ActionUI extends JFrame {
         setAlwaysOnTop(false);
     }
 
-    private void initTable() {
-        columnTable.setModel(new MyTable());
-        TableColumn column = columnTable.getColumnModel().getColumn(0);
+    public void addTab() {
+
+        TabUI tabUI = new TabUI();
+        setTableModel(tabUI);
+        tabbedPane.addTab("tab1111", tabUI);
+
+        tabUI = new TabUI();
+        setTableModel(tabUI);
+        tabbedPane.addTab("tab1111", tabUI);
+
+        tabUI = new TabUI();
+        setTableModel(tabUI);
+        tabbedPane.addTab("tab1111", tabUI);
+    }
+
+    private void setTableModel(TabUI tabUI) {
+        JTable jTable = tabUI.getJTable();
+        jTable.setModel(new MyTable());
+        TableColumn column = jTable.getColumnModel().getColumn(0);
         column.setCellEditor(new DefaultCellEditor(new JCheckBox()));
         int width = 30;
         column.setMaxWidth(width);
@@ -134,7 +137,7 @@ public class ActionUI extends JFrame {
      *
      * @author Administrator
      */
-    class MyTable extends AbstractTableModel {
+    public static class MyTable extends AbstractTableModel {
         //原文出自【易百教程】，商业转载请联系作者获得授权，非商业请保留原文链接：https://www.yiibai.com/guava/guava_table.html
         Table<Integer, Integer, Object> table = HashBasedTable.create();
 
@@ -191,7 +194,7 @@ public class ActionUI extends JFrame {
 
     public static void main(String[] args) {
         ActionUI ui = new ActionUI();
-        ui.initTable();
+        ui.addTab();
         ui.finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

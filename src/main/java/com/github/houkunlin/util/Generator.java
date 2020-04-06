@@ -2,7 +2,6 @@ package com.github.houkunlin.util;
 
 import com.github.houkunlin.freemarker.TemplateAction;
 import com.github.houkunlin.model.*;
-import com.intellij.openapi.ui.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,48 +15,31 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author HouKunLin
  * @date 2020/4/3 0003 11:22
  */
-public class Generator implements Runnable {
-    private final Table table;
+public class Generator {
     private final Settings settings;
     private final Options options;
-    private final Developer developer;
-    private final Runnable finish;
+    private final Map<String, Object> map;
+    private final AtomicReference<String> filename = new AtomicReference<>();
+    private final AtomicReference<String> filepath = new AtomicReference<>();
+    private final AtomicReference<String> type = new AtomicReference<>();
 
-    public Generator(Table table, Settings settings, Options options, Developer developer, Runnable finish) {
-        this.table = table;
+    public Generator(Settings settings, Options options, Developer developer) {
         this.settings = settings;
         this.options = options;
-        this.developer = developer;
-        this.finish = finish;
-    }
 
-    @Override
-    public void run() {
-        try {
-            generator();
-            finish.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Messages.showMessageDialog(e.getMessage(), "生成代码失败", Messages.getErrorIcon());
-        }
+        this.map = new HashMap<>(8);
+        map.put("settings", settings);
+        map.put("developer", developer);
+        map.put("gen", new TemplateAction(filename::set, filepath::set, type::set));
     }
-
 
     /**
      * 执行生成代码任务
      *
      * @throws Exception 异常
      */
-    public void generator() throws Exception {
-        AtomicReference<String> filename = new AtomicReference<>();
-        AtomicReference<String> filepath = new AtomicReference<>();
-        AtomicReference<String> type = new AtomicReference<>();
-
-        Map<String, Object> map = new HashMap<>(8);
+    public void generator(Table table) throws Exception {
         map.put("table", table);
-        map.put("settings", settings);
-        map.put("developer", developer);
-        map.put("gen", new TemplateAction(filename::set, filepath::set, type::set));
         for (File templateFile : ContextUtils.getTemplatesFiles()) {
             // 重置内容，方便使用默认配置
             filename.set(null);

@@ -28,6 +28,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -62,6 +64,12 @@ public class ActionUIRunnable implements Runnable {
      * 开发者信息
      */
     private Developer developer = ReadJsonConfig.getDeveloper();
+    /**
+     * 数据库字段类型映射关系
+     */
+    private TableColumnType[] tableColumnTypes = ReadJsonConfig.getTableColumnTypes();
+
+    private List<TableInfoTabUI> tableList = new ArrayList<>();
 
     public ActionUIRunnable(AnActionEvent actionEvent) {
         this.ui = new ActionUI();
@@ -77,7 +85,35 @@ public class ActionUIRunnable implements Runnable {
         initDeveloper();
         configProject();
         configSelectPackage();
-        configTable();
+        for (PsiElement psiElement : psiElements) {
+            if (psiElement instanceof DbTable) {
+                DbTable dbTable = (DbTable) psiElement;
+                TableInfoTabUI tabUI = new TableInfoTabUI(dbTable, tableColumnTypes);
+                ui.getTabbedPane().addTab(dbTable.getName(), tabUI);
+                tableList.add(tabUI);
+            }
+        }
+        // 点击完成按钮
+        ui.getFinishButton().addActionListener(event -> {
+            //用后台任务执行代码生成
+            ApplicationManager.getApplication().invokeLater(() -> {
+                saveSettings();
+                saveOptions();
+                saveDeveloper();
+                try {
+                    Generator generator = new Generator(settings, options, developer);
+                    for (TableInfoTabUI tabUI : tableList) {
+                        tabUI.saveTableInfo();
+                        Table tableInfo = tabUI.getTableInfo();
+                        generator.generator(tableInfo);
+                    }
+                    this.finishAction();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Messages.showMessageDialog(e.getMessage(), "生成代码失败", Messages.getErrorIcon());
+                }
+            });
+        });
     }
 
     private void initDeveloper() {
@@ -135,27 +171,6 @@ public class ActionUIRunnable implements Runnable {
         options.setOverrideJava(ui.getOverrideJavaCheckBox().isSelected());
         options.setOverrideXml(ui.getOverrideXmlCheckBox().isSelected());
         options.setOverrideOther(ui.getOverrideOtherCheckBox().isSelected());
-    }
-
-    private void configTable() {
-        JTableModel JTableModel = new JTableModel(ui.getColumnTable(), (DbTable) psiElements[0]);
-        Table tableInfo = JTableModel.getTableInfo();
-
-        tableInfo.setColumnTypes(ReadJsonConfig.getTableColumnTypes());
-
-        ui.getTableNameField().setText(tableInfo.getTableName());
-        ui.getEntityNameField().setText(tableInfo.getEntityName());
-        // 点击完成按钮
-        ui.getFinishButton().addActionListener(e -> {
-            //用后台任务执行代码生成
-            ApplicationManager.getApplication().invokeLater(() -> {
-                saveSettings();
-                saveOptions();
-                saveDeveloper();
-                tableInfo.setEntityName(ui.getEntityNameField().getText());
-                new Generator(tableInfo, settings, options, developer, ActionUIRunnable.this::finishAction).run();
-            });
-        });
     }
 
     /**
