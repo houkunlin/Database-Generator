@@ -12,5 +12,8 @@
 - `filename` ：会覆盖默认的文件名配置：`EntityName + Suffix + '.java'`
 - `filepath` : 会覆盖默认的文件路径配置：`javaPath/sourcePath + package`
 
+一般情况下使用 <@gen type="entity" /> 来标记当前文件的类型，然后根据文件类型来使用一些默认的配置（文件名、包名、保存路径），
+        如果不适用默认的配置（文件名、包名、保存路径），则可以使用 <@gen filename="${table.entityName}DTO.java" filepath="src/main/java/com.example.domain.dto" /> 来覆盖默认配置
+
 ## 参考代码
 - better-mybatis-generator https://github.com/kmaster/better-mybatis-generator
