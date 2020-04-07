@@ -91,7 +91,7 @@ public class ${table.entityName}${settings.controllerSuffix} extends ApiControll
         ${serviceVar}.save${table.entityName}(entity);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.LOCATION, entity.getId());
+        headers.add(HttpHeaders.LOCATION, String.valueOf(entity.get${(table.getPrimaryColumn().fieldMethod)!'Id'}()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
