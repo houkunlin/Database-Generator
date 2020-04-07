@@ -34,10 +34,8 @@ public class ${serviceClass}Impl extends ServiceImpl<${daoClass}, ${entityClass}
 
     @Override
     public void update${table.entityName}(${entityClass} entity) {
-        boolean update = lambdaUpdate()
-                // .set(${entityClass}::getId, entity.getId())
-                .eq(${entityClass}::getId, entity.getId())
-                .update();
+        // 使用 updateById(entity); 修改数据时，将会修改 entity 对象中所有非null数据，如果某个字段为null，将会忽略该字段的修改
+        boolean update = updateById(entity);
         if (!update) {
             throw new RuntimeException("修改信息失败");
         }
