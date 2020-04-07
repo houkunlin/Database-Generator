@@ -36,7 +36,9 @@ public class SyncResources implements Runnable {
         }
         try {
             copyResourcesToProject(ContextUtils.getLocalConfigPath(), "", "init.properties", "types.json", "options.json", "settings.json", "developer.json");
-            copyResourcesToProject(ContextUtils.getTemplatesPath(), "templates/", "Controller.ftl", "Entity.ftl", "Repository.ftl", "Service.ftl", "ServiceImpl.ftl", "Xml.ftl", "MyBatisUtils.java");
+            copyResourcesToProject(ContextUtils.getTemplatesPath(), "templates/",
+                    "backend_Controller.java.ftl", "backend_Entity.java.ftl", "backend_Mapper.xml.ftl",
+                    "backend_MyBatisUtils.java.ftl", "backend_Repository.java.ftl", "backend_Service.java.ftl", "backend_ServiceImpl.java.ftl");
         } catch (Exception ignore) {
         }
     }
