@@ -32,6 +32,7 @@ public class TableInfoTabUI extends TabUI {
 
         getTableNameField().setText(tableInfo.getTableName());
         getEntityNameField().setText(tableInfo.getEntityName());
+        getCommentField().setText(tableInfo.getComment());
     }
 
     /**
@@ -39,7 +40,6 @@ public class TableInfoTabUI extends TabUI {
      */
     public void saveTableInfo() {
         tableInfo.setEntityName(getEntityNameField().getText());
-        String text = StringUtils.defaultString(getCommentField().getText(), "");
-        tableInfo.setComment(text);
+        tableInfo.setComment(StringUtils.defaultString(getCommentField().getText(), ""));
     }
 }
