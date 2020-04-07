@@ -56,6 +56,20 @@ public class Table {
     }
 
     /**
+     * 获取主键的列
+     *
+     * @return 列
+     */
+    public TableColumn getPrimaryColumn() {
+        for (TableColumn column : columns) {
+            if (column.isPrimaryKey()) {
+                return column;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 向表格中添加一个字段对象
      *
      * @param column 字段（列）
