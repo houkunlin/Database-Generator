@@ -20,6 +20,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 public class TabUI extends JPanel {
     private JTextField tableNameField;
     private JTextField entityNameField;
+    private JTextField commentField;
     private JTable jTable;
     private final Dimension fieldDimension = new Dimension(150, 24);
 
@@ -46,6 +47,11 @@ public class TabUI extends JPanel {
         entityNameField.setPreferredSize(fieldDimension);
         jPanel.add(new JLabel("Entity 名称："));
         jPanel.add(entityNameField);
+
+        commentField = new JTextField();
+        commentField.setPreferredSize(fieldDimension);
+        jPanel.add(new JLabel("表注释："));
+        jPanel.add(commentField);
 
         jPanel.setPreferredSize(new Dimension(950, 35));
         add(jPanel);

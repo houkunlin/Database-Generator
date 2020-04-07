@@ -6,6 +6,7 @@ import com.github.houkunlin.model.TableColumnType;
 import com.intellij.database.psi.DbTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 插件的TabUI
@@ -38,5 +39,7 @@ public class TableInfoTabUI extends TabUI {
      */
     public void saveTableInfo() {
         tableInfo.setEntityName(getEntityNameField().getText());
+        String text = StringUtils.defaultString(getCommentField().getText(), "");
+        tableInfo.setComment(text);
     }
 }
