@@ -1,9 +1,8 @@
 plugins {
     id("org.jetbrains.intellij") version "0.4.18"
-    id("com.github.johnrengelman.shadow") version "5.2.0"
     java
     idea
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.3.71"
 }
 
 group = "com.github.houkunlin"
@@ -63,7 +62,9 @@ tasks {
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
-//    setToken(System.getenv("intellijPublishToken"))
+    // 在 gradle.properties 文件中设置 intellijPublishToken 属性存储 Token 信息
+    // https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html
+    setToken(project.properties["intellijPublishToken"])
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
