@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.houkunlin"
-version = "1.1-SNAPSHOT"
+version = "1.2-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -72,9 +72,10 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
     changeNotes(
         """
         <ul>
-        <li>feat: 表注释可修改</li>
-        <li>feat: 支持多表同时生成</li>
-        <li>初步完成插件内容。</li>
+        <li>docs: 修改插件描述信息/Modify plug-in description information</li>
+        <li>feat: 表注释可修改/Table notes can be modified</li>
+        <li>feat: 支持多表同时生成/Support simultaneous generation of multiple tables</li>
+        <li>初步完成插件内容。/Preliminary completion of plug-in content</li>
         </ul>
         """.trimIndent()
     )
@@ -84,7 +85,30 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
         <a href="https://github.com/houkunlin/Database-Generator">Github</a> | <a href="https://gitee.com/houkunlin/Database-Generator">Gitee</a>
         </p>
         <br>
-        <p>一个依赖 IDEA Database 工具的代码生成器，通过数据库表结构简单的生成增删查改代码。</p>
+        <strong>English (Google Translate)</strong>
+        <p>A code generator that relies on the IDEA Database tool to generate add, delete, check, modify, and function codes simply through the database table structure.</p>
+        <p>You can use custom templates to generate the required code information.</p>        
+        <br>
+        <p>
+        When the plugin is run for the first time, the generator directory will be created in the current directory to store the information required by the plugin. The generator / templates directory contains the code template files that need to be generated.
+         The template is rendered with freemarker, so all the features of freemarker can be used in the template.
+        </p>
+        <p>
+        The template customizes the &lt;@gen /&gt; instruction, which can accept 3 parameters type/filename/filepath。
+        </p>
+        <ul>
+            <li> type : entity / dao / service / serviceImpl / controller / xml / other</li>
+            <li> filename ：Will override the default file name configuration: EntityName + Suffix + '.java'</li>
+            <li> filepath : Will override the default file path configuration: javaPath/sourcePath + package</li>
+        </ul>
+        <p>
+        In general, use &lt;@gen type="entity" /&gt; to mark the type of the current file, Then use some default configuration (file name, package name, save path) according to the file type,
+        If the default configuration (file name, package name, save path) is not applicable, you can use &lt;@gen filename="${'$'}{table.entityName}DTO.java" filepath="src/main/java/com.example.domain.dto" /&gt; to override the default configuration
+        </p>
+        <br>
+        <br>
+        <strong>中文</strong>
+        <p>一个依赖 IDEA Database 工具的代码生成器，通过数据库表结构简单的生成增、删、查、改、功能代码。</p>
         <p>可通过自定义模板来生成所需要的代码信息。</p>        
         <br>
         <p>
@@ -105,7 +129,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
         </p>
         <br>
         <p>
-        作者：侯坤林 <br>
+        Author：HouKunLin <br>
         Email：1184511588@qq.com <br>
         </p>
         """.trimIndent()
