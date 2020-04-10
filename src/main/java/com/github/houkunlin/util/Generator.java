@@ -55,7 +55,7 @@ public class Generator {
                 } else {
                     saveFilePath = SaveFilePath.create(filename, filepath, type, table, settings);
                 }
-                System.out.println("模板文件：" + templateFile + "，渲染结果保存到：" + saveFilePath);
+//                System.out.println("模板文件：" + templateFile + "，渲染结果保存到：" + saveFilePath);
                 autoOverrideSaveContent(result, saveFilePath);
             } catch (Exception e) {
                 e.printStackTrace();

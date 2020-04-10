@@ -26,7 +26,7 @@ public class TemplateAction implements TemplateDirectiveModel {
 
             String paramName = String.valueOf(ent.getKey());
             TemplateModel paramValue = (TemplateModel) ent.getValue();
-            System.out.println("模板变量信息：paramName: " + paramName + ", paramValue" + paramValue);
+//            System.out.println("模板变量信息：paramName: " + paramName + ", paramValue" + paramValue);
             String string;
             switch (paramName) {
                 /**

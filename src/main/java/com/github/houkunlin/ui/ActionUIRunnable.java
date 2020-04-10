@@ -158,7 +158,7 @@ public class ActionUIRunnable implements Runnable {
         settings.setServicePackage(ui.getServicePackageField().getText());
         settings.setControllerPackage(ui.getControllerPackageField().getText());
         settings.setXmlPackage(ui.getXmlPackageField().getText());
-        System.out.println(settings);
+//        System.out.println(settings);
     }
 
     private void initOptions() {
@@ -177,14 +177,14 @@ public class ActionUIRunnable implements Runnable {
      * 完成操作
      */
     public void finishAction() {
-        System.out.println("生成代码完成。");
+//        System.out.println("生成代码完成。");
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "刷新项目...") {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
                 Consumer<VirtualFile> refresh = (virtualFile) -> {
                     if (virtualFile != null) {
                         virtualFile.refresh(false, true);
-                        System.out.println("刷新路径：" + virtualFile);
+//                        System.out.println("刷新路径：" + virtualFile);
                     }
                 };
                 refresh.accept(LocalFileSystem.getInstance().findFileByPath(Objects.requireNonNull(project.getBasePath())));
@@ -249,7 +249,7 @@ public class ActionUIRunnable implements Runnable {
 
                 FileChooser.chooseFile(chooserDescriptor, project, null, getInitialFile(), (chosenFile) -> {
                     ui.getProjectPathField().setText(chosenFile.getPresentableUrl());
-                    System.out.println(chosenFile.getPresentableUrl());
+//                    System.out.println(chosenFile.getPresentableUrl());
                 });
                 ui.showWindows();
             }
