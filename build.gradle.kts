@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.github.houkunlin"
-version = "1.2-SNAPSHOT"
+version = "1.3-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -37,7 +37,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = "IU-2019.3.4"
+    version = "IU-2020.1"
     setPlugins("DatabaseTools", "coverage", "java")
 }
 
@@ -72,6 +72,13 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
     changeNotes(
         """
         <ul>
+        <li>
+            <strong>2020-04-10</strong>
+            <ul>
+            <li>支持2020.1/ support 2020.1</li>
+            <li>fix: 修复修改数据库表描述信息时返回构建选项tab时错误问题 / Fixed an error when returning the build option tab when modifying database table description information</li>
+            </ul>
+        </li>
         <li>docs: 修改插件描述信息/Modify plug-in description information</li>
         <li>feat: 表注释可修改/Table notes can be modified</li>
         <li>feat: 支持多表同时生成/Support simultaneous generation of multiple tables</li>
@@ -85,7 +92,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
         <a href="https://github.com/houkunlin/Database-Generator">Github</a> | <a href="https://gitee.com/houkunlin/Database-Generator">Gitee</a>
         </p>
         <br>
-        <strong>English (Google Translate)</strong>
+        <strong>English (Google Translate)</strong> / 中文
         <p>A code generator that relies on the IDEA Database tool to generate add, delete, check, modify, and function codes simply through the database table structure.</p>
         <p>You can use custom templates to generate the required code information.</p>        
         <br>
@@ -107,7 +114,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
         </p>
         <br>
         <br>
-        <strong>中文</strong>
+        <strong>中文</strong> / English
         <p>一个依赖 IDEA Database 工具的代码生成器，通过数据库表结构简单的生成增、删、查、改、功能代码。</p>
         <p>可通过自定义模板来生成所需要的代码信息。</p>        
         <br>
