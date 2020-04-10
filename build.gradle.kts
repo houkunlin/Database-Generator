@@ -4,9 +4,11 @@ plugins {
     idea
     kotlin("jvm") version "1.3.71"
 }
+// intellij 版本
+val intellijVersion = project.properties["intellijVersion"] ?: "2019.3.4"
 
 group = "com.github.houkunlin"
-version = "1.3-SNAPSHOT"
+version = "1.3-${intellijVersion}"
 
 repositories {
     mavenCentral()
@@ -37,7 +39,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = "IU-2020.1"
+    version = "IU-${intellijVersion}"
     setPlugins("DatabaseTools", "coverage", "java")
 }
 
