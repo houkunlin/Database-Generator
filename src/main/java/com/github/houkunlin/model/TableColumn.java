@@ -6,6 +6,7 @@ import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
 import com.intellij.util.ReflectionUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 
@@ -21,10 +22,13 @@ public class TableColumn {
      * 与之关联的自定义数据库表对象
      */
     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private final Table table;
     /**
      * 原始的列对象
      */
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private final DasColumn dbColumn;
     /**
      * 是否选中（判定是否需要生成）

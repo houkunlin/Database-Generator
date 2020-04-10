@@ -4,6 +4,8 @@ import com.google.common.base.CaseFormat;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.psi.DbTable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class Table {
     /**
      * 原始表对象
      */
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private final DbTable dbTable;
     /**
      * 字段列表
