@@ -37,7 +37,7 @@ val pluginVersion = when {
         project.properties["pluginVersion"]
     }
     else -> { // 默认的插件版本
-        "1.3"
+        "1.3.1"
     }
 }
 

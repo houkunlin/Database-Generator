@@ -4,6 +4,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 插件上下文工具
@@ -74,10 +78,22 @@ public class ContextUtils {
      *
      * @return 文件列表
      */
-    public static File[] getTemplatesFiles() {
+    public static List<File> getTemplatesFiles() {
         if (templatesPath == null) {
-            return new File[0];
+            return Collections.emptyList();
         }
-        return templatesPath.listFiles();
+        return getDirAllFiles(templatesPath);
+    }
+
+    private static List<File> getDirAllFiles(File path) {
+        List<File> files = new ArrayList<>();
+        for (File file : Objects.requireNonNull(path.listFiles())) {
+            if (file.isFile()) {
+                files.add(file);
+            } else {
+                files.addAll(getDirAllFiles(file));
+            }
+        }
+        return files;
     }
 }
