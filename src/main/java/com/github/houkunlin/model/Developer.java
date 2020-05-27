@@ -10,6 +10,12 @@ import lombok.Data;
  */
 @Data
 public class Developer {
+    /**
+     * 开发者姓名
+     */
     private String author;
+    /**
+     * 开发者电子邮件
+     */
     private String email;
 }

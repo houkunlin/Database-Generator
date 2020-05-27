@@ -15,10 +15,22 @@ public class IO {
         return IO.class.getClassLoader().getResourceAsStream(resources);
     }
 
+    /**
+     * 读取插件内部 Classpath 资源文件内容信息
+     *
+     * @param resources 资源路径
+     * @return 文件内容
+     */
     public static String readResources(String resources) {
         return read(getInputStream(resources));
     }
 
+    /**
+     * 从输入流中读取字符串内容
+     *
+     * @param inputStream 输入流
+     * @return 字符串内容
+     */
     public static String read(InputStream inputStream) {
         if (inputStream == null) {
             return "";
@@ -40,6 +52,11 @@ public class IO {
         return "";
     }
 
+    /**
+     * 关闭输入、输出流
+     *
+     * @param closeables 可关闭流对象
+     */
     public static void close(Closeable... closeables) {
         for (Closeable closeable : closeables) {
             try {

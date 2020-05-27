@@ -47,8 +47,13 @@ public class Table {
      * 表注释内容
      */
     private String comment;
-
+    /**
+     * 列类型列表
+     */
     private List<TableColumnType> columnTypes;
+    /**
+     * 默认列类型
+     */
     private TableColumnType defaultColumnType;
 
     public Table(DbTable dbTable) {

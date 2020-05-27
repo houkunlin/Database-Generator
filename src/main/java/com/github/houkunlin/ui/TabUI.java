@@ -18,9 +18,21 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class TabUI extends JPanel {
+    /**
+     * 表名输入框
+     */
     private JTextField tableNameField;
+    /**
+     * 实体名输入框
+     */
     private JTextField entityNameField;
+    /**
+     * 实体注解输入框
+     */
     private JTextField commentField;
+    /**
+     * 界面表格控件对象
+     */
     private JTable jTable;
     private final Dimension fieldDimension = new Dimension(150, 24);
 

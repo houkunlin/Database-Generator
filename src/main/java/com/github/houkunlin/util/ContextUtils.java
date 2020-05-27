@@ -2,6 +2,7 @@ package com.github.houkunlin.util;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import lombok.Getter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +16,11 @@ import java.util.Objects;
  * @author HouKunLin
  * @date 2020/4/6 0006 19:22
  */
+@Getter
 public class ContextUtils {
+    /**
+     * 当前项目对象
+     */
     private static Project project;
     /**
      * 项目本地配置路径
@@ -85,6 +90,12 @@ public class ContextUtils {
         return getDirAllFiles(templatesPath);
     }
 
+    /**
+     * 获得所有模板文件列表
+     *
+     * @param path 模板根文件对象
+     * @return 模板文件列表
+     */
     private static List<File> getDirAllFiles(File path) {
         List<File> files = new ArrayList<>();
         for (File file : Objects.requireNonNull(path.listFiles())) {

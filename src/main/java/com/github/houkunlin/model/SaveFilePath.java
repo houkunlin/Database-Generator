@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicReference;
  * @date 2020/4/3 0003 20:52
  */
 public class SaveFilePath {
+    /**
+     * 模板 gen 指令允许的 type 值类型
+     */
     private static final List<String> types = new ArrayList<>();
 
     static {
@@ -22,7 +25,13 @@ public class SaveFilePath {
         types.add("xml");
     }
 
+    /**
+     * 模板文件的 type 类型
+     */
     private String type;
+    /**
+     * 模板文件保存路径
+     */
     private String toString;
 
     public SaveFilePath(AtomicReference<String> filename, AtomicReference<String> filepath, String defaultFilename, String defaultFilepath) {

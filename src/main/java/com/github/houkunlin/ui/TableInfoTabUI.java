@@ -17,8 +17,17 @@ import org.apache.commons.lang.StringUtils;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class TableInfoTabUI extends TabUI {
+    /**
+     * 数据库表对象
+     */
     private final DbTable dbTable;
+    /**
+     * 界面表格对象的数据模型
+     */
     private JTableModel model;
+    /**
+     * 可以正常使用的数据库表信息对象
+     */
     private Table tableInfo;
 
     public TableInfoTabUI(DbTable dbTable, TableColumnType[] tableColumnTypes) {
