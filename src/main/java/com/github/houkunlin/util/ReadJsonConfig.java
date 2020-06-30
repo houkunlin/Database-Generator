@@ -1,8 +1,8 @@
 package com.github.houkunlin.util;
 
-import com.github.houkunlin.model.Developer;
-import com.github.houkunlin.model.Options;
-import com.github.houkunlin.model.Settings;
+import com.github.houkunlin.config.Developer;
+import com.github.houkunlin.config.Options;
+import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.model.TableColumnType;
 import com.google.gson.Gson;
 import com.intellij.openapi.ui.Messages;

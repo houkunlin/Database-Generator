@@ -1,4 +1,4 @@
-package com.github.houkunlin.model;
+package com.github.houkunlin.config;
 
 import lombok.Data;
 

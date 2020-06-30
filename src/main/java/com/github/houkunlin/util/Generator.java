@@ -1,7 +1,12 @@
 package com.github.houkunlin.util;
 
-import com.github.houkunlin.freemarker.TemplateAction;
-import com.github.houkunlin.model.*;
+import com.github.houkunlin.config.Developer;
+import com.github.houkunlin.config.Options;
+import com.github.houkunlin.config.Settings;
+import com.github.houkunlin.model.SaveFilePath;
+import com.github.houkunlin.model.Table;
+import com.github.houkunlin.template.TemplateUtils;
+import com.github.houkunlin.template.freemarker.TemplateAction;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +52,8 @@ public class Generator {
             type.set(null);
             String result;
             try {
-                result = TemplatesUtils.generatorToString(templateFile, map);
+                result = TemplateUtils.generatorToString(templateFile, map);
+                result = "";
                 SaveFilePath saveFilePath;
                 if (type.get() == null) {
                     saveFilePath = new SaveFilePath(filename, filepath,

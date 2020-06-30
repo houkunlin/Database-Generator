@@ -1,4 +1,4 @@
-package com.github.houkunlin.freemarker;
+package com.github.houkunlin.template.freemarker;
 
 import freemarker.core.Environment;
 import freemarker.template.*;
