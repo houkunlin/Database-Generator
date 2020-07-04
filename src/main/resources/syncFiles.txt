@@ -1,0 +1,8 @@
+templates/freemarker/java/Controller.java.ftl
+templates/freemarker/java/Entity.java.ftl
+templates/freemarker/java/Mapper.xml.ftl
+templates/freemarker/java/MyBatisUtils.java.ftl
+templates/freemarker/java/Repository.java.ftl
+templates/freemarker/java/Service.java.ftl
+templates/freemarker/java/ServiceImpl.java.ftl
+templates/velocity/java/Entity.java.vm
