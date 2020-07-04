@@ -81,21 +81,17 @@ configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "1.8"
     }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileJava {
-        options.encoding = "UTF-8"
-        options.compilerArgs = listOf("-Xlint:deprecation", "-Xlint:unchecked")
-    }
-    compileTestJava {
-        options.encoding = "UTF-8"
-        options.compilerArgs = listOf("-Xlint:deprecation", "-Xlint:unchecked")
-    }
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "utf-8"
+    options.compilerArgs = listOf("-Xlint:deprecation", "-Xlint:unchecked")
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
