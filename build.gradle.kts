@@ -67,7 +67,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
     // implementation("org.apache.velocity:velocity-engine-core:2.2")
     // https://mvnrepository.com/artifact/com.ibeetl/beetl
-    implementation("com.ibeetl:beetl:3.1.6.RELEASE")
+    implementation("com.ibeetl:beetl:3.1.7.RELEASE")
 
     // implementation("com.google.code.gson:gson:2.8.5")
     // https://mvnrepository.com/artifact/jalopy/jalopy

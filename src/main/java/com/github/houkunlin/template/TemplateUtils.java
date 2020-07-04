@@ -1,5 +1,6 @@
 package com.github.houkunlin.template;
 
+import com.github.houkunlin.template.beetl.BeetlUtils;
 import com.github.houkunlin.template.freemarker.FreemarkerUtils;
 import com.github.houkunlin.template.velocity.VelocityUtils;
 import com.github.houkunlin.util.IO;
@@ -42,10 +43,8 @@ public class TemplateUtils {
      */
     public static String generatorToString(String templateContent, Map<String, Object> model, TplType type) throws Exception {
         switch (type) {
-            case NONE:
-                break;
             case BEETL:
-                break;
+                return BeetlUtils.generatorToString(templateContent, model);
             case VELOCITY:
                 return VelocityUtils.generatorToString(templateContent, model);
             case FREEMARKER:

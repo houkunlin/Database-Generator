@@ -40,7 +40,7 @@ public enum TplType {
                 return FREEMARKER;
             case "vm":
                 return VELOCITY;
-            case "beetl":
+            case "btl":
                 return BEETL;
             default:
                 return NONE;
