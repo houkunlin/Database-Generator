@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Data
 public class TableColumnType {
+    public static final TableColumnType DEFAULT = new TableColumnType(true);
     /**
      * 数据库对应的类型
      */
@@ -28,8 +29,6 @@ public class TableColumnType {
      * 是否是默认的类型
      */
     private boolean isDefault = false;
-
-    public static final TableColumnType DEFAULT = new TableColumnType(true);
 
     private TableColumnType(boolean isDefault) {
         this.isDefault = isDefault;

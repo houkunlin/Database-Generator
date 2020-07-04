@@ -5,8 +5,9 @@ import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
 import com.intellij.util.ReflectionUtil;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 
@@ -16,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
  * @author HouKunLin
  * @date 2020/5/28 0028 0:59
  */
-@Data
+@Getter
 public class TableColumnImpl implements ITableColumn {
     /**
      * 数据库表的原始字段对象
@@ -25,11 +26,12 @@ public class TableColumnImpl implements ITableColumn {
     @EqualsAndHashCode.Exclude
     private final DasColumn dbColumn;
 
-    private String name;
-    private String comment;
-    private String typeName;
-    private String fullTypeName;
-    private boolean primaryKey;
+    private final String name;
+    private final String comment;
+    private final String typeName;
+    private final String fullTypeName;
+    private final boolean primaryKey;
+    @Setter
     private boolean selected;
 
     public TableColumnImpl(DasColumn dbColumn) {
@@ -42,4 +44,5 @@ public class TableColumnImpl implements ITableColumn {
         this.primaryKey = DasUtil.isPrimary(dbColumn);
         this.selected = true;
     }
+
 }

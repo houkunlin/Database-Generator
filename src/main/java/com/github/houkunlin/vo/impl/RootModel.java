@@ -1,11 +1,10 @@
 package com.github.houkunlin.vo.impl;
 
-import com.github.houkunlin.vo.IEntity;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.ITable;
 import com.github.houkunlin.vo.ITableColumn;
 import com.intellij.database.psi.DbTable;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * @author HouKunLin
  * @date 2020/6/30 0030 16:58
  */
-@Data
+@Getter
 public class RootModel {
     /**
      * 实体对象信息
@@ -41,7 +40,7 @@ public class RootModel {
         this.columns = columns;
     }
 
-    public IEntity getEntity() {
+    public EntityImpl getEntity() {
         entity.setPackages(fields);
         return entity;
     }

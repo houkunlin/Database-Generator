@@ -4,7 +4,8 @@ import com.github.houkunlin.vo.IEntity;
 import com.github.houkunlin.vo.IEntityField;
 import com.google.common.base.CaseFormat;
 import com.intellij.database.psi.DbTable;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashSet;
@@ -18,11 +19,13 @@ import java.util.stream.Collectors;
  * @author HouKunLin
  * @date 2020/5/28 0028 0:59
  */
-@Data
+@Getter
 public class EntityImpl implements IEntity {
+    private final Set<String> packages = new HashSet<>();
+    @Setter
     private String name;
+    @Setter
     private String comment;
-    private Set<String> packages = new HashSet<>();
     private String packageString = "";
 
     public EntityImpl(DbTable dbTable) {

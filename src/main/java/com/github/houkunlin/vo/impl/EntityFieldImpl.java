@@ -8,7 +8,8 @@ import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
 import com.intellij.util.ReflectionUtil;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -17,16 +18,17 @@ import org.apache.commons.lang.StringUtils;
  * @author HouKunLin
  * @date 2020/5/28 0028 0:59
  */
-@Data
+@Getter
 public class EntityFieldImpl implements IEntityField {
-    private String name;
-    private String comment;
-    private String typeName;
-    private String fullTypeName;
-    private boolean primaryKey;
-    private boolean selected;
-
     private static final TableColumnType[] COLUMN_TYPES = ReadJsonConfig.getTableColumnTypes();
+    private final String name;
+    private final String typeName;
+    private final String fullTypeName;
+    private final boolean primaryKey;
+    @Setter
+    private String comment;
+    @Setter
+    private boolean selected;
 
     public EntityFieldImpl(DasColumn dbColumn) {
         this.name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, dbColumn.getName());

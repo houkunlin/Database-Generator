@@ -1,7 +1,7 @@
 package com.github.houkunlin.ui;
 
 import com.github.houkunlin.model.JTableModel;
-import com.github.houkunlin.vo.IEntity;
+import com.github.houkunlin.vo.impl.EntityImpl;
 import com.github.houkunlin.vo.impl.RootModel;
 import com.intellij.database.psi.DbTable;
 import lombok.Data;
@@ -44,7 +44,7 @@ public class TableInfoTabUI extends TabUI {
             getCommentField().setText(rootModel.getTable().getComment());
             return rootModel;
         }
-        IEntity entity = rootModel.getEntity();
+        EntityImpl entity = rootModel.getEntity();
         entity.setName(getEntityNameField().getText());
         entity.setComment(StringUtils.defaultString(getCommentField().getText(), ""));
         return rootModel;

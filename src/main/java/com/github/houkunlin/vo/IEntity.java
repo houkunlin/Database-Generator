@@ -17,22 +17,6 @@ public interface IEntity {
     String getName();
 
     /**
-     * 设置实体类对象名称（不含后缀）
-     *
-     * @param name 实体类对象名称（不含后缀）
-     */
-    void setName(String name);
-
-    /**
-     * 实体类变量名称（首字母小写）
-     *
-     * @return 变量名（不含后缀，驼峰形式，首字母小写）
-     */
-    default String getVariableName() {
-        return getNameFirstLower();
-    }
-
-    /**
      * 获得实体类对象名称（不含后缀）
      *
      * @return 实体类对象名称（不含后缀，驼峰形式，首字母小写）
@@ -52,13 +36,6 @@ public interface IEntity {
      * @return 注释内容
      */
     String getComment();
-
-    /**
-     * 设置实体对象注释内容.
-     *
-     * @param comment 注释内容
-     */
-    void setComment(String comment);
 
     /**
      * 获得需要导入的包列表（一般情况下是在实体对象中使用），该方法只返回包的完整名称。

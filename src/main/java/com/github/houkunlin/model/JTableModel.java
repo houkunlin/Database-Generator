@@ -1,7 +1,5 @@
 package com.github.houkunlin.model;
 
-import com.github.houkunlin.vo.IEntityField;
-import com.github.houkunlin.vo.ITableColumn;
 import com.github.houkunlin.vo.impl.EntityFieldImpl;
 import com.github.houkunlin.vo.impl.TableColumnImpl;
 import com.google.common.collect.HashBasedTable;
@@ -28,8 +26,8 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class JTableModel extends AbstractTableModel {
-    private final List<IEntityField> fieldImpls = new ArrayList<>();
-    private final List<ITableColumn> columnImpls = new ArrayList<>();
+    private final List<EntityFieldImpl> fieldImpls = new ArrayList<>();
+    private final List<TableColumnImpl> columnImpls = new ArrayList<>();
 
     Table<Integer, Integer, Object> table = HashBasedTable.create();
     String[] names = {"选中", "列名", "类型", "完整类型", "注释"};
