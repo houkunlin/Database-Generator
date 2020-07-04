@@ -45,6 +45,9 @@ group = "com.github.houkunlin"
 version = "${pluginVersion}-${intellijVersion}"
 
 repositories {
+    mavenLocal()
+    maven("https://maven.aliyun.com/repository/public")
+    maven("https://repo1.maven.org/maven2")
     mavenCentral()
 }
 configurations {
@@ -55,9 +58,17 @@ configurations {
 
 dependencies {
     //    implementation(kotlin("stdlib-jdk8"))
-    implementation("com.google.guava:guava:27.1-jre")
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation("com.google.guava:guava:29.0-jre")
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
     implementation("org.freemarker:freemarker:2.3.30")
+    // https://mvnrepository.com/artifact/org.apache.velocity/velocity
+    implementation("org.apache.velocity:velocity:1.7")
+    // https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
+    implementation("org.apache.velocity:velocity-engine-core:2.2")
+    // https://mvnrepository.com/artifact/com.ibeetl/beetl
+    implementation("com.ibeetl:beetl:3.1.6.RELEASE")
+
     implementation("com.google.code.gson:gson:2.8.5")
     // https://mvnrepository.com/artifact/jalopy/jalopy
     // implementation("jalopy:jalopy:1.5rc3")
