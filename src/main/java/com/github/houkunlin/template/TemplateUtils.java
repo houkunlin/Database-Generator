@@ -1,11 +1,13 @@
 package com.github.houkunlin.template;
 
 import com.github.houkunlin.template.freemarker.FreemarkerUtils;
+import com.github.houkunlin.template.velocity.VelocityUtils;
 import com.github.houkunlin.util.IO;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 模板工具
@@ -26,8 +28,8 @@ public class TemplateUtils {
      * @return 渲染结果
      * @throws IOException IO异常
      */
-    public static String generatorToString(File templateFile, Object model) throws Exception {
-        return generatorToString(IO.read(new FileInputStream(templateFile)), model);
+    public static String generatorToString(File templateFile, Map<String, Object> model) throws Exception {
+        return generatorToString(IO.read(new FileInputStream(templateFile)), model, TplType.create(templateFile));
     }
 
     /**
@@ -38,7 +40,18 @@ public class TemplateUtils {
      * @return 渲染结果
      * @throws IOException IO异常
      */
-    public static String generatorToString(String templateContent, Object model) throws Exception {
-        return FreemarkerUtils.generatorToString(templateContent, model);
+    public static String generatorToString(String templateContent, Map<String, Object> model, TplType type) throws Exception {
+        switch (type) {
+            case NONE:
+                break;
+            case BEETL:
+                break;
+            case VELOCITY:
+                return VelocityUtils.generatorToString(templateContent, model);
+            case FREEMARKER:
+                return FreemarkerUtils.generatorToString(templateContent, model);
+            default:
+        }
+        return templateContent;
     }
 }
