@@ -30,8 +30,8 @@ public class JTableModel extends AbstractTableModel {
     private final List<TableColumnImpl> columnImpls = new ArrayList<>();
 
     Table<Integer, Integer, Object> table = HashBasedTable.create();
-    String[] names = {"选中", "列名", "类型", "完整类型", "注释"};
-    Boolean[] editable = {true, false, false, false, true};
+    String[] names = {"选中", "DB列名", "Java字段", "DB类型", "Java类型", "注释"};
+    Boolean[] editable = {true, false, false, false, false, true};
 
     public JTableModel(JTable columnTable, DbTable dbTable) {
         initTableContent(dbTable);
@@ -56,16 +56,23 @@ public class JTableModel extends AbstractTableModel {
         JBIterable<? extends DasColumn> columns = DasUtil.getColumns(dbTable);
         for (DasColumn column : columns) {
             EntityFieldImpl entityField = new EntityFieldImpl(column);
+            TableColumnImpl tableColumn = new TableColumnImpl(column);
             fieldImpls.add(new EntityFieldImpl(column));
-            columnImpls.add(new TableColumnImpl(column));
+            columnImpls.add(tableColumn);
 
             int colIndex = -1;
             ++rowIndex;
-            // 第1列选中复选框
+            // 第0列选中复选框
             table.put(rowIndex, ++colIndex, true);
+            // 第1列：DB列名
+            table.put(rowIndex, ++colIndex, tableColumn.getName());
+            // 第2列：Java字段
             table.put(rowIndex, ++colIndex, entityField.getName());
+            // 第3列：DB类型
+            table.put(rowIndex, ++colIndex, tableColumn.getFullTypeName());
+            // 第4列：Java类型
             table.put(rowIndex, ++colIndex, entityField.getTypeName());
-            table.put(rowIndex, ++colIndex, column.getDataType().getSpecification());
+            // 第5列：注释
             table.put(rowIndex, ++colIndex, entityField.getComment());
         }
     }
