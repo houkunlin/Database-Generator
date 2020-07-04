@@ -1,10 +1,10 @@
-<@gen type="entity" />
-<#assign entityClass = "${table.entityName}${settings.entitySuffix}" />
+${gen.setType("entity")}
+<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
 package ${settings.entityPackage};
 
 import com.baomidou.mybatisplus.annotation.*;
 
-<#list table.getPackages() as package>
+<#list entity.getPackages() as package>
     import ${package};
 </#list>
 
@@ -18,19 +18,18 @@ import lombok.Data;
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
 */
 @Data
-@TableName("${table.tableName}")
+@TableName("${table.name}")
 public class ${entityClass} implements Serializable {
-<#list table.columns as col>
-    <#if col.selected>
+<#list fields as field>
+    <#if field.selected>
 
         /**
-        * ${col.comment}
+        * ${field.comment}
         */
-        <#if col.primaryKey>
+        <#if field.primaryKey>
             @TableId(type = IdType.ASSIGN_UUID)
         </#if>
-        private ${col.columnType.shortName} ${col.fieldName};
+        private ${field.typeName} ${field.name};
     </#if>
 </#list>
-
 }

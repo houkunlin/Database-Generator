@@ -1,7 +1,7 @@
-<@gen type="serviceImpl" />
-<#assign entityClass = "${table.entityName}${settings.entitySuffix}" />
-<#assign daoClass = "${table.entityName}${settings.daoSuffix}" />
-<#assign serviceClass = "${table.entityName}${settings.serviceSuffix}" />
+${gen.setType("serviceImpl")}
+<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
+<#assign daoClass = "${entity.name}${settings.daoSuffix}" />
+<#assign serviceClass = "${entity.name}${settings.serviceSuffix}" />
 package ${settings.servicePackage}.impl;
 
 import ${settings.entityPackage}.${entityClass};
@@ -26,14 +26,14 @@ import java.util.List;
 public class ${serviceClass}Impl extends ServiceImpl<${daoClass}, ${entityClass}> implements ${serviceClass} {
 
     @Override
-    public void save${table.entityName}(${entityClass} entity) {
+    public void save${entity.name}(${entityClass} entity) {
         if (!save(entity)) {
             throw new RuntimeException("保存信息失败");
         }
     }
 
     @Override
-    public void update${table.entityName}(${entityClass} entity) {
+    public void update${entity.name}(${entityClass} entity) {
         // 使用 updateById(entity); 修改数据时，将会修改 entity 对象中所有非null数据，如果某个字段为null，将会忽略该字段的修改
         boolean update = updateById(entity);
         if (!update) {
@@ -42,12 +42,12 @@ public class ${serviceClass}Impl extends ServiceImpl<${daoClass}, ${entityClass}
     }
 
     @Override
-    public void delete${table.entityName}(String primaryKey) {
+    public void delete${entity.name}(String primaryKey) {
         removeById(primaryKey);
     }
 
     @Override
-    public void delete${table.entityName}(List<String> primaryKeys) {
+    public void delete${entity.name}(List<String> primaryKeys) {
         removeByIds(primaryKeys);
     }
 }

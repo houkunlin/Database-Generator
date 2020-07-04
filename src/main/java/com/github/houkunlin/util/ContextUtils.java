@@ -31,15 +31,6 @@ public class ContextUtils {
      */
     private static File templatesPath;
 
-    public static void setProject(Project project) {
-        ContextUtils.project = project;
-        localConfigPath = new File(project.getBasePath(), "generator");
-        templatesPath = new File(localConfigPath, "templates");
-
-        mkdirs(localConfigPath);
-        mkdirs(templatesPath);
-    }
-
     /**
      * 创建目录信息
      *
@@ -55,6 +46,15 @@ public class ContextUtils {
 
     public static Project getProject() {
         return project;
+    }
+
+    public static void setProject(Project project) {
+        ContextUtils.project = project;
+        localConfigPath = new File(project.getBasePath(), "generator");
+        templatesPath = new File(localConfigPath, "templates");
+
+        mkdirs(localConfigPath);
+        mkdirs(templatesPath);
     }
 
     public static File getLocalConfigPath() {

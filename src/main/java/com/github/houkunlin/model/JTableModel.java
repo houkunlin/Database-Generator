@@ -1,5 +1,9 @@
 package com.github.houkunlin.model;
 
+import com.github.houkunlin.vo.IEntityField;
+import com.github.houkunlin.vo.ITableColumn;
+import com.github.houkunlin.vo.impl.EntityFieldImpl;
+import com.github.houkunlin.vo.impl.TableColumnImpl;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.intellij.database.model.DasColumn;
@@ -12,6 +16,8 @@ import lombok.EqualsAndHashCode;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 表格列名信息
@@ -22,23 +28,20 @@ import javax.swing.table.TableColumn;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class JTableModel extends AbstractTableModel {
-    private final JTable columnTable;
-    private final DbTable dbTable;
-    private final com.github.houkunlin.model.Table tableInfo;
+    private final List<IEntityField> fieldImpls = new ArrayList<>();
+    private final List<ITableColumn> columnImpls = new ArrayList<>();
+
     Table<Integer, Integer, Object> table = HashBasedTable.create();
     String[] names = {"选中", "列名", "类型", "完整类型", "注释"};
     Boolean[] editable = {true, false, false, false, true};
 
     public JTableModel(JTable columnTable, DbTable dbTable) {
-        this.columnTable = columnTable;
-        this.dbTable = dbTable;
-        this.tableInfo = new com.github.houkunlin.model.Table(dbTable);
-        initTableContent();
+        initTableContent(dbTable);
         columnTable.setModel(this);
-        setColumnSelected();
+        setColumnSelected(columnTable);
     }
 
-    private void setColumnSelected() {
+    private void setColumnSelected(JTable columnTable) {
         TableColumn column = columnTable.getColumnModel().getColumn(0);
         column.setCellEditor(new DefaultCellEditor(new JCheckBox()));
         int width = 30;
@@ -46,7 +49,7 @@ public class JTableModel extends AbstractTableModel {
         column.setMinWidth(width);
     }
 
-    private void initTableContent() {
+    private void initTableContent(DbTable dbTable) {
         // ((DbTableImpl) psiElements[0]).getDelegate().getDasChildren(ObjectKind.COLUMN).get(3)
         // ((DbTableImpl)((DbColumnImpl) psiElement).getTable()).getDelegate().getDasChildren(ObjectKind.COLUMN).get(5).getName()
         // ((MysqlImplModel.Table) delegate).getKeys().myElements.get(0).getColNames()
@@ -54,15 +57,18 @@ public class JTableModel extends AbstractTableModel {
         int rowIndex = -1;
         JBIterable<? extends DasColumn> columns = DasUtil.getColumns(dbTable);
         for (DasColumn column : columns) {
-            com.github.houkunlin.model.TableColumn tableColumn = tableInfo.addColumn(column);
+            EntityFieldImpl entityField = new EntityFieldImpl(column);
+            fieldImpls.add(new EntityFieldImpl(column));
+            columnImpls.add(new TableColumnImpl(column));
+
             int colIndex = -1;
             ++rowIndex;
             // 第1列选中复选框
             table.put(rowIndex, ++colIndex, true);
-            table.put(rowIndex, ++colIndex, tableColumn.getName());
-            table.put(rowIndex, ++colIndex, tableColumn.getType());
+            table.put(rowIndex, ++colIndex, entityField.getName());
+            table.put(rowIndex, ++colIndex, entityField.getTypeName());
             table.put(rowIndex, ++colIndex, column.getDataType().getSpecification());
-            table.put(rowIndex, ++colIndex, tableColumn.getComment());
+            table.put(rowIndex, ++colIndex, entityField.getComment());
         }
     }
 
@@ -99,10 +105,11 @@ public class JTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (columnIndex == 0) {
-            tableInfo.getColumns().get(rowIndex).setSelected((Boolean) aValue);
+            fieldImpls.get(rowIndex).setSelected((Boolean) aValue);
+            columnImpls.get(rowIndex).setSelected((Boolean) aValue);
             update(aValue, rowIndex, columnIndex);
         } else if (columnIndex == 4) {
-            tableInfo.getColumns().get(rowIndex).setComment(String.valueOf(aValue));
+            fieldImpls.get(rowIndex).setComment(String.valueOf(aValue));
             update(aValue, rowIndex, columnIndex);
         }
     }

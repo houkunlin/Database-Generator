@@ -29,12 +29,14 @@ public class TableColumnType {
      */
     private boolean isDefault = false;
 
-    public TableColumnType() {
+    public static final TableColumnType DEFAULT = new TableColumnType(true);
 
-    }
-
-    public TableColumnType(boolean isDefault) {
+    private TableColumnType(boolean isDefault) {
         this.isDefault = isDefault;
+        if (isDefault) {
+            this.shortName = "Object";
+            this.longName = "java.lang.Object";
+        }
     }
 
     /**

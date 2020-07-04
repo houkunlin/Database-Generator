@@ -1,10 +1,11 @@
 package com.github.houkunlin.model;
 
 import com.github.houkunlin.config.Settings;
+import com.github.houkunlin.vo.Variable;
+import com.github.houkunlin.vo.impl.RootModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 保存文件信息
@@ -36,68 +37,66 @@ public class SaveFilePath {
      */
     private String toString;
 
-    public SaveFilePath(AtomicReference<String> filename, AtomicReference<String> filepath, String defaultFilename, String defaultFilepath) {
-        String name = getValue(filename, defaultFilename);
-        String path = getValue(filepath, defaultFilepath);
+    public SaveFilePath(String defaultFilename, String defaultFilepath) {
+        String name = getValue(Variable.filename, defaultFilename);
+        String path = getValue(Variable.filepath, defaultFilepath);
+        type = Variable.type;
         toString = (path.replace(".", "/") + "/" + name);
         toString = toString.replace("\\", "/").replaceAll("/+", "/");
+        Variable.resetVariables();
     }
 
-    private String getValue(AtomicReference<String> atomicReference, String defaultValue) {
-        String tempValue = atomicReference.get();
+    public static void resetVariables() {
+        Variable.filename = null;
+        Variable.filepath = null;
+        Variable.type = null;
+    }
+
+    public static SaveFilePath create(RootModel rootModel, Settings settings) {
+        SaveFilePath saveFilePath;
+        String entityName = rootModel.getEntity().getName();
+        if (Variable.type == null) {
+            return new SaveFilePath(entityName + ".java",
+                    settings.getSourcesPathAt("temp"));
+        }
+        switch (Variable.type) {
+            case "entity":
+                saveFilePath = new SaveFilePath(entityName + settings.getEntitySuffix() + ".java",
+                        settings.getJavaPathAt(settings.getEntityPackage()));
+                break;
+            case "dao":
+                saveFilePath = new SaveFilePath(entityName + settings.getDaoSuffix() + ".java",
+                        settings.getJavaPathAt(settings.getDaoPackage()));
+                break;
+            case "service":
+                saveFilePath = new SaveFilePath(entityName + settings.getServiceSuffix() + ".java",
+                        settings.getJavaPathAt(settings.getServicePackage()));
+                break;
+            case "serviceImpl":
+                saveFilePath = new SaveFilePath(entityName + settings.getServiceSuffix() + "Impl.java",
+                        settings.getJavaPathAt(settings.getServicePackage() + ".impl"));
+                break;
+            case "controller":
+                saveFilePath = new SaveFilePath(entityName + settings.getControllerSuffix() + ".java",
+                        settings.getJavaPathAt(settings.getControllerPackage()));
+                break;
+            case "xml":
+                saveFilePath = new SaveFilePath(entityName + settings.getDaoSuffix() + ".xml",
+                        settings.getSourcesPathAt(settings.getXmlPackage()));
+                break;
+            default:
+                saveFilePath = new SaveFilePath(entityName + ".java",
+                        settings.getSourcesPathAt("temp"));
+        }
+        return saveFilePath;
+    }
+
+    private String getValue(String tempValue, String defaultValue) {
         if (tempValue != null) {
             return tempValue;
         } else {
             return defaultValue;
         }
-    }
-
-    public static SaveFilePath create(AtomicReference<String> filename, AtomicReference<String> filepath, AtomicReference<String> type, Table table, Settings settings) {
-        SaveFilePath saveFilePath;
-        String s = type.get();
-        if (s == null) {
-            return new SaveFilePath(filename, filepath,
-                    table.getEntityName() + ".java",
-                    settings.getSourcesPathAt("temp"));
-        }
-        switch (s) {
-            case "entity":
-                saveFilePath = new SaveFilePath(filename, filepath,
-                        table.getEntityName() + settings.getEntitySuffix() + ".java",
-                        settings.getJavaPathAt(settings.getEntityPackage()));
-                break;
-            case "dao":
-                saveFilePath = new SaveFilePath(filename, filepath,
-                        table.getEntityName() + settings.getDaoSuffix() + ".java",
-                        settings.getJavaPathAt(settings.getDaoPackage()));
-                break;
-            case "service":
-                saveFilePath = new SaveFilePath(filename, filepath,
-                        table.getEntityName() + settings.getServiceSuffix() + ".java",
-                        settings.getJavaPathAt(settings.getServicePackage()));
-                break;
-            case "serviceImpl":
-                saveFilePath = new SaveFilePath(filename, filepath,
-                        table.getEntityName() + settings.getServiceSuffix() + "Impl.java",
-                        settings.getJavaPathAt(settings.getServicePackage() + ".impl"));
-                break;
-            case "controller":
-                saveFilePath = new SaveFilePath(filename, filepath,
-                        table.getEntityName() + settings.getControllerSuffix() + ".java",
-                        settings.getJavaPathAt(settings.getControllerPackage()));
-                break;
-            case "xml":
-                saveFilePath = new SaveFilePath(filename, filepath,
-                        table.getEntityName() + settings.getDaoSuffix() + ".xml",
-                        settings.getSourcesPathAt(settings.getXmlPackage()));
-                break;
-            default:
-                saveFilePath = new SaveFilePath(filename, filepath,
-                        table.getEntityName() + ".java",
-                        settings.getSourcesPathAt("temp"));
-        }
-        saveFilePath.type = type.get();
-        return saveFilePath;
     }
 
     /**

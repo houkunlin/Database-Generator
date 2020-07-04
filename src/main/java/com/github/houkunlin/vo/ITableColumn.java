@@ -48,4 +48,11 @@ public interface ITableColumn {
      * @return 是否选中该字段
      */
     boolean isSelected();
+
+    /**
+     * 设置是否选中该字段
+     *
+     * @param selected 是否选中
+     */
+    void setSelected(boolean selected);
 }

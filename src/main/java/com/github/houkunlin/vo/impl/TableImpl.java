@@ -5,6 +5,7 @@ import com.intellij.database.psi.DbTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 数据库表信息
@@ -23,4 +24,10 @@ public class TableImpl implements ITable {
 
     private String name;
     private String comment;
+
+    public TableImpl(DbTable dbTable) {
+        this.dbTable = dbTable;
+        this.name = dbTable.getName();
+        this.comment = StringUtils.defaultString(dbTable.getComment(), "");
+    }
 }

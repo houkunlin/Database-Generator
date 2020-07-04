@@ -1,8 +1,8 @@
 package com.github.houkunlin.ui;
 
 import com.github.houkunlin.model.JTableModel;
-import com.github.houkunlin.model.Table;
-import com.github.houkunlin.model.TableColumnType;
+import com.github.houkunlin.vo.IEntity;
+import com.github.houkunlin.vo.impl.RootModel;
 import com.intellij.database.psi.DbTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,30 +25,28 @@ public class TableInfoTabUI extends TabUI {
      * 界面表格对象的数据模型
      */
     private JTableModel model;
-    /**
-     * 可以正常使用的数据库表信息对象
-     */
-    private Table tableInfo;
 
-    public TableInfoTabUI(DbTable dbTable, TableColumnType[] tableColumnTypes) {
+    private RootModel rootModel;
+
+    public TableInfoTabUI(DbTable dbTable) {
         super();
         this.dbTable = dbTable;
 
         model = new JTableModel(getJTable(), dbTable);
-        tableInfo = model.getTableInfo();
-
-        tableInfo.setColumnTypes(tableColumnTypes);
-
-        getTableNameField().setText(tableInfo.getTableName());
-        getEntityNameField().setText(tableInfo.getEntityName());
-        getCommentField().setText(tableInfo.getComment());
+        toModel();
     }
 
-    /**
-     * 重新获取实体类名称
-     */
-    public void saveTableInfo() {
-        tableInfo.setEntityName(getEntityNameField().getText());
-        tableInfo.setComment(StringUtils.defaultString(getCommentField().getText(), ""));
+    public RootModel toModel() {
+        if (rootModel == null) {
+            rootModel = new RootModel(dbTable, model.getFieldImpls(), model.getColumnImpls());
+            getTableNameField().setText(rootModel.getTable().getName());
+            getEntityNameField().setText(rootModel.getEntity().getName());
+            getCommentField().setText(rootModel.getTable().getComment());
+            return rootModel;
+        }
+        IEntity entity = rootModel.getEntity();
+        entity.setName(getEntityNameField().getText());
+        entity.setComment(StringUtils.defaultString(getCommentField().getText(), ""));
+        return rootModel;
     }
 }

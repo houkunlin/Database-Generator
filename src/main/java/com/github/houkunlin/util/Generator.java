@@ -4,15 +4,14 @@ import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.model.SaveFilePath;
-import com.github.houkunlin.model.Table;
 import com.github.houkunlin.template.TemplateUtils;
-import com.github.houkunlin.template.freemarker.TemplateAction;
+import com.github.houkunlin.vo.Variable;
+import com.github.houkunlin.vo.impl.RootModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 代码生成工具
@@ -24,9 +23,6 @@ public class Generator {
     private final Settings settings;
     private final Options options;
     private final Map<String, Object> map;
-    private final AtomicReference<String> filename = new AtomicReference<>();
-    private final AtomicReference<String> filepath = new AtomicReference<>();
-    private final AtomicReference<String> type = new AtomicReference<>();
 
     public Generator(Settings settings, Options options, Developer developer) {
         this.settings = settings;
@@ -35,7 +31,7 @@ public class Generator {
         this.map = new HashMap<>(8);
         map.put("settings", settings);
         map.put("developer", developer);
-        map.put("gen", new TemplateAction(filename::set, filepath::set, type::set));
+        map.put("gen", Variable.getInstance());
     }
 
     /**
@@ -43,23 +39,22 @@ public class Generator {
      *
      * @throws Exception 异常
      */
-    public void generator(Table table) throws Exception {
-        map.put("table", table);
+    public void generator(RootModel rootModel) throws Exception {
+        map.put("table", rootModel.getTable());
+        map.put("columns", rootModel.getColumns());
+        map.put("entity", rootModel.getEntity());
+        map.put("fields", rootModel.getFields());
         for (File templateFile : ContextUtils.getTemplatesFiles()) {
             // 重置内容，方便使用默认配置
-            filename.set(null);
-            filepath.set(null);
-            type.set(null);
+            Variable.resetVariables();
             String result;
             try {
                 result = TemplateUtils.generatorToString(templateFile, map);
-                result = "";
                 SaveFilePath saveFilePath;
-                if (type.get() == null) {
-                    saveFilePath = new SaveFilePath(filename, filepath,
-                            templateFile.getName(), settings.getSourcesPathAt("temp"));
+                if (Variable.type == null) {
+                    saveFilePath = new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
                 } else {
-                    saveFilePath = SaveFilePath.create(filename, filepath, type, table, settings);
+                    saveFilePath = SaveFilePath.create(rootModel, settings);
                 }
 //                System.out.println("模板文件：" + templateFile + "，渲染结果保存到：" + saveFilePath);
                 autoOverrideSaveContent(result, saveFilePath);

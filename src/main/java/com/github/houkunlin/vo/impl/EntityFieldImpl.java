@@ -1,7 +1,15 @@
 package com.github.houkunlin.vo.impl;
 
+import com.github.houkunlin.model.TableColumnType;
+import com.github.houkunlin.util.ReadJsonConfig;
 import com.github.houkunlin.vo.IEntityField;
+import com.google.common.base.CaseFormat;
+import com.intellij.database.model.DasColumn;
+import com.intellij.database.model.DataType;
+import com.intellij.database.util.DasUtil;
+import com.intellij.util.ReflectionUtil;
 import lombok.Data;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 实体类字段信息
@@ -12,11 +20,56 @@ import lombok.Data;
 @Data
 public class EntityFieldImpl implements IEntityField {
     private String name;
-    private String nameFirstLower;
-    private String nameFirstUpper;
     private String comment;
     private String typeName;
     private String fullTypeName;
     private boolean primaryKey;
     private boolean selected;
+
+    private static final TableColumnType[] COLUMN_TYPES = ReadJsonConfig.getTableColumnTypes();
+
+    public EntityFieldImpl(DasColumn dbColumn) {
+        this.name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, dbColumn.getName());
+        String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName");
+        if (typeName.contains("unsigned")) {
+            typeName = typeName.replace("unsigned", "").trim();
+        }
+        TableColumnType columnType = type(typeName);
+        this.typeName = columnType.getShortName();
+        this.fullTypeName = columnType.getLongName();
+        this.comment = StringUtils.defaultString(dbColumn.getComment(), "");
+        this.primaryKey = DasUtil.isPrimary(dbColumn);
+        this.selected = true;
+    }
+
+    @Override
+    public String getNameFirstLower() {
+        return name;
+    }
+
+    @Override
+    public String getNameFirstUpper() {
+        return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, name);
+    }
+
+
+    public TableColumnType type(String dbType) {
+        if (dbType == null) {
+            return TableColumnType.DEFAULT;
+        }
+        if (COLUMN_TYPES == null) {
+            return TableColumnType.DEFAULT;
+        }
+        for (TableColumnType columnType : COLUMN_TYPES) {
+            if (columnType.at(dbType)) {
+                return columnType;
+            }
+        }
+        for (TableColumnType columnType : COLUMN_TYPES) {
+            if (columnType.isDefault()) {
+                return columnType;
+            }
+        }
+        return COLUMN_TYPES.length > 0 ? COLUMN_TYPES[0] : TableColumnType.DEFAULT;
+    }
 }

@@ -3,8 +3,6 @@ package com.github.houkunlin.ui;
 import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
-import com.github.houkunlin.model.Table;
-import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.util.Generator;
 import com.github.houkunlin.util.ReadJsonConfig;
@@ -68,10 +66,6 @@ public class ActionUIRunnable implements Runnable {
      * 开发者信息
      */
     private Developer developer = ReadJsonConfig.getDeveloper();
-    /**
-     * 数据库字段类型映射关系
-     */
-    private TableColumnType[] tableColumnTypes = ReadJsonConfig.getTableColumnTypes();
 
     private List<TableInfoTabUI> tableList = new ArrayList<>();
 
@@ -92,7 +86,7 @@ public class ActionUIRunnable implements Runnable {
         for (PsiElement psiElement : psiElements) {
             if (psiElement instanceof DbTable) {
                 DbTable dbTable = (DbTable) psiElement;
-                TableInfoTabUI tabUI = new TableInfoTabUI(dbTable, tableColumnTypes);
+                TableInfoTabUI tabUI = new TableInfoTabUI(dbTable);
                 ui.getTabbedPane().addTab(dbTable.getName(), tabUI);
                 tableList.add(tabUI);
             }
@@ -107,9 +101,7 @@ public class ActionUIRunnable implements Runnable {
                 try {
                     Generator generator = new Generator(settings, options, developer);
                     for (TableInfoTabUI tabUI : tableList) {
-                        tabUI.saveTableInfo();
-                        Table tableInfo = tabUI.getTableInfo();
-                        generator.generator(tableInfo);
+                        generator.generator(tabUI.toModel());
                     }
                     this.finishAction();
                 } catch (Exception e) {

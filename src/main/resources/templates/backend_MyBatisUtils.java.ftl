@@ -1,4 +1,6 @@
-<@gen filepath="src/main/java/com.example.utils" filename="MyBatisUtils.java" type="other"/>
+${gen.setType("other")}
+${gen.setFilepath("src/main/java/com.example.utils")}
+${gen.setFilename("MyBatisUtils.java")}
 package com.example.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

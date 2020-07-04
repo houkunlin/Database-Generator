@@ -102,6 +102,17 @@ public class ActionUI extends JFrame {
         tabbedPane.setTitleAt(0, "构建选项");
     }
 
+    public static void main(String[] args) {
+        ActionUI ui = new ActionUI();
+        ui.addTab();
+        ui.finishButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ui.dispose();
+            }
+        });
+    }
+
     public void showWindows() {
         setAlwaysOnTop(true);
         setAlwaysOnTop(false);
@@ -190,16 +201,5 @@ public class ActionUI extends JFrame {
             table.put(row, column, value);
             fireTableCellUpdated(row, column);
         }
-    }
-
-    public static void main(String[] args) {
-        ActionUI ui = new ActionUI();
-        ui.addTab();
-        ui.finishButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ui.dispose();
-            }
-        });
     }
 }

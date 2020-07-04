@@ -1,6 +1,6 @@
-<@gen type="dao" />
-<#assign entityClass = "${table.entityName}${settings.entitySuffix}" />
-<#assign daoClass = "${table.entityName}${settings.daoSuffix}" />
+${gen.setType("dao")}
+<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
+<#assign daoClass = "${entity.name}${settings.daoSuffix}" />
 package ${settings.daoPackage};
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

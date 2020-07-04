@@ -18,6 +18,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class TabUI extends JPanel {
+    private final Dimension fieldDimension = new Dimension(150, 24);
     /**
      * 表名输入框
      */
@@ -34,7 +35,6 @@ public class TabUI extends JPanel {
      * 界面表格控件对象
      */
     private JTable jTable;
-    private final Dimension fieldDimension = new Dimension(150, 24);
 
     public TabUI() {
         FlowLayout layout = new FlowLayout();

@@ -4,6 +4,7 @@ import com.github.houkunlin.vo.IEntity;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.ITable;
 import com.github.houkunlin.vo.ITableColumn;
+import com.intellij.database.psi.DbTable;
 import lombok.Data;
 
 import java.util.List;
@@ -19,17 +20,29 @@ public class RootModel {
     /**
      * 实体对象信息
      */
-    private IEntity entity;
+    private final EntityImpl entity;
     /**
      * 实体对象字段列表
      */
-    private List<IEntityField> fields;
+    private final List<? extends IEntityField> fields;
     /**
      * 数据库表信息
      */
-    private ITable table;
+    private final ITable table;
     /**
      * 数据库表字段列表
      */
-    private List<ITableColumn> columns;
+    private final List<? extends ITableColumn> columns;
+
+    public RootModel(DbTable dbTable, List<? extends IEntityField> fields, List<? extends ITableColumn> columns) {
+        this.table = new TableImpl(dbTable);
+        this.entity = new EntityImpl(dbTable);
+        this.fields = fields;
+        this.columns = columns;
+    }
+
+    public IEntity getEntity() {
+        entity.setPackages(fields);
+        return entity;
+    }
 }

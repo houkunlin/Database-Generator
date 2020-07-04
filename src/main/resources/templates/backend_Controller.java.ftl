@@ -1,7 +1,7 @@
-<@gen type="controller" />
-<#assign entityClass = "${table.entityName}${settings.entitySuffix}" />
-<#assign serviceClass = "${table.entityName}${settings.serviceSuffix}" />
-<#assign serviceVar = "${table.entityVar}${settings.serviceSuffix}" />
+${gen.setType("controller")}
+<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
+<#assign serviceClass = "${entity.name}${settings.serviceSuffix}" />
+<#assign serviceVar = "${entity.getNameFirstLower()}${settings.serviceSuffix}" />
 package ${settings.controllerPackage};
 
 import ${settings.entityPackage}.${entityClass};
@@ -30,20 +30,20 @@ import java.util.List;
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
  */
 @RestController
-@RequestMapping("/${table.tableName}")
-public class ${table.entityName}${settings.controllerSuffix} extends ApiController {
+@RequestMapping("/${table.name}")
+public class ${entity.name}${settings.controllerSuffix} extends ApiController {
     private final ${serviceClass} ${serviceVar};
     /**
      * 实体类可排序字段
      */
     private final List<SFunction<${entityClass}, ?>> entityOrderFields;
 
-    public ${table.entityName}${settings.controllerSuffix}(${serviceClass} ${serviceVar}) {
+    public ${entity.name}${settings.controllerSuffix}(${serviceClass} ${serviceVar}) {
         this.${serviceVar} = ${serviceVar};
         entityOrderFields = new ArrayList<>();
-<#list table.columns as col>
-    <#if col.selected>
-        entityOrderFields.add(${entityClass}::get${col.fieldMethod});
+<#list fields as field>
+    <#if field.selected>
+        entityOrderFields.add(${entityClass}::get${field.getNameFirstUpper()});
     </#if>
 </#list>
     }
@@ -88,7 +88,7 @@ public class ${table.entityName}${settings.controllerSuffix} extends ApiControll
      */
     @PostMapping
     public Object add(@RequestBody ${entityClass} entity) {
-        ${serviceVar}.save${table.entityName}(entity);
+        ${serviceVar}.save${entity.name}(entity);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.LOCATION, String.valueOf(entity.get${(table.getPrimaryColumn().fieldMethod)!'Id'}()));
@@ -104,7 +104,7 @@ public class ${table.entityName}${settings.controllerSuffix} extends ApiControll
     @PutMapping("{id}")
     public Object update(@PathVariable String id, @RequestBody ${entityClass} entity) {
         entity.setId(id);
-        ${serviceVar}.update${table.entityName}(entity);
+        ${serviceVar}.update${entity.name}(entity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -115,7 +115,7 @@ public class ${table.entityName}${settings.controllerSuffix} extends ApiControll
      */
     @DeleteMapping("{id}")
     public Object delete(@PathVariable String id) {
-        ${serviceVar}.delete${table.entityName}(id);
+        ${serviceVar}.delete${entity.name}(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -126,7 +126,7 @@ public class ${table.entityName}${settings.controllerSuffix} extends ApiControll
      */
     @DeleteMapping
     public Object deleteIds(@RequestBody List<String> ids) {
-        ${serviceVar}.delete${table.entityName}(ids);
+        ${serviceVar}.delete${entity.name}(ids);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -138,19 +138,19 @@ public class ${table.entityName}${settings.controllerSuffix} extends ApiControll
      */
     private LambdaQueryChainWrapper<${entityClass}> buildLambdaQuery(${entityClass} entity) {
         LambdaQueryChainWrapper<${entityClass}> lambdaQuery = ${serviceVar}.lambdaQuery();
-<#list table.columns as col>
-    <#if col.selected>
-        <#if col.primaryKey>
-            <#if col.columnType.shortName == "String">
-                lambdaQuery.eq(StringUtils.isNotBlank(entity.get${col.fieldMethod}()), ${entityClass}::get${col.fieldMethod}, entity.get${col.fieldMethod}());
+<#list fields as field>
+    <#if field.selected>
+        <#if field.primaryKey>
+            <#if field.typeName == "String">
+                lambdaQuery.eq(StringUtils.isNotBlank(entity.get${field.getNameFirstUpper()}()), ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
             <#else>
-                lambdaQuery.eq(entity.get${col.fieldMethod}() != null, ${entityClass}::get${col.fieldMethod}, entity.get${col.fieldMethod}());
+                lambdaQuery.eq(entity.get${field.getNameFirstUpper()}() != null, ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
             </#if>
         <#else>
-            <#if col.columnType.shortName == "String">
-                lambdaQuery.like(StringUtils.isNotBlank(entity.get${col.fieldMethod}()), ${entityClass}::get${col.fieldMethod}, entity.get${col.fieldMethod}());
+            <#if field.typeName == "String">
+                lambdaQuery.like(StringUtils.isNotBlank(entity.get${field.getNameFirstUpper()}()), ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
             <#else>
-                lambdaQuery.like(entity.get${col.fieldMethod}() != null, ${entityClass}::get${col.fieldMethod}, entity.get${col.fieldMethod}());
+                lambdaQuery.like(entity.get${field.getNameFirstUpper()}() != null, ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
             </#if>
         </#if>
     </#if>
