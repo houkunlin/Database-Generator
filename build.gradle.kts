@@ -103,6 +103,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 tasks.withType<JavaCompile> {
     options.encoding = "utf-8"
     options.compilerArgs = listOf("-Xlint:deprecation", "-Xlint:unchecked")
+    dependsOn("buildSyncFiles")
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
@@ -115,4 +116,30 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
     setPluginId("com.github.houkunlin.database.generator")
     changeNotes(File("changeNotes.html").readText())
     setPluginDescription(File("pluginDescription.html").readText())
+}
+
+/**
+ * 生成插件运行时需要同步的模板文件列表
+ */
+task("buildSyncFiles") {
+    var getFileTree: (File) -> ArrayList<File> = { ArrayList() }
+    getFileTree = { path: File ->
+        val list = ArrayList<File>()
+        val listFiles = path.listFiles() ?: emptyArray()
+        listFiles.forEach {
+            if (it.isFile) {
+                list.add(it)
+            } else {
+                list.addAll(getFileTree(it))
+            }
+        }
+        list
+    }
+    val saveFile = File("src/main/resources/syncFiles.txt")
+    val files = getFileTree(File("src/main/resources/templates"))
+    val filesText = files.map {
+        it.path.replace("\\", "/").replace("src/main/resources/", "")
+    }.joinToString("\n")
+    saveFile.writeText(filesText)
+    println(filesText)
 }
