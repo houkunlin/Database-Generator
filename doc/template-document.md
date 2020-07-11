@@ -3,6 +3,8 @@
 # 模板编写文档
 模板中会初始化7个变量，其中有3个变量为配置信息变量，有4个变量为数据库相关信息变量。
 
+
+
 ## 模板内变量说明
 ### `settings` 基础设置信息变量
 Type: `Object` Class: `com.github.houkunlin.config.Settings`
@@ -90,16 +92,16 @@ Type: `Object` Class: `com.github.houkunlin.vo.impl.EntityImpl` 实现了 `com.g
 
 |字段/方法|类型|说明|
 | ----|----|----|
-|`name`|EntityName|实体名称对象|
+|`name`|EntityName(本文底部)|实体名称对象|
 |`comment`|String|实体注释对象（可通过UI修改）|
-|`packages`|EntityPackage|实体字段中需要引入的包信息|
+|`packages`|EntityPackage(本文底部)|实体字段中需要引入的包信息。直接使用该变量将返回Java导入包的代码|
 
 ### `fields` 实体对象字段列表信息变量
 Type: `List` Class: `com.github.houkunlin.vo.impl.EntityFieldImpl` 实现了 `com.github.houkunlin.vo.IEntityField` 接口
 
 |字段/方法|类型|说明|
 | ----|----|----|
-|`name`|IName|字段/方法对象。直接使用该对象将调用 toString() 方法返回驼峰格式、首字母小写的字段/方法字符串信息|
+|`name`|IName(本文底部)|字段/方法对象。直接使用该对象将调用 toString() 方法返回驼峰格式、首字母小写的字段字符串信息|
 |`comment`|String|字段注释（可通过UI修改）|
 |`typeName`|String|字段类型（短）|
 |`fullTypeName`|String|字段类型（完整）|
@@ -136,7 +138,7 @@ Class: `com.github.houkunlin.vo.impl.EntityPackage`
 
 |字段/方法|类型|说明|
 | ----|----|----|
-|`list`|HashSet<String>|Entity 字段需要导入的包列表，不含`import`字符串|
+|`list`|HashSet&lt;String&gt;|Entity 字段需要导入的包列表，不含`import`字符串|
 |`toString()`|String|直接使用该对象将会调用 toString() 方法返回Java语言的导入包代码（导入list中的所有包，含`import`字符串）|
 |`entity`|EntityPackageInfo|Entity 包信息|
 |`service`|EntityPackageInfo|Service 包信息|
