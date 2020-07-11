@@ -1,5 +1,6 @@
 plugins {
     id("org.jetbrains.intellij") version "0.4.18"
+    id("org.kordamp.gradle.markdown") version "2.2.0"
     java
     idea
     kotlin("jvm") version "1.3.71"
@@ -101,9 +102,9 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 tasks.withType<JavaCompile> {
+    dependsOn("buildSyncFiles")
     options.encoding = "utf-8"
     options.compilerArgs = listOf("-Xlint:deprecation", "-Xlint:unchecked")
-    dependsOn("buildSyncFiles")
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
@@ -113,9 +114,15 @@ tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
+    dependsOn("markdownToHtml")
     setPluginId("com.github.houkunlin.database.generator")
-    changeNotes(File("changeNotes.html").readText())
-    setPluginDescription(File("pluginDescription.html").readText())
+    changeNotes(File("$buildDir/gen-html/changeNotes.html").readText())
+    setPluginDescription(File("$buildDir/gen-html/description.html").readText())
+}
+
+tasks.getByName<org.kordamp.gradle.plugin.markdown.tasks.MarkdownToHtmlTask>("markdownToHtml") {
+    sourceDir = File("doc/plugin")
+    outputDir = File("$buildDir/gen-html")
 }
 
 /**
