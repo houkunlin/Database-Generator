@@ -27,13 +27,10 @@ public class SyncResources implements Runnable {
     @Override
     public void run() {
         File initFile = ContextUtils.getLocalConfigPath(initFilename);
-        if (initFile == null) {
-            return;
-        }
         boolean initFileExists = initFile.exists();
         try {
             // 强制覆盖初始化文件
-            FileUtils.saveStreamContentAsFile(initFile.getAbsolutePath(), IO.getInputStream(initFilename));
+            IO.writeToFile(initFile, IO.getInputStream(initFilename));
         } catch (Exception ignore) {
         }
         if (initFileExists) {
@@ -82,7 +79,7 @@ public class SyncResources implements Runnable {
             if (inputStream == null) {
                 continue;
             }
-            FileUtils.saveStreamContentAsFile(ContextUtils.getTemplatesPath() + File.separator + filePath.replace("templates/", ""), inputStream);
+            FileUtils.saveStreamContentAsFile(ContextUtils.getTemplatesPath(filePath.replace("templates/", "")).getAbsolutePath(), inputStream);
         }
     }
 }

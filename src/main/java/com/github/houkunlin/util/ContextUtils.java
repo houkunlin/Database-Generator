@@ -5,6 +5,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import lombok.Getter;
 import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,8 +72,28 @@ public class ContextUtils {
         return localConfigPath;
     }
 
+    /**
+     * 获取本地配置文件
+     *
+     * @param filename 文件名称
+     * @return 文件对象
+     */
+    @NotNull
+    public static File getLocalConfigPath(String filename) {
+        File file = new File(localConfigPath, filename);
+        mkdirs(file.getParentFile());
+        return file;
+    }
+
     public static File getTemplatesPath() {
         return templatesPath;
+    }
+
+    @NotNull
+    public static File getTemplatesPath(String filename) {
+        File file = new File(templatesPath, filename);
+        mkdirs(file.getParentFile());
+        return file;
     }
 
     public static TableColumnType[] getColumnTypes() {
@@ -95,19 +116,6 @@ public class ContextUtils {
             return fileAbsolutePath.substring(absolutePath.length() + 1).replace("\\", "/");
         }
         return fileAbsolutePath.replace("\\", "/");
-    }
-
-    /**
-     * 获取本地配置文件
-     *
-     * @param filename 文件名称
-     * @return 文件对象
-     */
-    public static File getLocalConfigPath(String filename) {
-        if (localConfigPath == null) {
-            return null;
-        }
-        return new File(localConfigPath, filename);
     }
 
     /**
