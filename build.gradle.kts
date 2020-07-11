@@ -141,10 +141,10 @@ task("buildSyncFiles") {
     outputs.upToDateWhen { false }
     dependsOn("markdownToHtml")
     val sourcePath = "src/main/resources/"
-    val filesText = fileTree("${sourcePath}/templates").map {
+    val filesText = fileTree("${sourcePath}/templates").joinToString("\n") {
         val path = it.path.replace("\\", "/")
         val indexOf = path.indexOf(sourcePath)
         path.substring(indexOf + sourcePath.length)
-    }.joinToString("\n")
+    }
     file("${sourcePath}/syncFiles.txt").writeText(filesText)
 }
