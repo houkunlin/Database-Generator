@@ -17,10 +17,10 @@ import java.util.List;
 * @author ${developer.author}
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
 */
-@CacheConfig(cacheNames = {${entity.name.service}Impl.CACHE_NAME})
+@CacheConfig(cacheNames = {${entity.name.serviceImpl}.CACHE_NAME})
 @Transactional(rollbackFor = Throwable.class)
 @Service
-public class ${entity.name.service}Impl extends ServiceImpl<${entity.name.dao}, ${entity.name.entity}> implements ${entity.name.service} {
+public class ${entity.name.serviceImpl} extends ServiceImpl<${entity.name.dao}, ${entity.name.entity}> implements ${entity.name.service} {
 
     @Override
     public void save${entity.name}(${entity.name.entity} entity) {
