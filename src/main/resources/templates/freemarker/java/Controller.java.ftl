@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* Controller：${table.comment}
+* Controller：${entity.comment}
 *
 * @author ${developer.author}
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
@@ -46,7 +46,7 @@ public class ${entity.name.controller} extends ApiController {
     }
 
     /**
-     * 获取全部的 <strong>${table.comment}</strong> 列表
+     * 获取全部的 <strong>${entity.comment}</strong> 列表
      */
     @GetMapping("all")
     public Object listAll(@PageableDefault(sort = {"gmtCreate"}) Pageable pageable, ${entity.name.entity} entity) {
@@ -56,7 +56,7 @@ public class ${entity.name.controller} extends ApiController {
     }
 
     /**
-     * 分页获取 <strong>${table.comment}</strong> 列表
+     * 分页获取 <strong>${entity.comment}</strong> 列表
      *
      * @param pageable 分页参数信息
      */
@@ -69,7 +69,7 @@ public class ${entity.name.controller} extends ApiController {
     }
 
     /**
-     * 获取一个 <strong>${table.comment}</strong>
+     * 获取一个 <strong>${entity.comment}</strong>
      *
      * @param id 主键ID
      */
@@ -79,7 +79,7 @@ public class ${entity.name.controller} extends ApiController {
     }
 
     /**
-     * 添加一个 <strong>${table.comment}</strong>
+     * 添加一个 <strong>${entity.comment}</strong>
      *
      * @param entity 修改后的信息
      */
@@ -93,7 +93,7 @@ public class ${entity.name.controller} extends ApiController {
     }
 
     /**
-     * 修改一个 <strong>${table.comment}</strong>
+     * 修改一个 <strong>${entity.comment}</strong>
      *
      * @param id     主键ID
      * @param entity 修改后的信息
@@ -106,7 +106,7 @@ public class ${entity.name.controller} extends ApiController {
     }
 
     /**
-     * 删除一个 <strong>${table.comment}</strong>
+     * 删除一个 <strong>${entity.comment}</strong>
      *
      * @param id 主键ID
      */
@@ -117,7 +117,7 @@ public class ${entity.name.controller} extends ApiController {
     }
 
     /**
-     * 删除多个 <strong>${table.comment}</strong>
+     * 删除多个 <strong>${entity.comment}</strong>
      *
      * @param ids 主键ID列表
      */

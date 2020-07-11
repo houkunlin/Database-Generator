@@ -113,7 +113,7 @@ public class JTableModel extends AbstractTableModel {
             fieldImpls.get(rowIndex).setSelected((Boolean) aValue);
             columnImpls.get(rowIndex).setSelected((Boolean) aValue);
             update(aValue, rowIndex, columnIndex);
-        } else if (columnIndex == 4) {
+        } else if (columnIndex == names.length - 1) {
             fieldImpls.get(rowIndex).setComment(String.valueOf(aValue));
             update(aValue, rowIndex, columnIndex);
         }

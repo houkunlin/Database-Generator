@@ -62,7 +62,7 @@ public class TabUI extends JPanel {
 
         commentField = new JTextField();
         commentField.setPreferredSize(fieldDimension);
-        jPanel.add(new JLabel("表注释："));
+        jPanel.add(new JLabel("Entity 注释："));
         jPanel.add(commentField);
 
         jPanel.setPreferredSize(new Dimension(950, 35));

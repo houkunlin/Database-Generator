@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
-* Service：${table.comment}
+* Service：${entity.comment}
 *
 * @author ${developer.author}
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}

@@ -9,7 +9,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
-* 实体类：${table.comment}
+* 实体类：${entity.comment}<#if table.comment?trim?length gt 0 && entity.comment != table.comment> (${table.comment})</#if>
 *
 * @author ${developer.author}
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
