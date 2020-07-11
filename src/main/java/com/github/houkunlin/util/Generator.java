@@ -42,7 +42,7 @@ public class Generator {
     public void generator(RootModel rootModel) throws Exception {
         map.put("table", rootModel.getTable());
         map.put("columns", rootModel.getColumns());
-        map.put("entity", rootModel.getEntity());
+        map.put("entity", rootModel.getEntity(settings));
         map.put("fields", rootModel.getFields());
         for (File templateFile : ContextUtils.getTemplatesFiles()) {
             // 重置内容，方便使用默认配置

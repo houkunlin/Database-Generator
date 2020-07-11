@@ -1,12 +1,9 @@
 ${gen.setType("entity")}
-<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
-package ${settings.entityPackage};
+package ${entity.packages.entity};
 
 import com.baomidou.mybatisplus.annotation.*;
 
-<#list entity.getPackages() as package>
-    import ${package};
-</#list>
+${entity.packages}
 
 import java.io.Serializable;
 import lombok.Data;
@@ -19,7 +16,7 @@ import lombok.Data;
 */
 @Data
 @TableName("${table.name}")
-public class ${entityClass} implements Serializable {
+public class ${entity.name.entity} implements Serializable {
 <#list fields as field>
     <#if field.selected>
 

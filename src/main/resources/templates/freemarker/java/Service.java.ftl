@@ -1,11 +1,9 @@
 ${gen.setType("service")}
-<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
-<#assign serviceClass = "${entity.name}${settings.serviceSuffix}" />
-package ${settings.servicePackage};
+package ${entity.packages.service};
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
-import ${settings.entityPackage}.${entityClass};
+import ${entity.packages.entity.full};
 import java.util.List;
 
 /**
@@ -14,7 +12,7 @@ import java.util.List;
 * @author ${developer.author}
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
 */
-public interface ${serviceClass} extends IService<${entityClass}> {
+public interface ${entity.name.service} extends IService<${entity.name.entity}> {
     String CACHE_NAME = "${table.name}";
 
     /**
@@ -22,14 +20,14 @@ public interface ${serviceClass} extends IService<${entityClass}> {
      *
      * @param entity ${table.comment}
      */
-    void save${entity.name}(${entityClass} entity);
+    void save${entity.name}(${entity.name.entity} entity);
 
     /**
      * 业务处理：修改一个 <strong>${table.comment}</strong>
      *
      * @param entity ${table.comment}
      */
-    void update${entity.name}(${entityClass} entity);
+    void update${entity.name}(${entity.name.entity} entity);
 
     /**
      * 业务处理：删除一个 <strong>${table.comment}</strong>

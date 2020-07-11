@@ -1,12 +1,10 @@
 ${gen.setType("dao")}
-<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
-<#assign daoClass = "${entity.name}${settings.daoSuffix}" />
-package ${settings.daoPackage};
+package ${entity.packages.dao};
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 
-import ${settings.entityPackage}.${entityClass};
+import ${entity.packages.entity.full};
 
 /**
 * 存储库：${table.comment}
@@ -15,5 +13,5 @@ import ${settings.entityPackage}.${entityClass};
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
 */
 @Repository
-public interface ${daoClass} extends BaseMapper<${entityClass}> {
+public interface ${entity.name.dao} extends BaseMapper<${entity.name.entity}> {
 }

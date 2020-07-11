@@ -1,6 +1,6 @@
 package com.github.houkunlin.vo;
 
-import java.util.Set;
+import com.github.houkunlin.vo.impl.EntityPackage;
 
 /**
  * 实体类信息
@@ -14,21 +14,7 @@ public interface IEntity {
      *
      * @return 实体类对象名称（不含后缀，驼峰形式，首字母大写）
      */
-    String getName();
-
-    /**
-     * 获得实体类对象名称（不含后缀）
-     *
-     * @return 实体类对象名称（不含后缀，驼峰形式，首字母小写）
-     */
-    String getNameFirstLower();
-
-    /**
-     * 获得实体类对象名称（不含后缀）
-     *
-     * @return 实体类对象名称（不含后缀，驼峰形式，首字母大写）
-     */
-    String getNameFirstUpper();
+    IName getName();
 
     /**
      * 获得实体对象注释内容
@@ -42,12 +28,5 @@ public interface IEntity {
      *
      * @return 包列表
      */
-    Set<String> getPackages();
-
-    /**
-     * 获得需要导入的包信息（字符串数据），该方法返回所有的完整的导入包代码。
-     *
-     * @return 导入包信息（完整的 Java 导入包代码： <code>import xxx.xxx.xxx;</code>）
-     */
-    String getPackageString();
+    EntityPackage getPackages();
 }

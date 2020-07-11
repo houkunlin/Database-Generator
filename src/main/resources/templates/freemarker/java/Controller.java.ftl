@@ -1,11 +1,8 @@
 ${gen.setType("controller")}
-<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
-<#assign serviceClass = "${entity.name}${settings.serviceSuffix}" />
-<#assign serviceVar = "${entity.getNameFirstLower()}${settings.serviceSuffix}" />
-package ${settings.controllerPackage};
+package ${entity.packages.controller};
 
-import ${settings.entityPackage}.${entityClass};
-import ${settings.servicePackage}.${serviceClass};
+import ${entity.packages.entity.full};
+import ${entity.packages.service.full};
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.api.ApiController;
@@ -31,19 +28,19 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/${table.name}")
-public class ${entity.name}${settings.controllerSuffix} extends ApiController {
-    private final ${serviceClass} ${serviceVar};
+public class ${entity.name.controller} extends ApiController {
+    private final ${entity.name.service} ${entity.name.service.var()};
     /**
      * 实体类可排序字段
      */
-    private final List<SFunction<${entityClass}, ?>> entityOrderFields;
+    private final List<SFunction<${entity.name.entity}, ?>> entityOrderFields;
 
-    public ${entity.name}${settings.controllerSuffix}(${serviceClass} ${serviceVar}) {
-        this.${serviceVar} = ${serviceVar};
+    public ${entity.name.controller}(${entity.name.service} ${entity.name.service.var()}) {
+        this.${entity.name.service.var()} = ${entity.name.service.var()};
         entityOrderFields = new ArrayList<>();
 <#list fields as field>
     <#if field.selected>
-        entityOrderFields.add(${entityClass}::get${field.getNameFirstUpper()});
+        entityOrderFields.add(${entity.name.entity}::get${field.name.firstUpper()});
     </#if>
 </#list>
     }
@@ -52,8 +49,8 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      * 获取全部的 <strong>${table.comment}</strong> 列表
      */
     @GetMapping("all")
-    public Object listAll(@PageableDefault(sort = {"gmtCreate"}) Pageable pageable, ${entityClass} entity) {
-        LambdaQueryChainWrapper<${entityClass}> lambdaQuery = buildLambdaQuery(entity);
+    public Object listAll(@PageableDefault(sort = {"gmtCreate"}) Pageable pageable, ${entity.name.entity} entity) {
+        LambdaQueryChainWrapper<${entity.name.entity}> lambdaQuery = buildLambdaQuery(entity);
         MyBatisUtils.lambdaQueryAddOrder(lambdaQuery, pageable, entityOrderFields);
         return success(lambdaQuery.list());
     }
@@ -64,10 +61,10 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      * @param pageable 分页参数信息
      */
     @GetMapping
-    public Object list(@PageableDefault(sort = {"gmtCreate"}) Pageable pageable, ${entityClass} entity) {
-        LambdaQueryChainWrapper<${entityClass}> lambdaQuery = buildLambdaQuery(entity);
+    public Object list(@PageableDefault(sort = {"gmtCreate"}) Pageable pageable, ${entity.name.entity} entity) {
+        LambdaQueryChainWrapper<${entity.name.entity}> lambdaQuery = buildLambdaQuery(entity);
         MyBatisUtils.lambdaQueryAddOrder(lambdaQuery, pageable, entityOrderFields);
-        Page<${entityClass}> page = lambdaQuery.page(MyBatisUtils.toPage(pageable, false));
+        Page<${entity.name.entity}> page = lambdaQuery.page(MyBatisUtils.toPage(pageable, false));
         return success(page);
     }
 
@@ -78,7 +75,7 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      */
     @GetMapping("{id}")
     public Object info(@PathVariable String id) {
-        return success(${serviceVar}.getById(id));
+        return success(${entity.name.service.var()}.getById(id));
     }
 
     /**
@@ -87,11 +84,11 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      * @param entity 修改后的信息
      */
     @PostMapping
-    public Object add(@RequestBody ${entityClass} entity) {
-        ${serviceVar}.save${entity.name}(entity);
+    public Object add(@RequestBody ${entity.name.entity} entity) {
+        ${entity.name.service.var()}.save${entity.name}(entity);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.LOCATION, String.valueOf(entity.get${(table.getPrimaryColumn().fieldMethod)!'Id'}()));
+        headers.add(HttpHeaders.LOCATION, String.valueOf(entity.getId()));
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
@@ -102,9 +99,9 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      * @param entity 修改后的信息
      */
     @PutMapping("{id}")
-    public Object update(@PathVariable String id, @RequestBody ${entityClass} entity) {
+    public Object update(@PathVariable String id, @RequestBody ${entity.name.entity} entity) {
         entity.setId(id);
-        ${serviceVar}.update${entity.name}(entity);
+        ${entity.name.service.var()}.update${entity.name}(entity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -115,7 +112,7 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      */
     @DeleteMapping("{id}")
     public Object delete(@PathVariable String id) {
-        ${serviceVar}.delete${entity.name}(id);
+        ${entity.name.service.var()}.delete${entity.name}(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -126,7 +123,7 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      */
     @DeleteMapping
     public Object deleteIds(@RequestBody List<String> ids) {
-        ${serviceVar}.delete${entity.name}(ids);
+        ${entity.name.service.var()}.delete${entity.name}(ids);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -136,21 +133,21 @@ public class ${entity.name}${settings.controllerSuffix} extends ApiController {
      * @param entity 实体对象
      * @return lambda query chain wrapper
      */
-    private LambdaQueryChainWrapper<${entityClass}> buildLambdaQuery(${entityClass} entity) {
-        LambdaQueryChainWrapper<${entityClass}> lambdaQuery = ${serviceVar}.lambdaQuery();
+    private LambdaQueryChainWrapper<${entity.name.entity}> buildLambdaQuery(${entity.name.entity} entity) {
+        LambdaQueryChainWrapper<${entity.name.entity}> lambdaQuery = ${entity.name.service.var()}.lambdaQuery();
 <#list fields as field>
     <#if field.selected>
         <#if field.primaryKey>
             <#if field.typeName == "String">
-                lambdaQuery.eq(StringUtils.isNotBlank(entity.get${field.getNameFirstUpper()}()), ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
+                lambdaQuery.eq(StringUtils.isNotBlank(entity.get${field.name.firstUpper()}()), ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
             <#else>
-                lambdaQuery.eq(entity.get${field.getNameFirstUpper()}() != null, ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
+                lambdaQuery.eq(entity.get${field.name.firstUpper()}() != null, ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
             </#if>
         <#else>
             <#if field.typeName == "String">
-                lambdaQuery.like(StringUtils.isNotBlank(entity.get${field.getNameFirstUpper()}()), ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
+                lambdaQuery.like(StringUtils.isNotBlank(entity.get${field.name.firstUpper()}()), ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
             <#else>
-                lambdaQuery.like(entity.get${field.getNameFirstUpper()}() != null, ${entityClass}::get${field.getNameFirstUpper()}, entity.get${field.getNameFirstUpper()}());
+                lambdaQuery.like(entity.get${field.name.firstUpper()}() != null, ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
             </#if>
         </#if>
     </#if>

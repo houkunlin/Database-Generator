@@ -1,12 +1,9 @@
 ${gen.setType("serviceImpl")}
-<#assign entityClass = "${entity.name}${settings.entitySuffix}" />
-<#assign daoClass = "${entity.name}${settings.daoSuffix}" />
-<#assign serviceClass = "${entity.name}${settings.serviceSuffix}" />
-package ${settings.servicePackage}.impl;
+package ${entity.packages.serviceImpl};
 
-import ${settings.entityPackage}.${entityClass};
-import ${settings.daoPackage}.${daoClass};
-import ${settings.servicePackage}.${serviceClass};
+import ${entity.packages.entity.full};
+import ${entity.packages.dao.full};
+import ${entity.packages.service.full};
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.cache.annotation.CacheConfig;
@@ -20,20 +17,20 @@ import java.util.List;
 * @author ${developer.author}
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
 */
-@CacheConfig(cacheNames = {${serviceClass}Impl.CACHE_NAME})
+@CacheConfig(cacheNames = {${entity.name.service}Impl.CACHE_NAME})
 @Transactional(rollbackFor = Throwable.class)
 @Service
-public class ${serviceClass}Impl extends ServiceImpl<${daoClass}, ${entityClass}> implements ${serviceClass} {
+public class ${entity.name.service}Impl extends ServiceImpl<${entity.name.dao}, ${entity.name.entity}> implements ${entity.name.service} {
 
     @Override
-    public void save${entity.name}(${entityClass} entity) {
+    public void save${entity.name}(${entity.name.entity} entity) {
         if (!save(entity)) {
             throw new RuntimeException("保存信息失败");
         }
     }
 
     @Override
-    public void update${entity.name}(${entityClass} entity) {
+    public void update${entity.name}(${entity.name.entity} entity) {
         // 使用 updateById(entity); 修改数据时，将会修改 entity 对象中所有非null数据，如果某个字段为null，将会忽略该字段的修改
         boolean update = updateById(entity);
         if (!update) {

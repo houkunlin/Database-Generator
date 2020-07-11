@@ -40,7 +40,7 @@ public class TableInfoTabUI extends TabUI {
         if (rootModel == null) {
             rootModel = new RootModel(dbTable, model.getFieldImpls(), model.getColumnImpls());
             getTableNameField().setText(rootModel.getTable().getName());
-            getEntityNameField().setText(rootModel.getEntity().getName());
+            getEntityNameField().setText(String.valueOf(rootModel.getEntity().getName()));
             getCommentField().setText(rootModel.getTable().getComment());
             return rootModel;
         }

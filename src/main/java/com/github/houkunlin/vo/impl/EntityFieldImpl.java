@@ -3,6 +3,7 @@ package com.github.houkunlin.vo.impl;
 import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.ReadJsonConfig;
 import com.github.houkunlin.vo.IEntityField;
+import com.github.houkunlin.vo.IName;
 import com.google.common.base.CaseFormat;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
@@ -21,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 @Getter
 public class EntityFieldImpl implements IEntityField {
     private static final TableColumnType[] COLUMN_TYPES = ReadJsonConfig.getTableColumnTypes();
-    private final String name;
+    private final IName name;
     private final String typeName;
     private final String fullTypeName;
     private final boolean primaryKey;
@@ -31,7 +32,19 @@ public class EntityFieldImpl implements IEntityField {
     private boolean selected;
 
     public EntityFieldImpl(DasColumn dbColumn) {
-        this.name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, dbColumn.getName());
+        this.name = new IName() {
+            private final String value = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, dbColumn.getName());
+
+            @Override
+            public String firstUpper() {
+                return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, value);
+            }
+
+            @Override
+            public String toString() {
+                return value;
+            }
+        };
         String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName");
         if (typeName.contains("unsigned")) {
             typeName = typeName.replace("unsigned", "").trim();
@@ -43,17 +56,6 @@ public class EntityFieldImpl implements IEntityField {
         this.primaryKey = DasUtil.isPrimary(dbColumn);
         this.selected = true;
     }
-
-    @Override
-    public String getNameFirstLower() {
-        return name;
-    }
-
-    @Override
-    public String getNameFirstUpper() {
-        return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, name);
-    }
-
 
     public TableColumnType type(String dbType) {
         if (dbType == null) {

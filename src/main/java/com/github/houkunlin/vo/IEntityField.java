@@ -12,30 +12,7 @@ public interface IEntityField {
      *
      * @return 字段名称（驼峰形式，首字母小写）
      */
-    String getName();
-
-    /**
-     * 字段变量名称（首字母小写）
-     *
-     * @return 变量名（不含后缀，驼峰形式，首字母小写）
-     */
-    default String getVariableName() {
-        return getNameFirstLower();
-    }
-
-    /**
-     * 获得字段名称（变量名称）
-     *
-     * @return 字段名称（驼峰形式，首字母小写）
-     */
-    String getNameFirstLower();
-
-    /**
-     * 获得字段名称（变量名称）
-     *
-     * @return 字段名称（驼峰形式，首字母大写）
-     */
-    String getNameFirstUpper();
+    IName getName();
 
     /**
      * 获得字段注释内容
