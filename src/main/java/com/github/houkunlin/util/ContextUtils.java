@@ -61,6 +61,9 @@ public class ContextUtils {
         columnTypes = null;
 
         mkdirs(localConfigPath);
+        // 创建配置文件路径
+        mkdirs(new File(localConfigPath, "config"));
+        // 创建模板文件路径
         mkdirs(templatesPath);
     }
 
@@ -100,7 +103,7 @@ public class ContextUtils {
      * @param filename 文件名称
      * @return 文件对象
      */
-    public static File getLocalConfigFile(String filename) {
+    public static File getLocalConfigPath(String filename) {
         if (localConfigPath == null) {
             return null;
         }

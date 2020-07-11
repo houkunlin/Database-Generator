@@ -26,47 +26,63 @@ public class SyncResources implements Runnable {
      */
     @Override
     public void run() {
-        File initFile = new File(ContextUtils.getLocalConfigPath(), initFilename);
-        if (initFile.exists()) {
-            try {
-                // 强制覆盖初始化文件
-                IO.writeToFile(ContextUtils.getLocalConfigFile(initFilename), IO.getInputStream(initFilename));
-            } catch (Exception ignore) {
-            }
+        File initFile = ContextUtils.getLocalConfigPath(initFilename);
+        if (initFile == null) {
+            return;
+        }
+        boolean initFileExists = initFile.exists();
+        try {
+            // 强制覆盖初始化文件
+            FileUtils.saveStreamContentAsFile(initFile.getAbsolutePath(), IO.getInputStream(initFilename));
+        } catch (Exception ignore) {
+        }
+        if (initFileExists) {
             return;
         }
         try {
-            copyResourcesToProject(ContextUtils.getLocalConfigPath(), "init.properties", "types.json", "options.json", "settings.json", "developer.json");
-            String syncFiles = IO.readResources("syncFiles.txt");
-            String[] split = syncFiles.split("\n");
-            for (String filePath : split) {
-                if (StringUtils.isBlank(filePath)) {
-                    continue;
-                }
-                InputStream inputStream = IO.getInputStream(filePath);
-                if (inputStream == null) {
-                    continue;
-                }
-                FileUtils.saveStreamContentAsFile(ContextUtils.getTemplatesPath() + File.separator + filePath.replace("templates/", ""), inputStream);
-            }
+            copyConfig();
+            copyTemplate();
         } catch (Exception ignore) {
         }
     }
 
-
     /**
-     * 复制插件资源到本地项目中
+     * 复制插件内部的配置文件到项目路径中
      *
-     * @param filenames     文件名称
-     * @throws IOException 异常
+     * @throws IOException 复制异常
      */
-    private void copyResourcesToProject(File savePath, String... filenames) throws IOException {
+    private void copyConfig() throws IOException {
+        File localConfigPath = ContextUtils.getLocalConfigPath();
+        if (localConfigPath == null) {
+            return;
+        }
+        String[] filenames = new String[]{"config/types.json", "config/options.json", "config/settings.json", "config/developer.json"};
         for (String filename : filenames) {
             InputStream inputStream = IO.getInputStream(filename);
             if (inputStream == null) {
                 continue;
             }
-            FileUtils.saveStreamContentAsFile(savePath.getAbsolutePath() + File.separator + filename, inputStream);
+            FileUtils.saveStreamContentAsFile(localConfigPath.getAbsolutePath() + File.separator + filename, inputStream);
+        }
+    }
+
+    /**
+     * 复制插件内部的代码模板到项目路径中
+     *
+     * @throws IOException 复制异常
+     */
+    private void copyTemplate() throws IOException {
+        String syncFiles = IO.readResources("syncFiles.txt");
+        String[] split = syncFiles.split("\n");
+        for (String filePath : split) {
+            if (StringUtils.isBlank(filePath)) {
+                continue;
+            }
+            InputStream inputStream = IO.getInputStream(filePath);
+            if (inputStream == null) {
+                continue;
+            }
+            FileUtils.saveStreamContentAsFile(ContextUtils.getTemplatesPath() + File.separator + filePath.replace("templates/", ""), inputStream);
         }
     }
 }

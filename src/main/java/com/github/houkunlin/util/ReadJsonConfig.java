@@ -27,7 +27,7 @@ public class ReadJsonConfig {
      */
     public static Settings getSettings() {
         try {
-            return parseJson(Settings.class, "settings.json");
+            return parseJson(Settings.class, "config/settings.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class ReadJsonConfig {
      */
     public static Options getOptions() {
         try {
-            return parseJson(Options.class, "options.json");
+            return parseJson(Options.class, "config/options.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class ReadJsonConfig {
      */
     public static Developer getDeveloper() {
         try {
-            return parseJson(Developer.class, "developer.json");
+            return parseJson(Developer.class, "config/developer.json");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,7 +69,7 @@ public class ReadJsonConfig {
      */
     public static TableColumnType[] getTableColumnTypes() {
         try {
-            return parseJson(TableColumnType[].class, "types.json");
+            return parseJson(TableColumnType[].class, "config/types.json");
         } catch (Exception e) {
             e.printStackTrace();
             Messages.showMessageDialog(e.getMessage(), "解析默认类型映射配置失败(严重影响功能)", Messages.getErrorIcon());
@@ -113,7 +113,7 @@ public class ReadJsonConfig {
      */
     private static <T> T parseJson(Class<T> tClass, String resources) {
         try {
-            File localConfigFile = ContextUtils.getLocalConfigFile(resources);
+            File localConfigFile = ContextUtils.getLocalConfigPath(resources);
             if (localConfigFile != null) {
                 return parse(tClass, new FileInputStream(localConfigFile));
             }
