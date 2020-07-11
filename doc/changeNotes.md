@@ -1,0 +1,44 @@
+- **2020-07-11: 2.0.0**
+    - ZH-CN
+        - **该版本与旧版本不兼容**
+        - 引入 `velocity/beetl` 模板支持，通过后缀 `ftl/vm/btl` 来自动调用相应模板引擎渲染
+        - 重构模板变量对象，引入 `TableImpl/EntityImpl` `TableColumnImpl/EntityFieldImpl` 四个对象来存储相关信息。
+        - `types.json` 支持正则表达式匹配数据库字段类型。
+        - UI显示字段信息增加 数据库列-Java字段 的结果对比显示
+    - EN
+        - **This version is not compatible with the old version**
+        - Introduce `velocity/beetl` template support, through the suffix `ftl/vm/btl` to automatically call the corresponding template engine for rendering
+        - Refactor the template variable object and introduce four objects `TableImpl/EntityImpl` `TableColumnImpl/EntityFieldImpl` to store related information.
+        - `types.json` supports regular expression matching database field types.
+        - The UI display field information is increased. The database column-Java field result comparison display
+- **2020-05-24: 1.3.1**
+    - ZH-CN
+        - 模板路径支持子文件夹，可把模板文件放到模板路径(generator/templates)下的子文件夹中
+    - EN
+        - The template path supports subfolders, and the template file can be placed in the subfolder under the template path (generator/templates)
+- **2020-04-10: 1.3**
+    - ZH-CN
+        - 支持2020.1
+        - fix: 修复修改数据库表描述信息时返回构建选项tab时错误问题
+    - EN
+        - support 2020.1
+        - Fixed an error when returning the build option tab when modifying database table description information
+- **2020-04-07: 1.2**
+    - ZH-CN
+        - 代码优化
+        - fix: 修复插件运行时无法在本地项目创建模板文件问题
+    - EN
+        - code optimization
+        - fix: Fix the problem that the template file cannot be created in the local project when the plugin is running
+- **2020-04-07: 1.1**
+    - ZH-CN
+        - feat: 表注释可修改
+        - feat: 支持多表同时生成
+        - fix: 修复表注释内容无法设置问题
+    - EN
+        - Table notes can be modified
+        - Support simultaneous generation of multiple tables
+        - fix: Fix the problem that the content of table comment cannot be set
+- **2020-04-06: 1.0**
+    - 初步完成插件内容。
+    - Preliminary completion of plug-in content
