@@ -1,7 +1,7 @@
 package com.github.houkunlin.vo.impl;
 
 import com.github.houkunlin.model.TableColumnType;
-import com.github.houkunlin.util.ReadJsonConfig;
+import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.IName;
 import com.google.common.base.CaseFormat;
@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
  */
 @Getter
 public class EntityFieldImpl implements IEntityField {
-    private static final TableColumnType[] COLUMN_TYPES = ReadJsonConfig.getTableColumnTypes();
     private final IName name;
     private final String typeName;
     private final String fullTypeName;
@@ -68,22 +67,23 @@ public class EntityFieldImpl implements IEntityField {
     }
 
     public TableColumnType type(String dbType) {
+        TableColumnType[] columnTypes = ContextUtils.getColumnTypes();
         if (dbType == null) {
             return TableColumnType.DEFAULT;
         }
-        if (COLUMN_TYPES == null) {
+        if (columnTypes == null) {
             return TableColumnType.DEFAULT;
         }
-        for (TableColumnType columnType : COLUMN_TYPES) {
+        for (TableColumnType columnType : columnTypes) {
             if (columnType.at(dbType)) {
                 return columnType;
             }
         }
-        for (TableColumnType columnType : COLUMN_TYPES) {
+        for (TableColumnType columnType : columnTypes) {
             if (columnType.isDefault()) {
                 return columnType;
             }
         }
-        return COLUMN_TYPES.length > 0 ? COLUMN_TYPES[0] : TableColumnType.DEFAULT;
+        return columnTypes.length > 0 ? columnTypes[0] : TableColumnType.DEFAULT;
     }
 }

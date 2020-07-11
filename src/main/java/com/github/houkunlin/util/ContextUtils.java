@@ -1,5 +1,6 @@
 package com.github.houkunlin.util;
 
+import com.github.houkunlin.model.TableColumnType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import lombok.Getter;
@@ -31,6 +32,10 @@ public class ContextUtils {
      * 项目本地模板路径
      */
     private static File templatesPath;
+    /**
+     * 字段类型映射
+     */
+    private static TableColumnType[] columnTypes;
 
     /**
      * 创建目录信息
@@ -53,6 +58,7 @@ public class ContextUtils {
         ContextUtils.project = project;
         localConfigPath = new File(project.getBasePath(), "generator");
         templatesPath = new File(localConfigPath, "templates");
+        columnTypes = ReadJsonConfig.getTableColumnTypes();
 
         mkdirs(localConfigPath);
         mkdirs(templatesPath);
@@ -64,6 +70,10 @@ public class ContextUtils {
 
     public static File getTemplatesPath() {
         return templatesPath;
+    }
+
+    public static TableColumnType[] getColumnTypes() {
+        return columnTypes;
     }
 
     /**
