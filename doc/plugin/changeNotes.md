@@ -1,11 +1,20 @@
-- **2020-05-24：1.3.1**
-    - 模板路径支持子文件夹，可把模板文件放到模板路径(generator/templates)下的子文件夹中/ The template path supports subfolders, and the template file can be placed in the subfolder under the template path (generator/templates)
+- **2020-07-11: 2.0.0**
+    - ZH-CN
+        - **该版本与旧版本不兼容，请查看 [代码模板升级指南](https://github.com/houkunlin/Database-Generator/blob/master/doc/upgrade-2.0.0.md) ，和查看详细的编写 [模板变量文档](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md) **
+        - 引入 `velocity/beetl` 模板支持，通过后缀 `ftl/vm/btl` 来自动调用相应模板引擎渲染
+        - 重构模板变量对象，引入 `TableImpl/EntityImpl` `TableColumnImpl/EntityFieldImpl` 四个对象来存储相关信息。
+        - `types.json` 支持正则表达式匹配数据库字段类型。
+        - UI显示字段信息增加 数据库列-Java字段 的结果对比显示
+    - EN
+        - **This version is not compatible with the old version, please check the [Code Template Upgrade Guide](https://github.com/houkunlin/Database-Generator/blob/master/doc/upgrade-2.0.0.md), and check the detailed writing [Template Variable Document](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md) **
+        - Introduce `velocity/beetl` template support, through the suffix `ftl/vm/btl` to automatically call the corresponding template engine for rendering
+        - Refactor the template variable object and introduce four objects `TableImpl/EntityImpl` `TableColumnImpl/EntityFieldImpl` to store related information.
+        - `types.json` supports regular expression matching database field types.
+        - The UI display field information is increased. The database column-Java field result comparison display
+- **2020-05-24: 1.3.1**
+    - ZH-CN
+        - 模板路径支持子文件夹，可把模板文件放到模板路径(generator/templates)下的子文件夹中
+    - EN
+        - The template path supports subfolders, and the template file can be placed in the subfolder under the template path (generator/templates)
 
-- **2020-04-10**
-    - 支持2020.1/ support 2020.1
-    - fix: 修复修改数据库表描述信息时返回构建选项tab时错误问题 / Fixed an error when returning the build option tab when modifying database table description information
-
-- docs: 修改插件描述信息/Modify plug-in description information
-- feat: 表注释可修改/Table notes can be modified
-- feat: 支持多表同时生成/Support simultaneous generation of multiple tables
-- 初步完成插件内容。/Preliminary completion of plug-in content
+[Full Log](https://github.com/houkunlin/Database-Generator/doc/changeNotes.md) | [完整日志](https://github.com/houkunlin/Database-Generator/doc/changeNotes.md)
