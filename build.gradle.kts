@@ -114,15 +114,18 @@ tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
 }
 
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
+    outputs.upToDateWhen { false }
     dependsOn("markdownToHtml")
     setPluginId("com.github.houkunlin.database.generator")
-    val notes = file("$buildDir/gen-html/changeNotes.html")
-    val desc = file("$buildDir/gen-html/description.html")
-    if (notes.exists() && notes.isFile) {
-        changeNotes(notes.readText())
-    }
-    if (desc.exists() && desc.isFile) {
-        setPluginDescription(desc.readText())
+    doFirst {
+        val notes = file("$buildDir/gen-html/changeNotes.html")
+        val desc = file("$buildDir/gen-html/description.html")
+        if (notes.exists() && notes.isFile) {
+            changeNotes(notes.readText())
+        }
+        if (desc.exists() && desc.isFile) {
+            setPluginDescription(desc.readText())
+        }
     }
 }
 
@@ -135,6 +138,7 @@ tasks.getByName<org.kordamp.gradle.plugin.markdown.tasks.MarkdownToHtmlTask>("ma
  * 生成插件运行时需要同步的模板文件列表
  */
 task("buildSyncFiles") {
+    outputs.upToDateWhen { false }
     dependsOn("markdownToHtml")
     val sourcePath = "src/main/resources/"
     val filesText = fileTree("${sourcePath}/templates").map {
