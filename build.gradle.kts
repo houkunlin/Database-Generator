@@ -116,37 +116,31 @@ tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
     dependsOn("markdownToHtml")
     setPluginId("com.github.houkunlin.database.generator")
-    changeNotes(File("$buildDir/gen-html/changeNotes.html").readText())
-    setPluginDescription(File("$buildDir/gen-html/description.html").readText())
+    val notes = file("$buildDir/gen-html/changeNotes.html")
+    val desc = file("$buildDir/gen-html/description.html")
+    if (notes.exists() && notes.isFile) {
+        changeNotes(notes.readText())
+    }
+    if (desc.exists() && desc.isFile) {
+        setPluginDescription(desc.readText())
+    }
 }
 
 tasks.getByName<org.kordamp.gradle.plugin.markdown.tasks.MarkdownToHtmlTask>("markdownToHtml") {
-    sourceDir = File("doc/plugin")
-    outputDir = File("$buildDir/gen-html")
+    sourceDir = file("doc/plugin")
+    outputDir = file("$buildDir/gen-html")
 }
 
 /**
  * 生成插件运行时需要同步的模板文件列表
  */
 task("buildSyncFiles") {
-    var getFileTree: (File) -> ArrayList<File> = { ArrayList() }
-    getFileTree = { path: File ->
-        val list = ArrayList<File>()
-        val listFiles = path.listFiles() ?: emptyArray()
-        listFiles.forEach {
-            if (it.isFile) {
-                list.add(it)
-            } else {
-                list.addAll(getFileTree(it))
-            }
-        }
-        list
-    }
-    val saveFile = File("src/main/resources/syncFiles.txt")
-    val files = getFileTree(File("src/main/resources/templates"))
-    val filesText = files.map {
-        it.path.replace("\\", "/").replace("src/main/resources/", "")
+    dependsOn("markdownToHtml")
+    val sourcePath = "src/main/resources/"
+    val filesText = fileTree("${sourcePath}/templates").map {
+        val path = it.path.replace("\\", "/")
+        val indexOf = path.indexOf(sourcePath)
+        path.substring(indexOf + sourcePath.length)
     }.joinToString("\n")
-    saveFile.writeText(filesText)
-    println(filesText)
+    file("${sourcePath}/syncFiles.txt").writeText(filesText)
 }
