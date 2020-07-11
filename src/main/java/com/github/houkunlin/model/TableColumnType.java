@@ -3,6 +3,8 @@ package com.github.houkunlin.model;
 import lombok.Data;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 字段类型数据
@@ -48,7 +50,16 @@ public class TableColumnType {
         if (dbTypes == null) {
             return false;
         }
-        return dbTypes.contains(dbType);
+        if (dbTypes.contains(dbType)) {
+            return true;
+        }
+        for (String type : dbTypes) {
+            Matcher matcher = Pattern.compile(type).matcher(dbType);
+            if (matcher.find()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
