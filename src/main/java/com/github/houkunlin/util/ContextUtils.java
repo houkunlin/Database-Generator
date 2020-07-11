@@ -58,7 +58,7 @@ public class ContextUtils {
         ContextUtils.project = project;
         localConfigPath = new File(project.getBasePath(), "generator");
         templatesPath = new File(localConfigPath, "templates");
-        columnTypes = ReadJsonConfig.getTableColumnTypes();
+        columnTypes = null;
 
         mkdirs(localConfigPath);
         mkdirs(templatesPath);
@@ -73,6 +73,9 @@ public class ContextUtils {
     }
 
     public static TableColumnType[] getColumnTypes() {
+        if (columnTypes == null) {
+            columnTypes = ReadJsonConfig.getTableColumnTypes();
+        }
         return columnTypes;
     }
 
