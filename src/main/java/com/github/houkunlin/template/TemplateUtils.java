@@ -3,10 +3,8 @@ package com.github.houkunlin.template;
 import com.github.houkunlin.template.beetl.BeetlUtils;
 import com.github.houkunlin.template.freemarker.FreemarkerUtils;
 import com.github.houkunlin.template.velocity.VelocityUtils;
-import com.github.houkunlin.util.IO;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Map;
 
@@ -17,8 +15,14 @@ import java.util.Map;
  * @date 2020/5/28 0028 1:35
  */
 public class TemplateUtils {
+    private final VelocityUtils velocityUtils;
+    private final FreemarkerUtils freemarkerUtils;
+    private final BeetlUtils beetlUtils;
 
-    public static void generator(String content, Object model, File saveFile, boolean cover) throws IOException {
+    public TemplateUtils(File templateRootPath) throws IOException {
+        this.velocityUtils = new VelocityUtils(templateRootPath);
+        this.freemarkerUtils = new FreemarkerUtils(templateRootPath);
+        this.beetlUtils = new BeetlUtils(templateRootPath);
     }
 
     /**
@@ -29,8 +33,17 @@ public class TemplateUtils {
      * @return 渲染结果
      * @throws IOException IO异常
      */
-    public static String generatorToString(File templateFile, Map<String, Object> model) throws Exception {
-        return generatorToString(IO.read(new FileInputStream(templateFile)), model, TplType.create(templateFile));
+    public String generatorToString(File templateFile, Map<String, Object> model) throws Exception {
+        switch (TplType.create(templateFile)) {
+            case BEETL:
+                return beetlUtils.generatorToString(templateFile, model);
+            case VELOCITY:
+                return velocityUtils.generatorToString(templateFile, model);
+            case FREEMARKER:
+                return freemarkerUtils.generatorToString(templateFile, model);
+            default:
+        }
+        return "";
     }
 
     /**
@@ -41,14 +54,14 @@ public class TemplateUtils {
      * @return 渲染结果
      * @throws IOException IO异常
      */
-    public static String generatorToString(String templateContent, Map<String, Object> model, TplType type) throws Exception {
+    public String generatorToString(String templateContent, Map<String, Object> model, TplType type) throws Exception {
         switch (type) {
             case BEETL:
-                return BeetlUtils.generatorToString(templateContent, model);
+                return beetlUtils.generatorToString(templateContent, model);
             case VELOCITY:
-                return VelocityUtils.generatorToString(templateContent, model);
+                return velocityUtils.generatorToString(templateContent, model);
             case FREEMARKER:
-                return FreemarkerUtils.generatorToString(templateContent, model);
+                return freemarkerUtils.generatorToString(templateContent, model);
             default:
         }
         return templateContent;

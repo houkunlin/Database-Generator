@@ -3,6 +3,7 @@ package com.github.houkunlin.util;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import lombok.Getter;
+import lombok.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,6 +64,21 @@ public class ContextUtils {
 
     public static File getTemplatesPath() {
         return templatesPath;
+    }
+
+    /**
+     * 获取模板文件的相对路径
+     *
+     * @param templateFile 模板文件
+     * @return 模板文件的相对路径
+     */
+    public static String getTemplateRelativePath(@NonNull File templateFile) {
+        String absolutePath = templatesPath.getAbsolutePath();
+        String fileAbsolutePath = templateFile.getAbsolutePath();
+        if (fileAbsolutePath.startsWith(absolutePath)) {
+            return fileAbsolutePath.substring(absolutePath.length() + 1).replace("\\", "/");
+        }
+        return fileAbsolutePath.replace("\\", "/");
     }
 
     /**

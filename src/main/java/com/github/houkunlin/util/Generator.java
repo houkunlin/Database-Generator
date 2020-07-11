@@ -23,11 +23,12 @@ public class Generator {
     private final Settings settings;
     private final Options options;
     private final Map<String, Object> map;
+    private final TemplateUtils templateUtils;
 
-    public Generator(Settings settings, Options options, Developer developer) {
+    public Generator(Settings settings, Options options, Developer developer) throws IOException {
         this.settings = settings;
         this.options = options;
-
+        this.templateUtils = new TemplateUtils(ContextUtils.getTemplatesPath());
         this.map = new HashMap<>(8);
         map.put("settings", settings);
         map.put("developer", developer);
@@ -49,7 +50,7 @@ public class Generator {
             Variable.resetVariables();
             String result;
             try {
-                result = TemplateUtils.generatorToString(templateFile, map);
+                result = templateUtils.generatorToString(templateFile, map);
                 SaveFilePath saveFilePath;
                 if (Variable.type == null) {
                     saveFilePath = new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
