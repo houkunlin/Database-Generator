@@ -53,4 +53,13 @@ public class Variable {
     public static void setType(String type) {
         Variable.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Variable{" +
+                "filename='" + filename + '\'' +
+                ", filepath='" + filepath + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
