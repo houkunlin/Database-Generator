@@ -101,7 +101,7 @@ public class ActionUIRunnable implements Runnable {
                     this.finishAction();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Messages.showMessageDialog(e.getMessage(), "生成代码失败", Messages.getErrorIcon());
+                    Messages.showMessageDialog("代码生成失败，当前插件2.0.0版本不兼容旧版的代码模板，请升级代码模板，代码模板升级指南请查看插件介绍。\n\n"+e.getMessage(), "生成代码失败", Messages.getErrorIcon());
                 }
             });
         });
