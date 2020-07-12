@@ -23,20 +23,12 @@ public class VelocityUtils {
 
     private final VelocityEngine engine;
 
-    public VelocityUtils(File rootPath) {
+    public VelocityUtils(File rootPath) throws IOException {
         Properties properties = new Properties();
-        try {
-            properties.load(IO.getInputStream("velocity.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        properties.load(IO.getInputStream("velocity.properties"));
         engine = new VelocityEngine(properties);
         engine.setProperty("file.resource.loader.path", rootPath.getAbsolutePath());
-        try {
-            engine.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        engine.init();
     }
 
     /**
@@ -48,8 +40,7 @@ public class VelocityUtils {
      * @throws IOException IO异常
      */
     public String generatorToString(File templateFile, Map<String, Object> model) throws Exception {
-        VelocityContext context = new VelocityContext();
-        model.forEach(context::put);
+        VelocityContext context = new VelocityContext(model);
         Template template = engine.getTemplate(ContextUtils.getTemplateRelativePath(templateFile));
         Writer out = new StringWriter();
         template.merge(context, out);
@@ -65,9 +56,7 @@ public class VelocityUtils {
      * @throws IOException IO异常
      */
     public String generatorToString(String templateContent, Map<String, Object> model) throws Exception {
-        VelocityContext context = new VelocityContext();
-        model.forEach(context::put);
-
+        VelocityContext context = new VelocityContext(model);
         Writer out = new StringWriter();
         engine.evaluate(context, out, "", templateContent);
         return out.toString();
