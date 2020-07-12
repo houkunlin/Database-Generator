@@ -1,10 +1,7 @@
 package com.github.houkunlin.template.beetl;
 
 import com.github.houkunlin.util.ContextUtils;
-import org.beetl.core.Configuration;
-import org.beetl.core.GroupTemplate;
-import org.beetl.core.ResourceLoader;
-import org.beetl.core.Template;
+import org.beetl.core.*;
 import org.beetl.core.om.AABuilder;
 import org.beetl.core.om.DefaultAAFactory;
 import org.beetl.core.resource.FileResourceLoader;
@@ -34,7 +31,9 @@ public class BeetlUtils {
     }
 
     private GroupTemplate createGroupTemplate(ResourceLoader loader, Configuration configuration) {
-        return new GroupTemplate(loader, configuration, GroupTemplate.class.getClassLoader());
+        GroupTemplate groupTemplate = new GroupTemplate(loader, configuration, GroupTemplate.class.getClassLoader());
+        groupTemplate.setErrorHandler(new ReThrowConsoleErrorHandler());
+        return groupTemplate;
     }
 
     /**
