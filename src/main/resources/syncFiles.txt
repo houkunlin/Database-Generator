@@ -5,3 +5,10 @@ templates/freemarker/java/MyBatisUtils.java.ftl
 templates/freemarker/java/Repository.java.ftl
 templates/freemarker/java/Service.java.ftl
 templates/freemarker/java/ServiceImpl.java.ftl
+templates/velocity/java/Controller.java.vm
+templates/velocity/java/Entity.java.vm
+templates/velocity/java/Mapper.xml.vm
+templates/velocity/java/MyBatisUtils.java.vm
+templates/velocity/java/Repository.java.vm
+templates/velocity/java/Service.java.vm
+templates/velocity/java/ServiceImpl.java.vm

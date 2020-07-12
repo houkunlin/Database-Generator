@@ -1,4 +1,4 @@
-${gen.setFilepath(settings.javaPath + "/com.example.utils")}
+${gen.setFilepath("src/main/java/com.example.utils")}
 ${gen.setFilename("MyBatisUtils.java")}
 package com.example.utils;
 
