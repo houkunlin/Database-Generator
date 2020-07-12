@@ -14,9 +14,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.ProgressManager;
-import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.io.FileUtil;
@@ -25,14 +22,12 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiPackage;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -173,21 +168,7 @@ public class ActionUIRunnable implements Runnable {
      * 完成操作
      */
     public void finishAction() {
-//        System.out.println("生成代码完成。");
-        ProgressManager.getInstance().run(new Task.Backgroundable(project, "刷新项目...") {
-            @Override
-            public void run(@NotNull ProgressIndicator indicator) {
-                Consumer<VirtualFile> refresh = (virtualFile) -> {
-                    if (virtualFile != null) {
-                        virtualFile.refresh(false, true);
-//                        System.out.println("刷新路径：" + virtualFile);
-                    }
-                };
-                refresh.accept(LocalFileSystem.getInstance().findFileByPath(Objects.requireNonNull(project.getBasePath())));
-                refresh.accept(project.getProjectFile());
-                refresh.accept(project.getWorkspaceFile());
-            }
-        });
+        ContextUtils.refreshProject();
         ui.dispose();
         Messages.showMessageDialog("构建代码完毕", "完成", Messages.getInformationIcon());
     }

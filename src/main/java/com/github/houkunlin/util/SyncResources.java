@@ -41,6 +41,7 @@ public class SyncResources implements Runnable {
             copyTemplate();
         } catch (Exception ignore) {
         }
+        ContextUtils.refreshProject();
     }
 
     /**

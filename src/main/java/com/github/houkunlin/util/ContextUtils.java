@@ -1,8 +1,13 @@
 package com.github.houkunlin.util;
 
 import com.github.houkunlin.model.TableColumnType;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
 import lombok.Getter;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * 插件上下文工具
@@ -146,5 +152,24 @@ public class ContextUtils {
             }
         }
         return files;
+    }
+
+    /**
+     * 刷新项目
+     */
+    public static void refreshProject() {
+        ProgressManager.getInstance().run(new Task.Backgroundable(project, "Refresh Project ...") {
+            @Override
+            public void run(@NotNull ProgressIndicator indicator) {
+                Consumer<VirtualFile> refresh = (virtualFile) -> {
+                    if (virtualFile != null) {
+                        virtualFile.refresh(false, true);
+                    }
+                };
+                refresh.accept(LocalFileSystem.getInstance().findFileByPath(Objects.requireNonNull(project.getBasePath())));
+                refresh.accept(project.getProjectFile());
+                refresh.accept(project.getWorkspaceFile());
+            }
+        });
     }
 }
