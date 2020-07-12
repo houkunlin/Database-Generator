@@ -57,10 +57,8 @@ public class Generator {
                 } else {
                     saveFilePath = SaveFilePath.create(rootModel, settings);
                 }
-//                System.out.println("模板文件：" + templateFile + "，渲染结果保存到：" + saveFilePath);
                 autoOverrideSaveContent(result, saveFilePath);
             } catch (Exception e) {
-                e.printStackTrace();
                 throw new Exception("解析错误：" + templateFile.getAbsolutePath() + "\r\n" + e.getMessage(), e);
             }
         }

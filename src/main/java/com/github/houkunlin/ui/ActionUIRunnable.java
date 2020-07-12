@@ -149,7 +149,6 @@ public class ActionUIRunnable implements Runnable {
         settings.setServicePackage(ui.getServicePackageField().getText());
         settings.setControllerPackage(ui.getControllerPackageField().getText());
         settings.setXmlPackage(ui.getXmlPackageField().getText());
-//        System.out.println(settings);
     }
 
     private void initOptions() {
@@ -226,7 +225,6 @@ public class ActionUIRunnable implements Runnable {
 
                 FileChooser.chooseFile(chooserDescriptor, project, null, getInitialFile(), (chosenFile) -> {
                     ui.getProjectPathField().setText(chosenFile.getPresentableUrl());
-//                    System.out.println(chosenFile.getPresentableUrl());
                 });
                 ui.showWindows();
             }
