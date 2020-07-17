@@ -1,4 +1,4 @@
-[Github](https://github.com/houkunlin/Database-Generator) | [Gitee](https://gitee.com/houkunlin/Database-Generator)
+[Github](https://github.com/houkunlin/Database-Generator) | [Gitee](https://gitee.com/houkunlin/Database-Generator) | [Document](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md) 
 
 **English (Google Translate)** / 中文
 
@@ -28,7 +28,7 @@ When the plugin is run for the first time, a generator directory will be created
 
 可通过自定义模板来生成所需要的代码信息。
 
-插件初次运行时会在当前目录下创建 generator 目录用来存放插件所需要的信息，其中 generator/templates 目录中存放了所需要生成的代码模板文件。
+插件初次运行时会在当前目录下创建 generator 目录用来存放插件所需要的信息，其中 `generator/templates` 目录中存放了所需要生成的代码模板文件。
 
 <br><br>
 Author: HouKunLin<br>

@@ -13,10 +13,7 @@
     - `types.json` supports regular expression matching database field types.
     - The UI display field information is increased. The database column-Java field result comparison display
     - Template support `include` directive
-- **2020-05-24: 1.3.1**
-    - **&gt;&gt; ZH-CN**
-    - 模板路径支持子文件夹，可把模板文件放到模板路径(generator/templates)下的子文件夹中
-    - **&gt;&gt; EN**
-    - The template path supports subfolders, and the template file can be placed in the subfolder under the template path (generator/templates)
+    
+    
 
-[Full Log](https://github.com/houkunlin/Database-Generator/blob/master/doc/changeNotes.md) | [完整日志](https://github.com/houkunlin/Database-Generator/blob/master/doc/changeNotes.md)
+[Full Log](https://github.com/houkunlin/Database-Generator/blob/master/doc/changeNotes.md) | [完整日志](https://github.com/houkunlin/Database-Generator/blob/master/doc/changeNotes.md) 
