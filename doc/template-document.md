@@ -115,9 +115,8 @@ Class: `com.github.houkunlin.vo.IName`
 |字段/方法|类型|说明|
 | ----|----|----|
 |`toString()`|String|直接使用该对象将调用 toString() 方法，该方法根据不同使用场景将返回不同的值，主要区别在首字母是否大小写问题|
-|`firstLower()`|String|名称首字母小写|
-|`firstUpper()`|String|名称首字母大写|
-|`var()`|String|名称首字母小写，同 `firstLower()`，用意：返回变量名称|
+|`firstLower/getFirstLower()`|String|名称首字母小写，beetl模板调用get方法可能会出现异常|
+|`firstUpper/getFirstUpper()`|String|名称首字母大写，beetl模板调用get方法可能会出现异常|
 
 
 ### `EntityName` 实体类名称对象
@@ -162,13 +161,13 @@ Class: `com.github.houkunlin.vo.impl.EntityPackageInfo`
 |---|---|
 |`${table.name}`|user_info|
 |`${entity.name}`|UserInfo|
-|`${entity.name.var()}`|userInfo|
+|`${entity.name.firstLower}`|userInfo|
 |`${entity.name.entity}`|UserInfoEntity|
-|`${entity.name.entity.var()}`|userInfoEntity|
+|`${entity.name.entity.firstLower}`|userInfoEntity|
 |`${entity.name.service}`|UserInfoService|
-|`${entity.name.service.var()}`|userInfoService|
+|`${entity.name.service.firstLower}`|userInfoService|
 |`${entity.name.serviceImpl}`|UserInfoServiceImpl|
-|`${entity.name.serviceImpl.var()}`|userInfoServiceImpl|
+|`${entity.name.serviceImpl.firstLower}`|userInfoServiceImpl|
 |`${entity.packages}`|`import java.math.BigDecimal;import java.util.Date;`|
 |`${entity.packages.list}`|\["java.math.BigDecimal","java.util.Date"\]|
 |`${entity.packages.entity}`|com.example.entity|
@@ -186,8 +185,8 @@ Class: `com.github.houkunlin.vo.impl.EntityPackageInfo`
 |代码|返回示例|
 |---|---|
 |`${field.name}`|userAddress|
-|`${field.name.var()}`|userAddress|
-|`${field.name.firstUpper()}`|UserAddress|
+|`${field.name.firstLower}`|userAddress|
+|`${field.name.firstUpper}`|UserAddress|
 |`${field.typeName}`|String，该值将根据 `types.json` 配置决定|
 |`${field.fullTypeName}`|java.lang.String，该值将根据 `types.json` 配置决定|
 |`${column.name}`|user_address|

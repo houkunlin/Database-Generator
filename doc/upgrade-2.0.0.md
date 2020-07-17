@@ -19,7 +19,7 @@
 |`<#assign serviceImplClass = "${table.entityName}${settings.serviceSuffix}Impl" />`|使用`${entity.name.serviceImpl}`|
 |`<#assign daoClass = "${table.entityName}${settings.daoSuffix}" />`|使用`${entity.name.dao}`|
 |`<#assign controllerClass = "${table.entityName}${settings.controllerSuffix}" />`|使用`${entity.name.controller}`|
-|`<#assign serviceVar = "${table.entityVar}${settings.serviceSuffix}" />`|使用`${entity.name.service.var()}`|
+|`<#assign serviceVar = "${table.entityVar}${settings.serviceSuffix}" />`|使用`${entity.name.service.firstLower}`|
 
 ## 包名
 
