@@ -2,6 +2,7 @@ package com.github.houkunlin.template.beetl;
 
 import org.beetl.core.ConsoleErrorHandler;
 import org.beetl.core.exception.BeetlException;
+import org.beetl.core.io.NoLockStringWriter;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -15,9 +16,9 @@ import java.io.Writer;
 public class BeetlErrorHandler extends ConsoleErrorHandler {
     @Override
     public void processExcption(BeetlException ex, Writer writer) {
-
-        super.processExcption(ex, writer);
-        throw new RuntimeException(writer.toString(), ex);
+        Writer w = new NoLockStringWriter();
+        super.processExcption(ex, w);
+        throw new RuntimeException(w.toString(), ex);
     }
 
     @Override
