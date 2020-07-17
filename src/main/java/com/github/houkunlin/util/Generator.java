@@ -7,6 +7,7 @@ import com.github.houkunlin.model.SaveFilePath;
 import com.github.houkunlin.template.TemplateUtils;
 import com.github.houkunlin.vo.Variable;
 import com.github.houkunlin.vo.impl.RootModel;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,10 @@ public class Generator {
             String result;
             try {
                 result = templateUtils.generatorToString(templateFile, map);
+                if (StringUtils.isBlank(result)) {
+                    // 不保存空内容的文件
+                    continue;
+                }
                 SaveFilePath saveFilePath;
                 if (Variable.type == null) {
                     saveFilePath = new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
