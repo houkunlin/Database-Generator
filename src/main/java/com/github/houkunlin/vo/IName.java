@@ -13,7 +13,7 @@ public interface IName {
      *
      * @return 名称（驼峰形式，首字母小写）
      */
-    default String firstLower() {
+    default String getFirstLower() {
         return toString();
     }
 
@@ -22,7 +22,7 @@ public interface IName {
      *
      * @return 名称（驼峰形式，首字母大写）
      */
-    default String firstUpper() {
+    default String getFirstUpper() {
         return toString();
     }
 }

@@ -29,18 +29,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/${table.name}")
 public class ${entity.name.controller} extends ApiController {
-    private final ${entity.name.service} ${entity.name.service.firstLower()};
+    private final ${entity.name.service} ${entity.name.service.firstLower};
     /**
      * 实体类可排序字段
      */
     private final List<SFunction<${entity.name.entity}, ?>> entityOrderFields;
 
-    public ${entity.name.controller}(${entity.name.service} ${entity.name.service.firstLower()}) {
-        this.${entity.name.service.firstLower()} = ${entity.name.service.firstLower()};
+    public ${entity.name.controller}(${entity.name.service} ${entity.name.service.firstLower}) {
+        this.${entity.name.service.firstLower} = ${entity.name.service.firstLower};
         entityOrderFields = new ArrayList<>();
 <#list fields as field>
     <#if field.selected>
-        entityOrderFields.add(${entity.name.entity}::get${field.name.firstUpper()});
+        entityOrderFields.add(${entity.name.entity}::get${field.name.firstUpper});
     </#if>
 </#list>
     }
@@ -75,7 +75,7 @@ public class ${entity.name.controller} extends ApiController {
      */
     @GetMapping("{id}")
     public Object info(@PathVariable String id) {
-        return success(${entity.name.service.firstLower()}.getById(id));
+        return success(${entity.name.service.firstLower}.getById(id));
     }
 
     /**
@@ -85,7 +85,7 @@ public class ${entity.name.controller} extends ApiController {
      */
     @PostMapping
     public Object add(@RequestBody ${entity.name.entity} entity) {
-        ${entity.name.service.firstLower()}.save${entity.name}(entity);
+        ${entity.name.service.firstLower}.save${entity.name}(entity);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.LOCATION, String.valueOf(entity.getId()));
@@ -101,7 +101,7 @@ public class ${entity.name.controller} extends ApiController {
     @PutMapping("{id}")
     public Object update(@PathVariable String id, @RequestBody ${entity.name.entity} entity) {
         entity.setId(id);
-        ${entity.name.service.firstLower()}.update${entity.name}(entity);
+        ${entity.name.service.firstLower}.update${entity.name}(entity);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -112,7 +112,7 @@ public class ${entity.name.controller} extends ApiController {
      */
     @DeleteMapping("{id}")
     public Object delete(@PathVariable String id) {
-        ${entity.name.service.firstLower()}.delete${entity.name}(id);
+        ${entity.name.service.firstLower}.delete${entity.name}(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -123,7 +123,7 @@ public class ${entity.name.controller} extends ApiController {
      */
     @DeleteMapping
     public Object deleteIds(@RequestBody List<String> ids) {
-        ${entity.name.service.firstLower()}.delete${entity.name}(ids);
+        ${entity.name.service.firstLower}.delete${entity.name}(ids);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -134,20 +134,20 @@ public class ${entity.name.controller} extends ApiController {
      * @return lambda query chain wrapper
      */
     private LambdaQueryChainWrapper<${entity.name.entity}> buildLambdaQuery(${entity.name.entity} entity) {
-        LambdaQueryChainWrapper<${entity.name.entity}> lambdaQuery = ${entity.name.service.firstLower()}.lambdaQuery();
+        LambdaQueryChainWrapper<${entity.name.entity}> lambdaQuery = ${entity.name.service.firstLower}.lambdaQuery();
 <#list fields as field>
     <#if field.selected>
         <#if field.primaryKey>
             <#if field.typeName == "String">
-                lambdaQuery.eq(StringUtils.isNotBlank(entity.get${field.name.firstUpper()}()), ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
+                lambdaQuery.eq(StringUtils.isNotBlank(entity.get${field.name.firstUpper}()), ${entity.name.entity}::get${field.name.firstUpper}, entity.get${field.name.firstUpper}());
             <#else>
-                lambdaQuery.eq(entity.get${field.name.firstUpper()}() != null, ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
+                lambdaQuery.eq(entity.get${field.name.firstUpper}() != null, ${entity.name.entity}::get${field.name.firstUpper}, entity.get${field.name.firstUpper}());
             </#if>
         <#else>
             <#if field.typeName == "String">
-                lambdaQuery.like(StringUtils.isNotBlank(entity.get${field.name.firstUpper()}()), ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
+                lambdaQuery.like(StringUtils.isNotBlank(entity.get${field.name.firstUpper}()), ${entity.name.entity}::get${field.name.firstUpper}, entity.get${field.name.firstUpper}());
             <#else>
-                lambdaQuery.like(entity.get${field.name.firstUpper()}() != null, ${entity.name.entity}::get${field.name.firstUpper()}, entity.get${field.name.firstUpper()}());
+                lambdaQuery.like(entity.get${field.name.firstUpper}() != null, ${entity.name.entity}::get${field.name.firstUpper}, entity.get${field.name.firstUpper}());
             </#if>
         </#if>
     </#if>

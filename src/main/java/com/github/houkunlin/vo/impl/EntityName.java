@@ -15,6 +15,8 @@ import lombok.Getter;
 @Getter
 public class EntityName implements IName {
     private final String value;
+    private final String firstUpper;
+    private final String firstLower;
     /**
      * 实体类完整名称
      */
@@ -38,20 +40,14 @@ public class EntityName implements IName {
 
     public EntityName(DbTable dbTable) {
         this.value = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dbTable.getName());
+        this.firstUpper = value;
+        this.firstLower = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, value);
     }
 
     public EntityName(String name) {
         this.value = name;
-    }
-
-    @Override
-    public String firstLower() {
-        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, toString());
-    }
-
-    @Override
-    public String firstUpper() {
-        return toString();
+        this.firstUpper = value;
+        this.firstLower = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, value);
     }
 
     @Override
@@ -68,23 +64,6 @@ public class EntityName implements IName {
     }
 
     private IName build(String suffix) {
-        return new IName() {
-            private final String value = EntityName.this.toString() + suffix;
-
-            @Override
-            public String firstLower() {
-                return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, toString());
-            }
-
-            @Override
-            public String firstUpper() {
-                return toString();
-            }
-
-            @Override
-            public String toString() {
-                return value;
-            }
-        };
+        return new EntityNameInfo(value, suffix);
     }
 }

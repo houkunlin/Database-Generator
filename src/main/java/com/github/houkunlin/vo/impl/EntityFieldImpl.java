@@ -4,7 +4,6 @@ import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.IName;
-import com.google.common.base.CaseFormat;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
@@ -31,28 +30,8 @@ public class EntityFieldImpl implements IEntityField {
     private boolean selected;
 
     public EntityFieldImpl(DasColumn dbColumn) {
-        this.name = new IName() {
-            private final String value = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, dbColumn.getName());
-
-            @Override
-            public String firstUpper() {
-                return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, value);
-            }
-
-            @Override
-            public String firstLower() {
-                return value;
-            }
-
-            @Override
-            public String toString() {
-                return value;
-            }
-        };
+        this.name = new FieldNameInfo(dbColumn);
         String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName");
-        if (typeName.contains("unsigned")) {
-            typeName = typeName.replace("unsigned", "").trim();
-        }
         TableColumnType columnType = type(typeName);
         this.typeName = columnType.getShortName();
         this.fullTypeName = columnType.getLongName();
