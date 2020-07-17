@@ -45,11 +45,6 @@ public class EntityFieldImpl implements IEntityField {
             }
 
             @Override
-            public String var() {
-                return value;
-            }
-
-            @Override
             public String toString() {
                 return value;
             }

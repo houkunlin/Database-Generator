@@ -55,11 +55,6 @@ public class EntityName implements IName {
     }
 
     @Override
-    public String var() {
-        return firstLower();
-    }
-
-    @Override
     public String toString() {
         return value;
     }
@@ -84,11 +79,6 @@ public class EntityName implements IName {
             @Override
             public String firstUpper() {
                 return toString();
-            }
-
-            @Override
-            public String var() {
-                return firstLower();
             }
 
             @Override

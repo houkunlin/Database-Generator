@@ -25,13 +25,4 @@ public interface IName {
     default String firstUpper() {
         return toString();
     }
-
-    /**
-     * 获得变量名称
-     *
-     * @return 变量名称
-     */
-    default String var() {
-        return firstLower();
-    }
 }
