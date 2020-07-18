@@ -99,6 +99,7 @@ Type: `List` Class: `com.github.houkunlin.vo.impl.TableColumnImpl` 实现了 `co
 
 |字段/方法|类型|说明|
 | ----|----|----|
+|`field`|IEntityField|该字段为当前表字段对应的Java字段对象|
 |`name`|String|列名|
 |`comment`|String|列注释|
 |`typeName`|String|列类型信息（短）|
@@ -127,6 +128,7 @@ Type: `List` Class: `com.github.houkunlin.vo.impl.EntityFieldImpl` 实现了 `co
 
 |字段/方法|类型|说明|
 | ----|----|----|
+|`column`|ITableColumn|该字段为当前Java字段对应的数据库表字段对象|
 |`name`|FieldNameInfo<br/>(本文底部)|字段/方法对象。直接使用该对象将调用 toString() 方法返回驼峰格式、首字母小写的字段字符串信息|
 |`comment`|String|字段注释（可通过UI修改）|
 |`typeName`|String|字段类型（短）|
