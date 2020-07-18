@@ -5,6 +5,14 @@
 
 
 
+## 模板变量关系图
+
+图中的 `RootModel` 对象的4个字段是模板代码的4个变量
+
+![RootModel](assets/RootModel.png)
+
+
+
 ## 模板内变量说明
 ### `settings` 基础设置信息变量
 Type: `Object` Class: `com.github.houkunlin.config.Settings`
@@ -24,7 +32,10 @@ Type: `Object` Class: `com.github.houkunlin.config.Settings`
 |`controllerPackage`|String|Controller 包名|
 |`xmlPackage`|String|Mapper XML 包名|
 
+
+
 ### `developer` 开发者信息变量
+
 Type: `Object` Class: `com.github.houkunlin.config.Developer`
 
 |字段/方法|类型|说明|
@@ -32,7 +43,10 @@ Type: `Object` Class: `com.github.houkunlin.config.Developer`
 |`author`|String|开发者姓名|
 |`email`|String|开发者电子邮件|
 
+
+
 ### `gen` 当前文件类型配置对象
+
 Type: `Object` Class: `com.github.houkunlin.vo.Variable`
 
 |字段/方法|类型|说明|
@@ -65,7 +79,10 @@ Type: `Object` Class: `com.github.houkunlin.vo.Variable`
     - 默认文件名: `${entity.name}.java`
     - 默认路径: `${settings.sourcesPath}/temp/`
 
+
+
 ### `table` 数据库表信息变量
+
 Type: `Object` Class: `com.github.houkunlin.vo.impl.TableImpl` 实现了 `com.github.houkunlin.vo.ITable` 接口
 
 |字段/方法|类型|说明|
@@ -74,7 +91,10 @@ Type: `Object` Class: `com.github.houkunlin.vo.impl.TableImpl` 实现了 `com.gi
 |`comment`|String|数据库表注释内容|
 |`dbTable`|com.intellij.database.psi.DbTable|开发工具的内部对象，不建议使用|
 
+
+
 ### `columns` 数据库表字段列表变量
+
 Type: `List` Class: `com.github.houkunlin.vo.impl.TableColumnImpl` 实现了 `com.github.houkunlin.vo.ITableColumn` 接口
 
 |字段/方法|类型|说明|
@@ -87,29 +107,38 @@ Type: `List` Class: `com.github.houkunlin.vo.impl.TableColumnImpl` 实现了 `co
 |`selected`|boolean|是否选中（通过UI勾选）|
 |`dbColumn`|com.intellij.database.model.DasColumn|开发工具的内部对象，不建议使用|
 
+
+
 ### `entity` 实体类信息变量
+
 Type: `Object` Class: `com.github.houkunlin.vo.impl.EntityImpl` 实现了 `com.github.houkunlin.vo.IEntity` 接口
 
 |字段/方法|类型|说明|
 | ----|----|----|
-|`name`|EntityName(本文底部)|实体名称对象|
+|`name`|EntityName<br>(本文底部)|实体名称对象|
 |`comment`|String|实体注释对象（可通过UI修改）|
-|`packages`|EntityPackage(本文底部)|实体字段中需要引入的包信息。直接使用该变量将返回Java导入包的代码|
+|`packages`|EntityPackage<br/>(本文底部)|实体字段中需要引入的包信息。直接使用该变量将返回Java导入包的代码|
+
+
 
 ### `fields` 实体对象字段列表信息变量
+
 Type: `List` Class: `com.github.houkunlin.vo.impl.EntityFieldImpl` 实现了 `com.github.houkunlin.vo.IEntityField` 接口
 
 |字段/方法|类型|说明|
 | ----|----|----|
-|`name`|IName(本文底部)|字段/方法对象。直接使用该对象将调用 toString() 方法返回驼峰格式、首字母小写的字段字符串信息|
+|`name`|FieldNameInfo<br/>(本文底部)|字段/方法对象。直接使用该对象将调用 toString() 方法返回驼峰格式、首字母小写的字段字符串信息|
 |`comment`|String|字段注释（可通过UI修改）|
 |`typeName`|String|字段类型（短）|
 |`fullTypeName`|String|字段类型（完整）|
 |`primaryKey`|boolean|是否是主键|
 |`selected`|boolean|是否选中（通过UI勾选）|
 
+
+
 ## 模板其他相关对象说明
-### IName 名称接口
+
+### `IName` 名称接口
 Class: `com.github.houkunlin.vo.IName`
 
 |字段/方法|类型|说明|
@@ -119,20 +148,40 @@ Class: `com.github.houkunlin.vo.IName`
 |`firstUpper/getFirstUpper()`|String|名称首字母大写，beetl模板调用get方法可能会出现异常|
 
 
-### `EntityName` 实体类名称对象
+
+### `EntityName` 实体类名称对象（不含后缀）
+
 Class: `com.github.houkunlin.vo.impl.EntityName` 实现了 `com.github.houkunlin.vo.IName` 接口
 
 |字段/方法|类型|说明|
 | ----|----|----|
 |`value`|String|不含Entity后缀的实体类名称，也就是UI中输入框的Entity名称|
+|`firstUpper`|String|同 `value` 值|
+|`firstLower`|String|返回实体类首字母小写|
 |`toString()`|String|返回 `value` 字段|
-|`entity`|IName|Entity 对象名称，`toString()` 返回包含Entity后缀的名称（驼峰格式、首字母大写）|
-|`service`|IName|Service 对象名称，`toString()` 返回包含Service后缀的名称（驼峰格式、首字母大写）|
-|`serviceImpl`|IName|ServiceImpl 对象名称，`toString()` 返回包含ServiceImpl后缀的名称（驼峰格式、首字母大写）|
-|`dao`|IName|Dao 对象名称，`toString()` 返回包含Dao后缀的名称（驼峰格式、首字母大写）|
-|`controller`|IName|Controller 对象名称，`toString()` 返回包含Controller后缀的名称（驼峰格式、首字母大写）|
+|`entity`|EntityNameInfo|Entity 对象名称，`toString()` 返回包含Entity后缀的名称（驼峰格式、首字母大写）|
+|`service`|EntityNameInfo|Service 对象名称，`toString()` 返回包含Service后缀的名称（驼峰格式、首字母大写）|
+|`serviceImpl`|EntityNameInfo|ServiceImpl 对象名称，`toString()` 返回包含ServiceImpl后缀的名称（驼峰格式、首字母大写）|
+|`dao`|EntityNameInfo|Dao 对象名称，`toString()` 返回包含Dao后缀的名称（驼峰格式、首字母大写）|
+|`controller`|EntityNameInfo|Controller 对象名称，`toString()` 返回包含Controller后缀的名称（驼峰格式、首字母大写）|
+
+
+
+### `EntityNameInfo` 实体类名称信息对象（含后缀）
+
+Class: `com.github.houkunlin.vo.impl.EntityNameInfo` 实现了 `com.github.houkunlin.vo.IName` 接口
+
+| 字段/方法    | 类型   | 说明                                       |
+| ------------ | ------ | ------------------------------------------ |
+| `value`      | String | 含后缀的实体类名称（首字母大写，驼峰风格） |
+| `firstUpper` | String | 同 `value` 值                              |
+| `firstLower` | String | 对 `value` 的首字母小写                    |
+| `toString()` | String | 同 `value` 值                              |
+
+
 
 ### `EntityPackage` 实体类包对象
+
 Class: `com.github.houkunlin.vo.impl.EntityPackage`
 
 |字段/方法|类型|说明|
@@ -145,7 +194,10 @@ Class: `com.github.houkunlin.vo.impl.EntityPackage`
 |`dao`|EntityPackageInfo|Dao 包信息|
 |`controller`|EntityPackageInfo|Controller 包信息|
 
+
+
 ### `EntityPackageInfo` 实体类包信息对象
+
 Class: `com.github.houkunlin.vo.impl.EntityPackageInfo`
 
 |字段/方法|类型|说明|
@@ -154,7 +206,23 @@ Class: `com.github.houkunlin.vo.impl.EntityPackageInfo`
 |`toString()`|String|返回 `pack` 字段|
 |`full`|String|对象完整的包路径，即：包名称+对象名称|
 
+
+
+### `FieldNameInfo` 字段名称信息对象
+
+Class: `com.github.houkunlin.vo.impl.FieldNameInfo` 实现了 `com.github.houkunlin.vo.IName` 接口
+
+| 字段/方法    | 类型   | 说明                           |
+| ------------ | ------ | ------------------------------ |
+| `value`      | String | 字段名称，驼峰风格，首字母小写 |
+| `firstUpper` | String | 对 `value` 值的首字母大写      |
+| `firstLower` | String | 同 `value` 值                  |
+| `toString()` | String | 同 `value` 值                  |
+
+
+
 ## 示例代码
+
 数据库表名：`user_info`
 
 |代码|返回示例|
@@ -179,6 +247,8 @@ Class: `com.github.houkunlin.vo.impl.EntityPackageInfo`
 |`${entity.packages.serviceImpl}`|com.example.service.impl|
 |`${entity.packages.serviceImpl.pack}`|com.example.service.impl|
 |`${entity.packages.serviceImpl.full}`|com.example.service.impl.UserInfoServiceImpl|
+
+
 
 字段名称：`user_address` 类型：`varchar(255)`
 

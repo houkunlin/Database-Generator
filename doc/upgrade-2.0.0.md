@@ -50,5 +50,5 @@
 |获取Entity字段类型`${col.columnType.shortName}`|`${field.typeName}`|
 |获取Entity字段名`${col.fieldName}`|`${field.name}`|
 |获取Entity字段注释`${col.comment}`|`${field.comment}`|
-|Entity字段首字母大写`${col.fieldMethod}`|`${field.name.firstUpper()}`|
+|Entity字段首字母大写`${col.fieldMethod}`|`${field.name.firstUpper}`|
 
