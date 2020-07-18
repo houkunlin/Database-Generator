@@ -1,13 +1,13 @@
 [TOC]
 
 # 模板编写文档
-模板中会初始化7个变量，其中有3个变量为配置信息变量，有4个变量为数据库相关信息变量。
+模板中会初始化8个变量，其中有3个变量为配置信息变量，有5个变量为数据库相关信息变量。
 
 
 
 ## 模板变量关系图
 
-图中的 `RootModel` 对象的4个字段是模板代码的4个变量
+图中的 `RootModel` 对象的4个字段是模板代码的5个变量
 
 ![RootModel](assets/RootModel.png)
 
@@ -135,6 +135,19 @@ Type: `List` Class: `com.github.houkunlin.vo.impl.EntityFieldImpl` 实现了 `co
 |`fullTypeName`|String|字段类型（完整）|
 |`primaryKey`|boolean|是否是主键|
 |`selected`|boolean|是否选中（通过UI勾选）|
+
+
+
+### `primary` 主键Java字段、数据库列对象信息变量
+
+Type: `Object` Class: `com.github.houkunlin.vo.impl.PrimaryInfo` 
+
+| 字段/方法 | 类型                     | 说明                                                         |
+| --------- | ------------------------ | ------------------------------------------------------------ |
+| `field`   | IEntityField             | 默认主键Java字段对象，如果没有主键将返回一个默认的“id”主键   |
+| `column`  | ITableColumn             | 默认主键数据库字段对象，如果没有主键将返回一个默认的“id”主键 |
+| `fields`  | List&lt;IEntityField&gt; | 主键Java字段列表（所有的主键列表）                           |
+| `columns` | List&lt;ITableColumn&gt; | 主键数据库字段列表（所有的主键列表）                         |
 
 
 
