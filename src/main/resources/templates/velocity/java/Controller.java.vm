@@ -50,7 +50,7 @@ public class ${entity.name.controller} extends ApiController {
      * 获取全部的 <strong>${entity.comment}</strong> 列表
      */
     @GetMapping("all")
-    public Object listAll(@PageableDefault(sort = {"gmtCreate"}) Pageable pageable, ${entity.name.entity} entity) {
+    public Object listAll(@PageableDefault Pageable pageable, ${entity.name.entity} entity) {
         LambdaQueryChainWrapper<${entity.name.entity}> lambdaQuery = buildLambdaQuery(entity);
         MyBatisUtils.lambdaQueryAddOrder(lambdaQuery, pageable, entityOrderFields);
         return success(lambdaQuery.list());
@@ -62,7 +62,7 @@ public class ${entity.name.controller} extends ApiController {
      * @param pageable 分页参数信息
      */
     @GetMapping
-    public Object list(@PageableDefault(sort = {"gmtCreate"}) Pageable pageable, ${entity.name.entity} entity) {
+    public Object list(@PageableDefault Pageable pageable, ${entity.name.entity} entity) {
         LambdaQueryChainWrapper<${entity.name.entity}> lambdaQuery = buildLambdaQuery(entity);
         MyBatisUtils.lambdaQueryAddOrder(lambdaQuery, pageable, entityOrderFields);
         Page<${entity.name.entity}> page = lambdaQuery.page(MyBatisUtils.toPage(pageable, false));
@@ -75,7 +75,7 @@ public class ${entity.name.controller} extends ApiController {
      * @param id 主键ID
      */
     @GetMapping("{id}")
-    public Object info(@PathVariable String id) {
+    public Object info(@PathVariable ${primary.field.typeName} id) {
         return success(${entity.name.service.firstLower}.getById(id));
     }
 
@@ -181,7 +181,7 @@ public class ${entity.name.controller} extends ApiController {
         #end
     #end
 #end
-        return lambdaQuery;
+        return wrapper;
     }
 
 }
