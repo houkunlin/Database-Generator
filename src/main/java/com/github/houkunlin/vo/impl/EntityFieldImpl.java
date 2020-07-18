@@ -3,7 +3,6 @@ package com.github.houkunlin.vo.impl;
 import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.vo.IEntityField;
-import com.github.houkunlin.vo.IName;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
@@ -20,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
  */
 @Getter
 public class EntityFieldImpl implements IEntityField {
-    private final IName name;
+    private final FieldNameInfo name;
     private final String typeName;
     private final String fullTypeName;
     private final boolean primaryKey;

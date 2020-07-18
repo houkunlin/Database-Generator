@@ -2,13 +2,12 @@ package com.github.houkunlin.vo.impl;
 
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.vo.IEntity;
-import com.github.houkunlin.vo.IEntityField;
 import com.intellij.database.psi.DbTable;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 实体类信息
@@ -35,12 +34,12 @@ public class EntityImpl implements IEntity {
     /**
      * 初始化更多的信息
      *
-     * @param fields   字段列表（用来获取导入包信息）
-     * @param settings 设置信息对象（用来初始化包名信息）
+     * @param fullTypeNames 字段类型名称列表
+     * @param settings      设置信息对象（用来初始化包名信息）
      */
-    public void initMore(List<? extends IEntityField> fields, Settings settings) {
+    public void initMore(Set<String> fullTypeNames, Settings settings) {
         packages.clear();
-        fields.forEach(packages::add);
+        fullTypeNames.forEach(packages::add);
         name.initMore(settings);
         packages.initMore(settings, name);
     }

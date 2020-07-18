@@ -1,7 +1,6 @@
 package com.github.houkunlin.vo.impl;
 
 import com.github.houkunlin.config.Settings;
-import com.github.houkunlin.vo.IEntityField;
 import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 
@@ -47,10 +46,6 @@ public class EntityPackage {
             return;
         }
         list.add(fullPackageName);
-    }
-
-    public void add(IEntityField field) {
-        add(field.getFullTypeName());
     }
 
     public void clear() {

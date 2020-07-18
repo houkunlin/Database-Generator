@@ -8,6 +8,8 @@ import com.intellij.database.psi.DbTable;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 完整的类型信息
@@ -42,7 +44,8 @@ public class RootModel {
     }
 
     public EntityImpl getEntity(Settings settings) {
-        entity.initMore(fields, settings);
+        Set<String> fullTypeNames = fields.stream().map(IEntityField::getFullTypeName).collect(Collectors.toSet());
+        entity.initMore(fullTypeNames, settings);
         return entity;
     }
 }
