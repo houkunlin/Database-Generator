@@ -6,36 +6,36 @@ plugins {
     kotlin("jvm") version "1.3.71"
 }
 // intellij 版本（编译环境版本）
-val intellijVersion = when {
+val intellijVersion: String = when {
     System.getProperty("intellijVersion") != null -> { // 从系统环境变量中获取编译环境版本
         System.getProperty("intellijVersion")
     }
     project.properties["intellijVersion"] != null -> { // 从项目配置中获取编译环境版本
-        project.properties["intellijVersion"]
+        project.properties["intellijVersion"] as String
     }
     else -> {// 默认编译环境版本
         "2020.1"
     }
 }
 // intellij 上传插件 Token
-val intellijPublishToken = when {
+val intellijPublishToken: String = when {
     System.getProperty("intellijPublishToken") != null -> { // 从系统环境变量中获取上传插件 Token
         System.getProperty("intellijPublishToken")
     }
     project.properties["intellijPublishToken"] != null -> { // 从项目配置中获取上传插件 Token
-        project.properties["intellijPublishToken"]
+        project.properties["intellijPublishToken"] as String
     }
     else -> { // 默认上传插件 Token
         ""
     }
 }
 // 插件版本
-val pluginVersion = when {
+val pluginVersion: String = when {
     System.getProperty("pluginVersion") != null -> { // 从系统环境变量中获取插件版本
         System.getProperty("pluginVersion")
     }
     project.properties["pluginVersion"] != null -> { // 从项目配置中获取插件版本
-        project.properties["pluginVersion"]
+        project.properties["pluginVersion"] as String
     }
     else -> { // 默认的插件版本
         "2.0.0"
@@ -44,6 +44,8 @@ val pluginVersion = when {
 
 group = "com.github.houkunlin"
 version = "${pluginVersion}-${intellijVersion}"
+
+println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, intellij-publish-token = ${intellijPublishToken.isNotBlank()}, plugin-version = $version }")
 
 repositories {
     mavenLocal()
