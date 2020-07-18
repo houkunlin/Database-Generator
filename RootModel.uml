@@ -3,33 +3,76 @@
   <ID>JAVA</ID>
   <OriginalElement>com.github.houkunlin.vo.impl.RootModel</OriginalElement>
   <nodes>
-    <node x="1729.6867853101355" y="458.09773148179374">com.github.houkunlin.vo.impl.EntityFieldImpl</node>
-    <node x="84.40159619696163" y="1104.8174586486243">com.github.houkunlin.vo.impl.EntityNameInfo</node>
-    <node x="1098.8030925960866" y="303.5957465714047">com.github.houkunlin.vo.ITableColumn</node>
-    <node x="199.21136920028053" y="762.0762948164634">com.github.houkunlin.vo.impl.EntityName</node>
-    <node x="1114.8069859535613" y="804.9399201474032">com.github.houkunlin.vo.impl.TableImpl</node>
-    <node x="586.3044244141336" y="541.3504815029555">com.github.houkunlin.vo.impl.EntityImpl</node>
-    <node x="971.0073531060536" y="0.0">com.github.houkunlin.vo.impl.TableColumnImpl</node>
-    <node x="0.0" y="27.75318653761633">com.github.houkunlin.vo.impl.EntityPackageInfo</node>
-    <node x="133.03115792508282" y="243.1793185206701">com.github.houkunlin.vo.impl.EntityPackage</node>
-    <node x="1152.1054200531162" y="519.6263232732109">com.github.houkunlin.vo.impl.RootModel</node>
-    <node x="1495.7455878287742" y="534.715208896185">com.github.houkunlin.vo.IEntityField</node>
-    <node x="1999.218526313184" y="473.4076093739849">com.github.houkunlin.vo.impl.FieldNameInfo</node>
+    <node x="485.4520631919563" y="1567.0747574011311">com.github.houkunlin.vo.impl.EntityFieldImpl</node>
+    <node x="126.4847173972135" y="0.0">com.github.houkunlin.vo.impl.EntityNameInfo</node>
+    <node x="32.42601103763491" y="1121.0245284777109">com.github.houkunlin.vo.impl.TableColumnImpl</node>
+    <node x="492.8080582693669" y="698.5796814972996">com.github.houkunlin.vo.impl.EntityImpl</node>
+    <node x="434.4520631919563" y="1149.8725343725328">com.github.houkunlin.vo.impl.RootModel</node>
+    <node x="0.0" y="1612.2966988752728">com.github.houkunlin.vo.impl.PrimaryInfo</node>
+    <node x="721.6378027730591" y="1835.5424326032191">com.github.houkunlin.vo.impl.FieldNameInfo</node>
+    <node x="383.03952409902973" y="168.00615058777748">com.github.houkunlin.vo.impl.EntityName</node>
+    <node x="872.3371075430774" y="1197.093582952827">com.github.houkunlin.vo.impl.TableImpl</node>
+    <node x="1221.3437906009701" y="329.25033748337455">com.github.houkunlin.vo.impl.EntityPackageInfo</node>
+    <node x="861.6157791575054" y="327.15819790511">com.github.houkunlin.vo.impl.EntityPackage</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="com.github.houkunlin.vo.impl.EntityFieldImpl" target="com.github.houkunlin.vo.IEntityField">
+    <edge source="com.github.houkunlin.vo.impl.RootModel" target="com.github.houkunlin.vo.impl.TableColumnImpl">
       <point x="0.0" y="0.0" />
       <point x="0.0" y="0.0" />
     </edge>
-    <edge source="com.github.houkunlin.vo.impl.TableColumnImpl" target="com.github.houkunlin.vo.ITableColumn">
+    <edge source="com.github.houkunlin.vo.impl.EntityPackage" target="com.github.houkunlin.vo.impl.EntityPackageInfo">
+      <point x="-0.8013928495906839" y="-4.935359105538737" />
+      <point x="-0.8013928495906839" y="-4.935359105538737" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.RootModel" target="com.github.houkunlin.vo.impl.PrimaryInfo">
+      <point x="3.6006881192561195" y="3.4691562472520445" />
+      <point x="3.6006881192561195" y="3.4691562472520445" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.PrimaryInfo" target="com.github.houkunlin.vo.impl.TableColumnImpl">
       <point x="0.0" y="0.0" />
       <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.PrimaryInfo" target="com.github.houkunlin.vo.impl.EntityFieldImpl">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.RootModel" target="com.github.houkunlin.vo.impl.EntityImpl">
+      <point x="10.00457977358704" y="0.0" />
+      <point x="10.00457977358704" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.EntityImpl" target="com.github.houkunlin.vo.impl.EntityPackage">
+      <point x="7.749063159526969" y="0.0" />
+      <point x="0.0" y="6.5446693463870815" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.EntityImpl" target="com.github.houkunlin.vo.impl.EntityName">
+      <point x="5.172324292473803" y="-1.1368683772161603E-13" />
+      <point x="5.172324292473803" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.EntityName" target="com.github.houkunlin.vo.impl.EntityNameInfo">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.RootModel" target="com.github.houkunlin.vo.impl.TableImpl">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.RootModel" target="com.github.houkunlin.vo.impl.EntityFieldImpl">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.EntityPackage" target="com.github.houkunlin.vo.impl.EntityName">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.EntityFieldImpl" target="com.github.houkunlin.vo.impl.FieldNameInfo">
+      <point x="0.0" y="14.057044670695603" />
+      <point x="-14.228790756318745" y="0.0" />
     </edge>
   </edges>
-  <settings layout="Circular" zoom="1.0" x="1076.0" y="603.5" />
+  <settings layout="Circular" zoom="1.0" x="703.0" y="969.0" />
   <SelectedNodes>
-    <node>com.github.houkunlin.vo.impl.RootModel</node>
+    <node>com.github.houkunlin.vo.impl.PrimaryInfo</node>
   </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
