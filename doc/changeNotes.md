@@ -1,3 +1,10 @@
+- **2020-07-18: 2.1.0**
+    - ZH-CN
+        - feat/fix: 修复无法通过Java字段获取到该字段对应的数据库字段对象问题
+        - feat/fix: 修复无法直接获取到主键字段问题
+    - EN
+        - feat/fix: Fix the problem that the database field object corresponding to the field cannot be obtained through the Java field
+        - feat/fix: Fix the problem that the primary key field cannot be obtained directly
 - **2020-07-18: 2.0.0**
     - ZH-CN
         - **该版本与旧版本不兼容，请查看 [代码模板升级指南](https://github.com/houkunlin/Database-Generator/blob/master/doc/upgrade-2.0.0.md) ，和查看详细的编写 [模板变量文档](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md)**
