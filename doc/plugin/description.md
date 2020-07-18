@@ -14,6 +14,8 @@ You can use custom templates to generate the required code information.
 
 When the plugin is run for the first time, a generator directory will be created in the current directory to store the information required by the plugin. The generator/templates directory contains the code template files that need to be generated.
 
+This plugin supports `beetl`/`freemarker`/`velocity` code templates of three template engines. You can choose which template engine to use for the file suffix (`btl`/`ftl`/`vm`). For custom templates, please Read [Template Variable Document](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md) to understand the contents of related variables before custom development.
+
 <br><br>
 
 **中文** / English
@@ -29,6 +31,8 @@ When the plugin is run for the first time, a generator directory will be created
 可通过自定义模板来生成所需要的代码信息。
 
 插件初次运行时会在当前目录下创建 generator 目录用来存放插件所需要的信息，其中 `generator/templates` 目录中存放了所需要生成的代码模板文件。
+
+本插件支持 `beetl`/`freemarker`/`velocity` 三种模板引擎的代码模板，通过文件后缀(`btl`/`ftl`/`vm`)来选择使用什么模板引擎渲染，自定义模板请阅读 [模板变量文档](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md) 了解相关变量内容后再进行自定义开发。
 
 <br><br>
 Author: HouKunLin<br>
