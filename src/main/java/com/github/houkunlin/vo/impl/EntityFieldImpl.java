@@ -23,15 +23,14 @@ import org.apache.commons.lang.StringUtils;
  */
 @Getter
 public class EntityFieldImpl implements IEntityField {
-    @Setter
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private ITableColumn column;
-
     private final FieldNameInfo name;
     private final String typeName;
     private final String fullTypeName;
     private final boolean primaryKey;
+    @Setter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private ITableColumn column;
     @Setter
     private String comment;
     @Setter
@@ -48,13 +47,27 @@ public class EntityFieldImpl implements IEntityField {
 
     public EntityFieldImpl(DasColumn dbColumn) {
         this.name = new FieldNameInfo(dbColumn);
-        String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName");
+        String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName" );
         TableColumnType columnType = type(typeName);
         this.typeName = columnType.getShortName();
         this.fullTypeName = columnType.getLongName();
-        this.comment = StringUtils.defaultString(dbColumn.getComment(), "");
+        this.comment = StringUtils.defaultString(dbColumn.getComment(), "" );
         this.primaryKey = DasUtil.isPrimary(dbColumn);
         this.selected = true;
+    }
+
+    /**
+     * 创建主键字段对象
+     *
+     * @param name         字段名称
+     * @param typeName     字段类型
+     * @param fullTypeName 字段完整类型
+     * @param comment      字段注释
+     * @return 字段对象
+     */
+    public static EntityFieldImpl primaryField(String name, String typeName, String fullTypeName, String comment) {
+        FieldNameInfo fieldNameInfo = new FieldNameInfo(name, CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, name), name);
+        return new EntityFieldImpl(fieldNameInfo, typeName, fullTypeName, true, comment, true);
     }
 
     public TableColumnType type(String dbType) {
@@ -76,19 +89,5 @@ public class EntityFieldImpl implements IEntityField {
             }
         }
         return columnTypes.length > 0 ? columnTypes[0] : TableColumnType.DEFAULT;
-    }
-
-    /**
-     * 创建主键字段对象
-     *
-     * @param name         字段名称
-     * @param typeName     字段类型
-     * @param fullTypeName 字段完整类型
-     * @param comment      字段注释
-     * @return 字段对象
-     */
-    public static EntityFieldImpl primaryField(String name, String typeName, String fullTypeName, String comment) {
-        FieldNameInfo fieldNameInfo = new FieldNameInfo(name, CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, name), name);
-        return new EntityFieldImpl(fieldNameInfo, typeName, fullTypeName, true, comment, true);
     }
 }

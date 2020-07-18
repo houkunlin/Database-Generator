@@ -26,16 +26,15 @@ public class TableColumnImpl implements ITableColumn {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private final DasColumn dbColumn;
-    @Setter
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private IEntityField field;
-
     private final String name;
     private final String comment;
     private final String typeName;
     private final String fullTypeName;
     private final boolean primaryKey;
+    @Setter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private IEntityField field;
     @Setter
     private boolean selected;
 
@@ -54,8 +53,8 @@ public class TableColumnImpl implements ITableColumn {
         this.name = dbColumn.getName();
         DataType dataType = dbColumn.getDataType();
         this.fullTypeName = dataType.getSpecification();
-        this.typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
-        this.comment = StringUtils.defaultString(dbColumn.getComment(), "");
+        this.typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName" );
+        this.comment = StringUtils.defaultString(dbColumn.getComment(), "" );
         this.primaryKey = DasUtil.isPrimary(dbColumn);
         this.selected = true;
     }

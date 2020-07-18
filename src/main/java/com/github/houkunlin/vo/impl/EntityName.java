@@ -58,7 +58,7 @@ public class EntityName implements IName {
     public void initMore(Settings settings) {
         this.entity = build(settings.getEntitySuffix());
         this.service = build(settings.getServiceSuffix());
-        this.serviceImpl = build(settings.getServiceSuffix() + "Impl");
+        this.serviceImpl = build(settings.getServiceSuffix() + "Impl" );
         this.dao = build(settings.getDaoSuffix());
         this.controller = build(settings.getControllerSuffix());
     }
