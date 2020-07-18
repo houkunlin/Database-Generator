@@ -39,12 +39,12 @@ public class ${entity.name.serviceImpl} extends ServiceImpl<${entity.name.dao}, 
     }
 
     @Override
-    public void delete${entity.name}(String primaryKey) {
+    public void delete${entity.name}(${primary.field.typeName} primaryKey) {
         removeById(primaryKey);
     }
 
     @Override
-    public void delete${entity.name}(List<String> primaryKeys) {
+    public void delete${entity.name}(List<${primary.field.typeName}> primaryKeys) {
         removeByIds(primaryKeys);
     }
 }

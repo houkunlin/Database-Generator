@@ -34,12 +34,12 @@ public interface ${entity.name.service} extends IService<${entity.name.entity}> 
      *
      * @param primaryKey 主键ID
      */
-    void delete${entity.name}(String primaryKey);
+    void delete${entity.name}(${primary.field.typeName} primaryKey);
 
     /**
      * 业务处理：删除多个 <strong>${entity.comment}</strong>
      *
      * @param primaryKeys 主键ID列表
      */
-    void delete${entity.name}(List<String> primaryKeys);
+    void delete${entity.name}(List<${primary.field.typeName}> primaryKeys);
 }
