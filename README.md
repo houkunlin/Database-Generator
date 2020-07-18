@@ -10,7 +10,7 @@
 
 
 
-[更新日志](./doc/changeNotes.md) | [模板变量说明](./doc/template-document.md) | [旧版模板升级2.0.0插件版本指南](./doc/upgrade-2.0.0.md) 
+[更新日志](./doc/changeNotes.md) | [模板变量说明](./doc/template-document.md) | [旧版模板升级2.0.0插件版本指南](./doc/upgrade-2.0.0.md) | [插件截图](./doc/images.md) 
 
 
 
