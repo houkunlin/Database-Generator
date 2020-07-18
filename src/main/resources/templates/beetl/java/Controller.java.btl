@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.utils.MyBatisUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,7 +151,39 @@ lambdaQuery.eq(entity.get${field.name.firstUpper}() != null, ${entity.name.entit
 <%if(field.typeName == "String"){%>
 lambdaQuery.like(StringUtils.isNotBlank(entity.get${field.name.firstUpper}()), ${entity.name.entity}::get${field.name.firstUpper}, entity.get${field.name.firstUpper}());
 <%}else{%>
-lambdaQuery.like(entity.get${field.name.firstUpper}() != null, ${entity.name.entity}::get${field.name.firstUpper}, entity.get${field.name.firstUpper}());
+lambdaQuery.eq(entity.get${field.name.firstUpper}() != null, ${entity.name.entity}::get${field.name.firstUpper}, entity.get${field.name.firstUpper}());
+<%}%>
+<%
+            }
+        }
+    }
+%>
+        return lambdaQuery;
+    }
+
+    /**
+     * 构建查询条件内容
+     *
+     * @param entity 实体对象
+     * @return lambda query chain wrapper
+     */
+    private QueryWrapper<${entity.name.entity}> buildQuery(${entity.name.entity} entity) {
+        QueryWrapper<${entity.name.entity}> wrapper = new QueryWrapper<>();
+<%
+    for (field in fields) {
+        if(field.selected){
+            if(field.primaryKey){
+%>
+<%if(field.typeName == "String"){%>
+wrapper.eq(StringUtils.isNotBlank(entity.get${field.name.firstUpper}()), "${field.column.name}", entity.get${field.name.firstUpper}());
+<% }else{%>
+wrapper.eq(entity.get${field.name.firstUpper}() != null, "${field.column.name}", entity.get${field.name.firstUpper}());
+<%}%>
+<% } else { %>
+<%if(field.typeName == "String"){%>
+wrapper.like(StringUtils.isNotBlank(entity.get${field.name.firstUpper}()), "${field.column.name}", entity.get${field.name.firstUpper}());
+<%}else{%>
+wrapper.eq(entity.get${field.name.firstUpper}() != null, "${field.column.name}", entity.get${field.name.firstUpper}());
 <%}%>
 <%
             }
