@@ -39,6 +39,16 @@ public class TableColumnImpl implements ITableColumn {
     @Setter
     private boolean selected;
 
+    private TableColumnImpl(String name, String typeName, String fullTypeName, String comment, boolean primaryKey, boolean selected) {
+        this.dbColumn = null;
+        this.name = name;
+        this.typeName = typeName;
+        this.fullTypeName = fullTypeName;
+        this.comment = comment;
+        this.primaryKey = primaryKey;
+        this.selected = selected;
+    }
+
     public TableColumnImpl(DasColumn dbColumn) {
         this.dbColumn = dbColumn;
         this.name = dbColumn.getName();
@@ -50,4 +60,16 @@ public class TableColumnImpl implements ITableColumn {
         this.selected = true;
     }
 
+    /**
+     * 创建主键字段对象
+     *
+     * @param name         字段名称
+     * @param typeName     字段类型
+     * @param fullTypeName 字段完整类型
+     * @param comment      字段注释
+     * @return 字段对象
+     */
+    public static TableColumnImpl primaryColumn(String name, String typeName, String fullTypeName, String comment) {
+        return new TableColumnImpl(name, typeName, fullTypeName, comment, true, true);
+    }
 }

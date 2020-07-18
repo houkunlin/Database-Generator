@@ -36,11 +36,14 @@ public class RootModel {
      */
     private final List<? extends ITableColumn> columns;
 
-    public RootModel(DbTable dbTable, List<? extends IEntityField> fields, List<? extends ITableColumn> columns) {
+    private final PrimaryInfo primary;
+
+    public RootModel(DbTable dbTable, List<EntityFieldImpl> fields, List<TableColumnImpl> columns) {
         this.table = new TableImpl(dbTable);
         this.entity = new EntityImpl(dbTable);
         this.fields = fields;
         this.columns = columns;
+        this.primary = new PrimaryInfo(fields);
     }
 
     public EntityImpl getEntity(Settings settings) {

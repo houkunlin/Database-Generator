@@ -46,6 +46,7 @@ public class Generator {
         map.put("columns", rootModel.getColumns());
         map.put("entity", rootModel.getEntity(settings));
         map.put("fields", rootModel.getFields());
+        map.put("primary", rootModel.getPrimary());
         for (File templateFile : ContextUtils.getTemplatesFiles()) {
             // 重置内容，方便使用默认配置
             Variable.resetVariables();

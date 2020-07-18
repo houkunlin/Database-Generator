@@ -4,6 +4,7 @@ import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.ITableColumn;
+import com.google.common.base.CaseFormat;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
@@ -36,6 +37,15 @@ public class EntityFieldImpl implements IEntityField {
     @Setter
     private boolean selected;
 
+    private EntityFieldImpl(FieldNameInfo name, String typeName, String fullTypeName, boolean primaryKey, String comment, boolean selected) {
+        this.name = name;
+        this.typeName = typeName;
+        this.fullTypeName = fullTypeName;
+        this.primaryKey = primaryKey;
+        this.comment = comment;
+        this.selected = selected;
+    }
+
     public EntityFieldImpl(DasColumn dbColumn) {
         this.name = new FieldNameInfo(dbColumn);
         String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName");
@@ -66,5 +76,19 @@ public class EntityFieldImpl implements IEntityField {
             }
         }
         return columnTypes.length > 0 ? columnTypes[0] : TableColumnType.DEFAULT;
+    }
+
+    /**
+     * 创建主键字段对象
+     *
+     * @param name         字段名称
+     * @param typeName     字段类型
+     * @param fullTypeName 字段完整类型
+     * @param comment      字段注释
+     * @return 字段对象
+     */
+    public static EntityFieldImpl primaryField(String name, String typeName, String fullTypeName, String comment) {
+        FieldNameInfo fieldNameInfo = new FieldNameInfo(name, CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, name), name);
+        return new EntityFieldImpl(fieldNameInfo, typeName, fullTypeName, true, comment, true);
     }
 }
