@@ -3,12 +3,15 @@ package com.github.houkunlin.vo.impl;
 import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.vo.IEntityField;
+import com.github.houkunlin.vo.ITableColumn;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
 import com.intellij.util.ReflectionUtil;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -19,6 +22,11 @@ import org.apache.commons.lang.StringUtils;
  */
 @Getter
 public class EntityFieldImpl implements IEntityField {
+    @Setter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private ITableColumn column;
+
     private final FieldNameInfo name;
     private final String typeName;
     private final String fullTypeName;

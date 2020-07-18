@@ -57,7 +57,9 @@ public class JTableModel extends AbstractTableModel {
         for (DasColumn column : columns) {
             EntityFieldImpl entityField = new EntityFieldImpl(column);
             TableColumnImpl tableColumn = new TableColumnImpl(column);
-            fieldImpls.add(new EntityFieldImpl(column));
+            entityField.setColumn(tableColumn);
+            tableColumn.setField(entityField);
+            fieldImpls.add(entityField);
             columnImpls.add(tableColumn);
 
             int colIndex = -1;

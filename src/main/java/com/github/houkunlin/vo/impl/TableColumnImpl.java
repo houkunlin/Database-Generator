@@ -1,5 +1,6 @@
 package com.github.houkunlin.vo.impl;
 
+import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.ITableColumn;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
@@ -25,6 +26,10 @@ public class TableColumnImpl implements ITableColumn {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private final DasColumn dbColumn;
+    @Setter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private IEntityField field;
 
     private final String name;
     private final String comment;
