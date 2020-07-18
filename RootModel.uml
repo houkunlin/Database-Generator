@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.github.houkunlin.vo.impl.RootModel</OriginalElement>
+  <nodes>
+    <node x="1729.6867853101355" y="458.09773148179374">com.github.houkunlin.vo.impl.EntityFieldImpl</node>
+    <node x="84.40159619696163" y="1104.8174586486243">com.github.houkunlin.vo.impl.EntityNameInfo</node>
+    <node x="1098.8030925960866" y="303.5957465714047">com.github.houkunlin.vo.ITableColumn</node>
+    <node x="199.21136920028053" y="762.0762948164634">com.github.houkunlin.vo.impl.EntityName</node>
+    <node x="1114.8069859535613" y="804.9399201474032">com.github.houkunlin.vo.impl.TableImpl</node>
+    <node x="586.3044244141336" y="541.3504815029555">com.github.houkunlin.vo.impl.EntityImpl</node>
+    <node x="971.0073531060536" y="0.0">com.github.houkunlin.vo.impl.TableColumnImpl</node>
+    <node x="0.0" y="27.75318653761633">com.github.houkunlin.vo.impl.EntityPackageInfo</node>
+    <node x="133.03115792508282" y="243.1793185206701">com.github.houkunlin.vo.impl.EntityPackage</node>
+    <node x="1152.1054200531162" y="519.6263232732109">com.github.houkunlin.vo.impl.RootModel</node>
+    <node x="1495.7455878287742" y="534.715208896185">com.github.houkunlin.vo.IEntityField</node>
+    <node x="1999.218526313184" y="473.4076093739849">com.github.houkunlin.vo.impl.FieldNameInfo</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.github.houkunlin.vo.impl.EntityFieldImpl" target="com.github.houkunlin.vo.IEntityField">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.github.houkunlin.vo.impl.TableColumnImpl" target="com.github.houkunlin.vo.ITableColumn">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Circular" zoom="1.0" x="1076.0" y="603.5" />
+  <SelectedNodes>
+    <node>com.github.houkunlin.vo.impl.RootModel</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
