@@ -24,7 +24,7 @@ public class ${entity.name.entity} implements Serializable {
         * ${field.comment}
         */
         <#if field.primaryKey>
-            @TableId(type = IdType.ASSIGN_UUID)
+            @TableId(type = IdType.ASSIGN_ID)
         </#if>
         private ${field.typeName} ${field.name};
     </#if>
