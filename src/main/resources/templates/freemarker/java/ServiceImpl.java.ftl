@@ -18,7 +18,7 @@ import java.util.List;
 * @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
 */
 @CacheConfig(cacheNames = {${entity.name.serviceImpl}.CACHE_NAME})
-@Transactional(rollbackFor = Throwable.class)
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class ${entity.name.serviceImpl} extends ServiceImpl<${entity.name.dao}, ${entity.name.entity}> implements ${entity.name.service} {
 
