@@ -1,4 +1,4 @@
-# 模板升级到 2.0.0 指南
+# 模板升级到 2.x 指南
 
 本次发布涉及到目标变量重构，并且不兼容旧版本的模板信息，因此需要针对代码模板进行升级。
 
@@ -21,6 +21,8 @@
 |`<#assign controllerClass = "${table.entityName}${settings.controllerSuffix}" />`|使用`${entity.name.controller}`|
 |`<#assign serviceVar = "${table.entityVar}${settings.serviceSuffix}" />`|使用`${entity.name.service.firstLower}`|
 
+
+
 ## 包名
 
 |旧的|新的|
@@ -37,6 +39,8 @@
 |---|---|
 |实体类导入包|`${entity.packages}`|
 
+
+
 ## 实体类
 
 | 旧的 | 新的 |
@@ -52,3 +56,12 @@
 |获取Entity字段注释`${col.comment}`|`${field.comment}`|
 |Entity字段首字母大写`${col.fieldMethod}`|`${field.name.firstUpper}`|
 
+
+
+## 其他
+
+在 1.x 版本中有一个 `${table.getPrimaryColumn().fieldMethod}` 获取主键字段信息，在 2.0.0 中未引入该功能，在 2.1.0 中重新引入了该功能，具体用法为 `${primary.field.name.firstUpper}` 通过 `primary` 变量来获取到主键的信息，详细用法请查看模板变量说明文档。
+
+
+
+在 1.x 版本中可在 `table.columns` 中获取到数据库字段、Java字段的字段名称，在 2.0.0 版本中未引入改功能，在 2.1.0 中重新引入了该功能，具体用法为 `${field.column.name}` 从Java字段获取该字段对应的数据库字段对象的字段名称，或者 `${column.field.name}` 从数据库字段获取该字段对应的Java字段对象的字段名称。
