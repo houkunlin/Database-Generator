@@ -7,7 +7,7 @@
 
 ## 模板变量关系图
 
-图中的 `RootModel` 对象的4个字段是模板代码的5个变量
+图中的 `RootModel` 对象的5个字段是模板代码的5个变量
 
 ![RootModel](assets/RootModel.png)
 
