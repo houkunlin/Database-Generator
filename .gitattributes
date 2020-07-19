@@ -9,4 +9,6 @@
 *.jar binary
 *.ttf binary
 *.jks binary
+*.gif binary
+*.mp4 binary
 
