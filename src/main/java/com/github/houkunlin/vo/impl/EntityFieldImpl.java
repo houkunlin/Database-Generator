@@ -47,11 +47,11 @@ public class EntityFieldImpl implements IEntityField {
 
     public EntityFieldImpl(DasColumn dbColumn) {
         this.name = new FieldNameInfo(dbColumn);
-        String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName" );
+        String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName");
         TableColumnType columnType = type(typeName);
         this.typeName = columnType.getShortName();
         this.fullTypeName = columnType.getLongName();
-        this.comment = StringUtils.defaultString(dbColumn.getComment(), "" );
+        this.comment = StringUtils.defaultString(dbColumn.getComment(), "");
         this.primaryKey = DasUtil.isPrimary(dbColumn);
         this.selected = true;
     }

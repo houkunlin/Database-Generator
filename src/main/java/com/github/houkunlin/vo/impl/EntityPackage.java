@@ -42,7 +42,7 @@ public class EntityPackage {
     private EntityPackageInfo controller;
 
     public void add(String fullPackageName) {
-        if (fullPackageName.startsWith("java.lang." )) {
+        if (fullPackageName.startsWith("java.lang.")) {
             return;
         }
         list.add(fullPackageName);

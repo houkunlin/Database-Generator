@@ -40,8 +40,8 @@ public class PrimaryInfo {
         EntityFieldImpl primaryField;
         if (collect.isEmpty()) {
             // 没有主键对象，创建一个默认的主键对象
-            primaryField = EntityFieldImpl.primaryField("id", "String", "java.lang.String", "主键ID" );
-            TableColumnImpl tableColumn = TableColumnImpl.primaryColumn("id", "varchar", "varchar(255)", "主键ID" );
+            primaryField = EntityFieldImpl.primaryField("id", "String", "java.lang.String", "主键ID");
+            TableColumnImpl tableColumn = TableColumnImpl.primaryColumn("id", "varchar", "varchar(255)", "主键ID");
             primaryField.setColumn(tableColumn);
             tableColumn.setField(primaryField);
         } else {

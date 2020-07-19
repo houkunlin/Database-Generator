@@ -28,6 +28,6 @@ public class TableImpl implements ITable {
     public TableImpl(DbTable dbTable) {
         this.dbTable = dbTable;
         this.name = dbTable.getName();
-        this.comment = StringUtils.defaultString(dbTable.getComment(), "" );
+        this.comment = StringUtils.defaultString(dbTable.getComment(), "");
     }
 }

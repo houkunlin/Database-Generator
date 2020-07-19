@@ -23,7 +23,7 @@ public class EntityImpl implements IEntity {
     private String comment;
 
     public EntityImpl(DbTable dbTable) {
-        this.comment = StringUtils.defaultString(dbTable.getComment(), "" );
+        this.comment = StringUtils.defaultString(dbTable.getComment(), "");
         this.name = new EntityName(dbTable);
     }
 
