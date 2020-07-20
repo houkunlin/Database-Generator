@@ -1,3 +1,5 @@
+![Java CI with Gradle](https://github.com/houkunlin/Database-Generator/workflows/Java%20CI%20with%20Gradle/badge.svg) 
+
 # Database Generator
 
 > 一个依赖 IDEA DatabaseTools 的代码生成器，通过数据库表结构生成相应的Java代码，插件提供一套简单的增删查改代码模板，也可以新增自定义模板来生成前端代码或其他相关的代码。
