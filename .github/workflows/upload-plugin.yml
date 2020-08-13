@@ -25,4 +25,4 @@ jobs:
     - name: Upload Plugin
       env: # Or as an environment variable
         INTELLIJPUBLISHTOKEN: ${{ secrets.INTELLIJPUBLISHTOKEN }}
-      run: ./gradlew publishPlugin -DintellijVersion=${INTELLIJPUBLISHTOKEN}
+      run: ./gradlew publishPlugin -DintellijPublishToken=${INTELLIJPUBLISHTOKEN}
