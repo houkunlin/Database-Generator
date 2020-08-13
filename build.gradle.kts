@@ -76,7 +76,7 @@ dependencies {
     // https://mvnrepository.com/artifact/jalopy/jalopy
     // implementation("jalopy:jalopy:1.5rc3")
 
-    testCompile("junit", "junit", "4.12")
+    testImplementation("junit:junit:4.13")
 
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly("org.projectlombok:lombok:1.18.12")
