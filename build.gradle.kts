@@ -14,7 +14,7 @@ val intellijVersion: String = when {
         project.properties["intellijVersion"] as String
     }
     else -> {// 默认编译环境版本
-        "2020.1"
+        "2020.2"
     }
 }
 // intellij 上传插件 Token
