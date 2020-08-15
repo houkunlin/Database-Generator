@@ -1,7 +1,8 @@
 package com.github.houkunlin.action;
 
-import com.github.houkunlin.ui.ActionUIRunnable;
+import com.github.houkunlin.ui.win.Main;
 import com.github.houkunlin.util.ContextUtils;
+import com.github.houkunlin.util.ReadJsonConfig;
 import com.github.houkunlin.util.SyncResources;
 import com.intellij.database.psi.DbTable;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -50,6 +51,6 @@ public class MainAction extends AnAction {
         }
         ContextUtils.setProject(project);
         new SyncResources().run();
-        new ActionUIRunnable(actionEvent).run();
+        new Main(actionEvent.getData(LangDataKeys.PSI_ELEMENT_ARRAY), ReadJsonConfig.getSettings(), ReadJsonConfig.getDeveloper(), ReadJsonConfig.getOptions());
     }
 }

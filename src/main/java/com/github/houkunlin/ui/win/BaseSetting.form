@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.houkunlin.ui.win.BaseSetting">
+  <grid id="27dc6" binding="content" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+    <constraints>
+      <xy x="35" y="20" width="950" height="500"/>
+    </constraints>
+    <properties>
+      <maximumSize width="950" height="500"/>
+      <minimumSize width="950" height="500"/>
+      <preferredSize width="950" height="500"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="8f10a" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints/>
+        <properties>
+          <preferredSize width="940" height="68"/>
+        </properties>
+        <border type="etched" title-resource-bundle="i18n/language" title-key="panel.entity.title"/>
+        <children>
+          <component id="dfd5d" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <requestFocusEnabled value="true"/>
+              <text resource-bundle="i18n/language" key="panel.entity.suffix"/>
+            </properties>
+          </component>
+          <component id="be95d" class="javax.swing.JTextField" binding="entitySuffixField">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="29"/>
+              <text value="Entity"/>
+            </properties>
+          </component>
+          <component id="8d09a" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.entity.package"/>
+            </properties>
+          </component>
+          <component id="c90b8" class="com.intellij.ui.EditorTextField" binding="entityPackageField" custom-create="true">
+            <constraints/>
+            <properties>
+              <preferredSize width="240" height="29"/>
+              <text value="com.example.entity"/>
+            </properties>
+          </component>
+          <component id="6d4b6" class="javax.swing.JButton" binding="selectEntityPackageButton">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.entity.package.select"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="b10d9" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints/>
+        <properties>
+          <preferredSize width="940" height="68"/>
+        </properties>
+        <border type="etched" title-resource-bundle="i18n/language" title-key="panel.dao.title"/>
+        <children>
+          <component id="17304" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.dao.suffix"/>
+            </properties>
+          </component>
+          <component id="5b05" class="javax.swing.JTextField" binding="daoSuffixField">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="29"/>
+              <text value="Repository"/>
+            </properties>
+          </component>
+          <component id="585ba" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.dao.package"/>
+            </properties>
+          </component>
+          <component id="ff1a0" class="com.intellij.ui.EditorTextField" binding="daoPackageField" custom-create="true">
+            <constraints/>
+            <properties>
+              <preferredSize width="240" height="29"/>
+              <text value="com.example.repository"/>
+            </properties>
+          </component>
+          <component id="c435d" class="javax.swing.JButton" binding="selectDaoPackageButton">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.dao.package.select"/>
+            </properties>
+          </component>
+          <component id="159b8" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.dao.xml-package"/>
+            </properties>
+          </component>
+          <component id="95e0" class="javax.swing.JTextField" binding="xmlPackageField">
+            <constraints/>
+            <properties>
+              <preferredSize width="180" height="29"/>
+              <text value="mapper"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="c64a4" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints/>
+        <properties>
+          <preferredSize width="940" height="68"/>
+        </properties>
+        <border type="etched" title-resource-bundle="i18n/language" title-key="panel.service.title"/>
+        <children>
+          <component id="1d70a" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.service.suffix"/>
+            </properties>
+          </component>
+          <component id="66548" class="javax.swing.JTextField" binding="serviceSuffixField">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="29"/>
+              <text value="Service"/>
+            </properties>
+          </component>
+          <component id="4caa0" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.service.package"/>
+            </properties>
+          </component>
+          <component id="5b7f3" class="com.intellij.ui.EditorTextField" binding="servicePackageField" custom-create="true">
+            <constraints/>
+            <properties>
+              <preferredSize width="240" height="29"/>
+              <text value="com.example.service"/>
+            </properties>
+          </component>
+          <component id="817e7" class="javax.swing.JButton" binding="selectServicePackageButton">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.service.package.select"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="b8b9d" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints/>
+        <properties>
+          <preferredSize width="940" height="68"/>
+        </properties>
+        <border type="etched" title-resource-bundle="i18n/language" title-key="panel.controller.title"/>
+        <children>
+          <component id="db81" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.controller.suffix"/>
+            </properties>
+          </component>
+          <component id="89b4b" class="javax.swing.JTextField" binding="controllerSuffixField">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="29"/>
+              <text value="Controller"/>
+            </properties>
+          </component>
+          <component id="6d441" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.controller.package"/>
+            </properties>
+          </component>
+          <component id="3c2b2" class="com.intellij.ui.EditorTextField" binding="controllerPackageField" custom-create="true">
+            <constraints/>
+            <properties>
+              <preferredSize width="240" height="29"/>
+              <text value="com.example.controller"/>
+            </properties>
+          </component>
+          <component id="d0d80" class="javax.swing.JButton" binding="selectControllerPackageButton">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.controller.package.select"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="c9593" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints/>
+        <properties>
+          <enabled value="true"/>
+          <opaque value="true"/>
+          <preferredSize width="940" height="68"/>
+        </properties>
+        <border type="etched" title-resource-bundle="i18n/language" title-key="panel.developer.title"/>
+        <children>
+          <component id="4e3a3" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.developer.name"/>
+            </properties>
+          </component>
+          <component id="223a" class="javax.swing.JTextField" binding="authorField">
+            <constraints/>
+            <properties>
+              <preferredSize width="150" height="29"/>
+            </properties>
+          </component>
+          <component id="d37d3" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="panel.developer.email"/>
+            </properties>
+          </component>
+          <component id="ad06d" class="javax.swing.JTextField" binding="emailField">
+            <constraints/>
+            <properties>
+              <preferredSize width="150" height="29"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="d1527" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+        <constraints/>
+        <properties>
+          <preferredSize width="940" height="68"/>
+        </properties>
+        <border type="etched" title="构建选项"/>
+        <children>
+          <component id="dc89c" class="javax.swing.JCheckBox" binding="overrideJavaCheckBox">
+            <constraints/>
+            <properties>
+              <selected value="true"/>
+              <text value="覆盖Java类型文件"/>
+            </properties>
+          </component>
+          <component id="dc34c" class="javax.swing.JCheckBox" binding="overrideXmlCheckBox">
+            <constraints/>
+            <properties>
+              <selected value="true"/>
+              <text value="覆盖Xml类型文件"/>
+            </properties>
+          </component>
+          <component id="f9723" class="javax.swing.JCheckBox" binding="overrideOtherCheckBox">
+            <constraints/>
+            <properties>
+              <selected value="true"/>
+              <text value="覆盖其他类型文件"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.houkunlin.ui.win.SelectTemplate">
+  <grid id="27dc6" binding="content" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="950" height="470"/>
+    </constraints>
+    <properties>
+      <maximumSize width="950" height="470"/>
+      <minimumSize width="950" height="470"/>
+      <preferredSize width="950" height="470"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <scrollpane id="13682">
+        <constraints/>
+        <properties>
+          <maximumSize width="950" height="460"/>
+          <minimumSize width="950" height="460"/>
+          <preferredSize width="950" height="460"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="3ab1b" class="javax.swing.JTree" binding="tree" default-binding="true">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>
