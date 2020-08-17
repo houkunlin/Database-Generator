@@ -13,7 +13,6 @@ import com.intellij.psi.JavaCodeFragment;
 import com.intellij.psi.JavaCodeFragmentFactory;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiPackage;
-import com.intellij.ui.EditorTextComponent;
 import com.intellij.ui.EditorTextField;
 import kotlin.jvm.functions.Function3;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +53,7 @@ public class BaseSetting implements IWindows, DocumentListener, com.intellij.ope
     /**
      * 存放 setValue 与 输入框 的关系
      */
-    private final Map<Consumer<String>, EditorTextComponent> map2 = Maps.newHashMap();
+    private final Map<Consumer<String>, EditorTextField> map2 = Maps.newHashMap();
     /**
      * 输入框：Entity前缀
      */
@@ -272,9 +271,9 @@ public class BaseSetting implements IWindows, DocumentListener, com.intellij.ope
     @Override
     public void documentChanged(@NotNull com.intellij.openapi.editor.event.DocumentEvent event) {
         Document document = event.getDocument();
-        Set<Map.Entry<Consumer<String>, EditorTextComponent>> entries = map2.entrySet();
-        Function3<Document, EditorTextComponent, Consumer<String>, Boolean> updateSettings = this::updateSettingValue;
-        for (Map.Entry<Consumer<String>, EditorTextComponent> entry : entries) {
+        Set<Map.Entry<Consumer<String>, EditorTextField>> entries = map2.entrySet();
+        Function3<Document, EditorTextField, Consumer<String>, Boolean> updateSettings = this::updateSettingValue;
+        for (Map.Entry<Consumer<String>, EditorTextField> entry : entries) {
             if (updateSettings.invoke(document, entry.getValue(), entry.getKey())) {
                 break;
             }
@@ -317,7 +316,7 @@ public class BaseSetting implements IWindows, DocumentListener, com.intellij.ope
      * @param setValue  设置配置信息的set方法
      * @return 是否成功
      */
-    private boolean updateSettingValue(Document document, EditorTextComponent component, Consumer<String> setValue) {
+    private boolean updateSettingValue(Document document, EditorTextField component, Consumer<String> setValue) {
         if (document == component.getDocument()) {
             setValue.accept(component.getText());
             return true;
