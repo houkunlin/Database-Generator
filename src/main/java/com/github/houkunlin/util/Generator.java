@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,13 +42,16 @@ public class Generator {
      *
      * @throws Exception 异常
      */
-    public void generator(RootModel rootModel) throws Exception {
+    public void generator(RootModel rootModel, List<File> templateFiles) throws Exception {
+        if (rootModel == null || templateFiles == null || templateFiles.isEmpty()) {
+            return;
+        }
         map.put("table", rootModel.getTable());
         map.put("columns", rootModel.getColumns());
         map.put("entity", rootModel.getEntity(settings));
         map.put("fields", rootModel.getFields());
         map.put("primary", rootModel.getPrimary());
-        for (File templateFile : ContextUtils.getTemplatesFiles()) {
+        for (File templateFile : templateFiles) {
             // 重置内容，方便使用默认配置
             Variable.resetVariables();
             String result;

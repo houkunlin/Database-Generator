@@ -17,6 +17,7 @@ import com.intellij.psi.PsiElement;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.List;
 
 public class Main extends JFrame {
@@ -40,6 +41,10 @@ public class Main extends JFrame {
      * 面板对象：基础信息配置
      */
     private final BaseSetting baseSetting;
+    /**
+     * 面板对象：模板选择配置
+     */
+    private final SelectTemplate selectTemplate;
     /**
      * 输入框：项目路径输入、选择
      */
@@ -71,8 +76,10 @@ public class Main extends JFrame {
         this.developer = developer;
         this.options = options;
         baseSetting = new BaseSetting(settings, developer, options);
+        selectTemplate = new SelectTemplate();
         tableSetting = new TableSetting(psiElements);
         tableTabbedPane.addTab("基础配置", baseSetting.getContent());
+        tableTabbedPane.addTab("模板选择", selectTemplate.getContent());
         tableTabbedPane.addTab("数据库表配置", tableSetting.getContent());
         initWindows();
         initConfig();
@@ -115,10 +122,11 @@ public class Main extends JFrame {
                 try {
                     Generator generator = new Generator(settings, options, developer);
                     List<RootModel> rootModels = tableSetting.getRootModels();
+                    List<File> allSelectFile = selectTemplate.getAllSelectFile();
                     for (RootModel rootModel : rootModels) {
-                        generator.generator(rootModel);
+                        generator.generator(rootModel, allSelectFile);
                     }
-                    this.finishAction();
+                    this.finishAction(String.format("代码构建完毕，涉及 %s 个模板文件。由于代码模板编写格式问题，请手动格式化代码。", allSelectFile.size()));
                 } catch (Exception e) {
                     e.printStackTrace();
                     Messages.showMessageDialog("代码生成失败，当前插件 2.x 版本不兼容旧版的代码模板，请升级代码模板，代码模板升级指南请查看插件介绍。\n\n" + e.getMessage(), "生成代码失败", Messages.getErrorIcon());
@@ -138,10 +146,10 @@ public class Main extends JFrame {
     /**
      * 完成操作
      */
-    public void finishAction() {
+    public void finishAction(String message) {
         ContextUtils.refreshProject();
         dispose();
-        Messages.showMessageDialog("构建代码完毕", "完成", Messages.getInformationIcon());
+        Messages.showMessageDialog(message, "完成", Messages.getInformationIcon());
     }
 
     /**
