@@ -1,4 +1,4 @@
-<idea-plugin>
+<idea-plugin require-restart="false">
     <name>Database Generator</name>
     <vendor email="1184511588@qq.com" url="https://github.com/houkunlin/Database-Generator">侯坤林</vendor>
 

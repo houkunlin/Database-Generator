@@ -38,12 +38,12 @@ val pluginVersion: String = when {
         project.properties["pluginVersion"] as String
     }
     else -> { // 默认的插件版本
-        "2.1.0"
+        "2.2.0"
     }
 }
 
 group = "com.github.houkunlin"
-version = "${pluginVersion}-${intellijVersion}"
+version = pluginVersion
 
 println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, intellij-publish-token = ${intellijPublishToken.isNotBlank()}, plugin-version = $version }")
 
@@ -119,6 +119,10 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
     outputs.upToDateWhen { false }
     dependsOn("markdownToHtml")
     setPluginId("com.github.houkunlin.database.generator")
+    // 最小支持版本
+    setSinceBuild("181")
+    // 最大支持版本
+    setUntilBuild(null)
     doFirst {
         val notes = file("$buildDir/gen-html/changeNotes.html")
         val desc = file("$buildDir/gen-html/description.html")
