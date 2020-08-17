@@ -16,17 +16,21 @@
 
 
 
-## 操作录制
-
-插件用法
-
-![插件使用方式](./doc/assets/use_1.gif)
-
-
-
 默认提供三种模板引擎（`beetl`/`freemarker`/`velocity`）的代码模板（SpringBoot+MyBatis-Plus+自定义工具），可选择保留其中一种模板引擎的代码模板，然后根据自己的需求对代码模板进行修改，阅读 [模板变量说明](./doc/template-document.md) 了解模板变量的具体内容。
 
-![自定义代码模板](./doc/assets/use_2.gif)
+
+
+## 截图
+
+![](./doc/assets/images_1.png)
+
+![](./doc/assets/images_8.png)
+
+![](./doc/assets/images_9.png)
+
+![](./doc/assets/images_10.png)
+
+![](./doc/assets/images_11.png)
 
 
 

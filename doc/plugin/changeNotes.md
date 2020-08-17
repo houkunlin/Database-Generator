@@ -1,3 +1,18 @@
+- **2020-08-17: 2.2.0**
+
+    - **&gt;&gt; ZH-CN**
+    - feat: 更改UI布局
+    - feat: 项目路径选择输入框更改输入框组件
+    - feat: 包名输入框增加包名自动补全、提示
+    - feat: 更改输入框内容修改后重新赋值的方式，通过监听事件来改变配置信息内容
+    - feat: 增加代码模板选择功能，通过树形结构选择器选择当前项目路径下可用的代码模板文件
+    - **&gt;&gt; EN**
+    - feat: Change UI layout
+    - feat: project path selection input box to change the input box component
+    - feat: Add package name auto completion and prompt to the package name input box
+    - feat: change the way of re-assignment after modification of the input box content, and change the configuration information content by monitoring events
+    - feat: Add code template selection function, select the available code template files under the current project path through the tree structure selector
+
 - **2020-07-18: 2.1.0**
     
     - **&gt;&gt; ZH-CN**
