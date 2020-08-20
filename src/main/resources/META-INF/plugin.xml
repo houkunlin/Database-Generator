@@ -10,6 +10,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <projectService serviceImplementation="com.github.houkunlin.config.ConfigService"/>
     </extensions>
 
     <actions>

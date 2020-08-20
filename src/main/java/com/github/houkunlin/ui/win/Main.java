@@ -1,5 +1,6 @@
 package com.github.houkunlin.ui.win;
 
+import com.github.houkunlin.config.ConfigService;
 import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
@@ -24,6 +25,10 @@ import java.io.File;
 import java.util.List;
 
 public class Main extends JFrame {
+    /**
+     * 配置对象
+     */
+    private final ConfigService configService;
     /**
      * 配置对象：设置信息
      */
@@ -107,11 +112,12 @@ public class Main extends JFrame {
      */
     private JPanel content;
 
-    public Main(PsiElement[] psiElements, Settings settings, Developer developer, Options options) {
+    public Main(PsiElement[] psiElements, ConfigService configService) {
         super("代码生成器");
-        this.settings = settings;
-        this.developer = developer;
-        this.options = options;
+        this.configService = configService;
+        this.settings = configService.getSettings();
+        this.developer = configService.getDeveloper();
+        this.options = configService.getOptions();
         baseSetting = new BaseSetting(settings, developer, options);
         selectTemplate = new SelectTemplate();
         tableSetting = new TableSetting(psiElements);
@@ -189,6 +195,9 @@ public class Main extends JFrame {
         ContextUtils.refreshProject();
         dispose();
         Messages.showInfoMessage(message, "完成");
+        configService.setDeveloper(developer);
+        configService.setOptions(options);
+        configService.setSettings(settings);
     }
 
     /**

@@ -1,8 +1,8 @@
 package com.github.houkunlin.action;
 
+import com.github.houkunlin.config.ConfigService;
 import com.github.houkunlin.ui.win.Main;
 import com.github.houkunlin.util.ContextUtils;
-import com.github.houkunlin.util.ReadJsonConfig;
 import com.github.houkunlin.util.SyncResources;
 import com.intellij.database.psi.DbTable;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -30,7 +30,7 @@ public class MainAction extends AnAction {
     public void actionPerformed(AnActionEvent actionEvent) {
         PsiElement[] psiElements = actionEvent.getData(LangDataKeys.PSI_ELEMENT_ARRAY);
         if (psiElements == null || psiElements.length == 0) {
-            Messages.showMessageDialog("请至少选择一张表", "通知", Messages.getInformationIcon());
+            Messages.showWarningDialog("请至少选择一张表", "通知");
             return;
         }
         boolean isOk = false;
@@ -41,16 +41,21 @@ public class MainAction extends AnAction {
             }
         }
         if (!isOk) {
-            Messages.showMessageDialog("请至少选择一张表", "通知", Messages.getInformationIcon());
+            Messages.showWarningDialog("请至少选择一张表", "通知");
             return;
         }
         Project project = actionEvent.getData(PlatformDataKeys.PROJECT);
         if (project == null) {
-            Messages.showMessageDialog("无法获取到当前项目的 Project 对象", "错误", Messages.getErrorIcon());
+            Messages.showErrorDialog("无法获取到当前项目的 Project 对象", "错误");
             return;
         }
         ContextUtils.setProject(project);
         new SyncResources().run();
-        new Main(actionEvent.getData(LangDataKeys.PSI_ELEMENT_ARRAY), ReadJsonConfig.getSettings(), ReadJsonConfig.getDeveloper(), ReadJsonConfig.getOptions());
+        ConfigService configService = ConfigService.getInstance(project);
+        if (configService == null) {
+            Messages.showWarningDialog("初始化配置信息失败，但并不影响继续使用！", "错误");
+            configService = new ConfigService();
+        }
+        new Main(actionEvent.getData(LangDataKeys.PSI_ELEMENT_ARRAY), configService);
     }
 }
