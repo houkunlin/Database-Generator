@@ -155,16 +155,20 @@ public class Main extends JFrame {
             //用后台任务执行代码生成
             ApplicationManager.getApplication().invokeLater(() -> {
                 try {
+                    List<File> allSelectFile = selectTemplate.getAllSelectFile();
+                    if (allSelectFile.isEmpty()) {
+                        Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
+                        return;
+                    }
                     Generator generator = new Generator(settings, options, developer);
                     List<RootModel> rootModels = tableSetting.getRootModels();
-                    List<File> allSelectFile = selectTemplate.getAllSelectFile();
                     for (RootModel rootModel : rootModels) {
                         generator.generator(rootModel, allSelectFile);
                     }
-                    this.finishAction(String.format("代码构建完毕，涉及 %s 个模板文件。由于代码模板编写格式问题，请手动格式化代码。", allSelectFile.size()));
+                    finishAction(String.format("代码构建完毕，涉及 %s 个模板文件。由于代码模板编写格式问题，请手动格式化代码。", allSelectFile.size()));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Messages.showMessageDialog("代码生成失败，当前插件 2.x 版本不兼容旧版的代码模板，请升级代码模板，代码模板升级指南请查看插件介绍。\n\n" + e.getMessage(), "生成代码失败", Messages.getErrorIcon());
+                    Messages.showErrorDialog("代码生成失败，当前插件 2.x 版本不兼容旧版的代码模板，请升级代码模板，代码模板升级指南请查看插件介绍。\n\n" + e.getMessage(), "生成代码失败");
                 }
             });
         });
@@ -184,7 +188,7 @@ public class Main extends JFrame {
     public void finishAction(String message) {
         ContextUtils.refreshProject();
         dispose();
-        Messages.showMessageDialog(message, "完成", Messages.getInformationIcon());
+        Messages.showInfoMessage(message, "完成");
     }
 
     /**
