@@ -114,7 +114,9 @@ public class ReadJsonConfig {
     private static <T> T parseJson(Class<T> tClass, String resources) {
         try {
             File localConfigFile = ContextUtils.getLocalConfigPath(resources);
-            return parse(tClass, new FileInputStream(localConfigFile));
+            if (localConfigFile.exists()) {
+                return parse(tClass, new FileInputStream(localConfigFile));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
