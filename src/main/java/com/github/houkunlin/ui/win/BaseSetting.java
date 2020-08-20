@@ -38,6 +38,10 @@ public class BaseSetting implements IWindows {
      */
     private final Settings settings;
     /**
+     * 配置对象：是否覆盖文件
+     */
+    private final Options options;
+    /**
      * 配置对象：开发者信息
      */
     private final Developer developer;
@@ -121,8 +125,8 @@ public class BaseSetting implements IWindows {
     public BaseSetting(Settings settings, Developer developer, Options options) {
         this.settings = settings;
         this.developer = developer;
-        initDeveloper();
-        initSettings();
+        this.options = options;
+        initConfig();
         configSelectPackage();
 
         /* 普通输入框的输入事件监听 */
@@ -300,15 +304,10 @@ public class BaseSetting implements IWindows {
     /**
      * 初始化开发者信息的输入框内容
      */
-    private void initDeveloper() {
+    private void initConfig() {
         authorField.setText(developer.getAuthor());
         emailField.setText(developer.getEmail());
-    }
 
-    /**
-     * 初始化设置信息的输入框内容
-     */
-    private void initSettings() {
         entitySuffixField.setText(settings.getEntitySuffix());
         daoSuffixField.setText(settings.getDaoSuffix());
         serviceSuffixField.setText(settings.getServiceSuffix());
@@ -319,6 +318,10 @@ public class BaseSetting implements IWindows {
         servicePackageField.setText(settings.getServicePackage());
         controllerPackageField.setText(settings.getControllerPackage());
         xmlPackageField.setText(settings.getXmlPackage());
+
+        overrideJavaCheckBox.setSelected(options.isOverrideJava());
+        overrideXmlCheckBox.setSelected(options.isOverrideXml());
+        overrideOtherCheckBox.setSelected(options.isOverrideOther());
     }
 
     @Override
