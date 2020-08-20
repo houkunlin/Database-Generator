@@ -54,7 +54,7 @@ public class SyncResources implements Runnable {
         if (localConfigPath == null) {
             return;
         }
-        String[] filenames = new String[]{"config/types.json", "config/options.json", "config/settings.json", "config/developer.json"};
+        String[] filenames = new String[]{"config/types.json"};
         for (String filename : filenames) {
             InputStream inputStream = IO.getInputStream(filename);
             if (inputStream == null) {
