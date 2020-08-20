@@ -14,8 +14,11 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.psi.PsiElement;
+import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.io.File;
 import java.util.List;
@@ -57,6 +60,40 @@ public class Main extends JFrame {
      * 输入框：资源代码路径
      */
     private JTextField sourcesPathField;
+
+    /**
+     * 输入框：输入内容监听
+     */
+    private final DocumentListener documentListener = new DocumentListener() {
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            documentChanged(e);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            documentChanged(e);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+
+        /**
+         * swing 输入框组件内容更改事件
+         *
+         * @param e 事件
+         */
+        public void documentChanged(DocumentEvent e) {
+            javax.swing.text.Document document = e.getDocument();
+            if (!TextFieldDocumentUtil.updateSettingValue(document, javaPathField, settings::setJavaPath)) {
+                if (!TextFieldDocumentUtil.updateSettingValue(document, sourcesPathField, settings::setSourcesPath)) {
+                    TextFieldDocumentUtil.updateSettingValue(document, projectPathField.getTextField(), settings::setProjectPath);
+                }
+            }
+        }
+    };
     /**
      * 内容Tab标签
      */
@@ -107,7 +144,6 @@ public class Main extends JFrame {
     private void initConfig() {
         initSettings();
         Project project = ContextUtils.getProject();
-        projectPathField.setText(project.getBasePath());
 
         FileChooserDescriptor chooserDescriptor = FileChooserDescriptorFactory.createSingleFileOrFolderDescriptor();
         chooserDescriptor.setTitle("选择项目路径");
@@ -117,7 +153,6 @@ public class Main extends JFrame {
         // 点击完成按钮
         finishButton.addActionListener(event -> {
             //用后台任务执行代码生成
-            this.save();
             ApplicationManager.getApplication().invokeLater(() -> {
                 try {
                     Generator generator = new Generator(settings, options, developer);
@@ -156,17 +191,16 @@ public class Main extends JFrame {
      * 初始化设置信息
      */
     private void initSettings() {
-        projectPathField.setText(settings.getProjectPath());
+        projectPathField.getTextField().getDocument().addDocumentListener(documentListener);
+        javaPathField.getDocument().addDocumentListener(documentListener);
+        sourcesPathField.getDocument().addDocumentListener(documentListener);
+
+        String projectPath = settings.getProjectPath();
+        if (StringUtils.isBlank(projectPath)) {
+            projectPath = ContextUtils.getProject().getBasePath();
+        }
+        projectPathField.setText(projectPath);
         javaPathField.setText(settings.getJavaPath());
         sourcesPathField.setText(settings.getSourcesPath());
-    }
-
-    /**
-     * 保存设置信息
-     */
-    public void save() {
-        settings.setProjectPath(projectPathField.getText());
-        settings.setJavaPath(javaPathField.getText());
-        settings.setSourcesPath(sourcesPathField.getText());
     }
 }

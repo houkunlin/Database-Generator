@@ -14,7 +14,6 @@ import com.intellij.psi.JavaCodeFragmentFactory;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiPackage;
 import com.intellij.ui.EditorTextField;
-import kotlin.jvm.functions.Function3;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -272,9 +271,8 @@ public class BaseSetting implements IWindows, DocumentListener, com.intellij.ope
     public void documentChanged(@NotNull com.intellij.openapi.editor.event.DocumentEvent event) {
         Document document = event.getDocument();
         Set<Map.Entry<Consumer<String>, EditorTextField>> entries = map2.entrySet();
-        Function3<Document, EditorTextField, Consumer<String>, Boolean> updateSettings = this::updateSettingValue;
         for (Map.Entry<Consumer<String>, EditorTextField> entry : entries) {
-            if (updateSettings.invoke(document, entry.getValue(), entry.getKey())) {
+            if (TextFieldDocumentUtil.updateSettingValue(document, entry.getValue(), entry.getKey())) {
                 break;
             }
         }
@@ -300,43 +298,10 @@ public class BaseSetting implements IWindows, DocumentListener, com.intellij.ope
     public void documentChanged(DocumentEvent e) {
         javax.swing.text.Document document = e.getDocument();
         Set<Map.Entry<Consumer<String>, JTextComponent>> entries = map1.entrySet();
-        Function3<javax.swing.text.Document, JTextComponent, Consumer<String>, Boolean> updateSettings = this::updateSettingValue;
         for (Map.Entry<Consumer<String>, JTextComponent> entry : entries) {
-            if (updateSettings.invoke(document, entry.getValue(), entry.getKey())) {
+            if (TextFieldDocumentUtil.updateSettingValue(document, entry.getValue(), entry.getKey())) {
                 break;
             }
         }
-    }
-
-    /**
-     * 更新配置信息的值
-     *
-     * @param document  文档
-     * @param component 输入框组件
-     * @param setValue  设置配置信息的set方法
-     * @return 是否成功
-     */
-    private boolean updateSettingValue(Document document, EditorTextField component, Consumer<String> setValue) {
-        if (document == component.getDocument()) {
-            setValue.accept(component.getText());
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 更新配置信息的值
-     *
-     * @param document  文档
-     * @param component 输入框组件
-     * @param setValue  设置配置信息的set方法
-     * @return 是否成功
-     */
-    private boolean updateSettingValue(javax.swing.text.Document document, JTextComponent component, Consumer<String> setValue) {
-        if (document == component.getDocument()) {
-            setValue.accept(component.getText());
-            return true;
-        }
-        return false;
     }
 }
