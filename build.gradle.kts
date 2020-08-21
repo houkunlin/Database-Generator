@@ -5,42 +5,33 @@ plugins {
     idea
     kotlin("jvm") version "1.4.0"
 }
+
+/**
+ * 获取配置信息。优先从系统环境变量中获取值，再从项目配置中获取值，最后才使用默认值
+ *
+ * @param key 键
+ * @param defaultValue 默认值
+ */
+fun getProperty(key: String, defaultValue: String): String {
+    return when {
+        System.getProperty(key) != null -> { // 从系统环境变量中获取值
+            System.getProperty(key)
+        }
+        project.properties[key] != null -> { // 从项目配置中获取值
+            project.properties[key] as String
+        }
+        else -> {// 默认值
+            defaultValue
+        }
+    }
+}
+
 // intellij 版本（编译环境版本）
-val intellijVersion: String = when {
-    System.getProperty("intellijVersion") != null -> { // 从系统环境变量中获取编译环境版本
-        System.getProperty("intellijVersion")
-    }
-    project.properties["intellijVersion"] != null -> { // 从项目配置中获取编译环境版本
-        project.properties["intellijVersion"] as String
-    }
-    else -> {// 默认编译环境版本
-        "2020.2"
-    }
-}
+val intellijVersion: String = getProperty("intellijVersion", "2020.2")
 // intellij 上传插件 Token
-val intellijPublishToken: String = when {
-    System.getProperty("intellijPublishToken") != null -> { // 从系统环境变量中获取上传插件 Token
-        System.getProperty("intellijPublishToken")
-    }
-    project.properties["intellijPublishToken"] != null -> { // 从项目配置中获取上传插件 Token
-        project.properties["intellijPublishToken"] as String
-    }
-    else -> { // 默认上传插件 Token
-        ""
-    }
-}
+val intellijPublishToken: String = getProperty("intellijPublishToken", "")
 // 插件版本
-val pluginVersion: String = when {
-    System.getProperty("pluginVersion") != null -> { // 从系统环境变量中获取插件版本
-        System.getProperty("pluginVersion")
-    }
-    project.properties["pluginVersion"] != null -> { // 从项目配置中获取插件版本
-        project.properties["pluginVersion"] as String
-    }
-    else -> { // 默认的插件版本
-        "2.3.0"
-    }
-}
+val pluginVersion: String = getProperty("pluginVersion", "2.3.1")
 
 group = "com.github.houkunlin"
 version = pluginVersion
