@@ -1,3 +1,17 @@
+- **2020-08-21: 2.3.0**
+    - ZH-CN
+      - feat: 包名、路径配置支持持久化
+      - feat: 如果未选中模板时弹出警告，提示至少选中一个代码模板
+      - feat: 界面逻辑代码优化
+    - EN
+      - feat: Package name and path configuration support persistence
+      - feat: If a warning pops up when the template is not selected, it prompts that at least one code template is selected
+      - feat: interface logic code optimization
+- **2020-08-17: 2.2.1**
+    - ZH-CN
+      - fix: 修复 2.2.0 版本在 181.x(2018.x) 下出现的兼容性问题
+    - EN
+      - fix: Fix the compatibility issue of version 2.2.0 under 181.x (2018.x)
 - **2020-08-17: 2.2.0**
     - ZH-CN
         - feat: 更改UI布局
@@ -11,7 +25,6 @@
         - feat: Add package name auto completion and prompt to the package name input box
         - feat: change the way of re-assignment after modification of the input box content, and change the configuration information content by monitoring events
         - feat: Add code template selection function, select the available code template files under the current project path through the tree structure selector
-
 - **2020-07-18: 2.1.0**
     - ZH-CN
         - feat/fix: 修复无法通过Java字段获取到该字段对应的数据库字段对象问题
@@ -19,7 +32,6 @@
     - EN
         - feat/fix: Fix the problem that the database field object corresponding to the field cannot be obtained through the Java field
         - feat/fix: Fix the problem that the primary key field cannot be obtained directly
-
 - **2020-07-18: 2.0.0**
     - ZH-CN
         - **该版本与旧版本不兼容，请查看 [代码模板升级指南](https://github.com/houkunlin/Database-Generator/blob/master/doc/upgrade-2.0.0.md) ，和查看详细的编写 [模板变量文档](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md)**
@@ -33,13 +45,11 @@
         - Refactor the template variable object and introduce four objects `TableImpl/EntityImpl` `TableColumnImpl/EntityFieldImpl` to store related information.
         - `types.json` supports regular expression matching database field types.
         - The UI display field information is increased. The database column-Java field result comparison display
-
 - **2020-05-24: 1.3.1**
     - ZH-CN
         - 模板路径支持子文件夹，可把模板文件放到模板路径(generator/templates)下的子文件夹中
     - EN
         - The template path supports subfolders, and the template file can be placed in the subfolder under the template path (generator/templates)
-
 - **2020-04-10: 1.3**
     - ZH-CN
         - 支持2020.1
@@ -47,7 +57,6 @@
     - EN
         - support 2020.1
         - Fixed an error when returning the build option tab when modifying database table description information
-
 - **2020-04-07: 1.2**
     - ZH-CN
         - 代码优化
@@ -55,7 +64,6 @@
     - EN
         - code optimization
         - fix: Fix the problem that the template file cannot be created in the local project when the plugin is running
-
 - **2020-04-07: 1.1**
     - ZH-CN
         - feat: 表注释可修改
@@ -65,7 +73,6 @@
         - Table notes can be modified
         - Support simultaneous generation of multiple tables
         - fix: Fix the problem that the content of table comment cannot be set
-
 - **2020-04-06: 1.0**
     - 初步完成插件内容。
     - Preliminary completion of plug-in content

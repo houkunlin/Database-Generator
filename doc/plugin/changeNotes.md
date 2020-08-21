@@ -1,3 +1,14 @@
+- **2020-08-21: 2.3.0**
+
+    - **&gt;&gt; ZH-CN**
+    - feat: 包名、路径配置支持持久化
+    - feat: 如果未选中模板时弹出警告，提示至少选中一个代码模板
+    - feat: 界面逻辑代码优化
+    - **&gt;&gt; EN**
+    - feat: Package name and path configuration support persistence
+    - feat: If a warning pops up when the template is not selected, it prompts that at least one code template is selected
+    - feat: interface logic code optimization
+    
 - **2020-08-17: 2.2.0**
 
     - **&gt;&gt; ZH-CN**
@@ -13,17 +24,8 @@
     - feat: change the way of re-assignment after modification of the input box content, and change the configuration information content by monitoring events
     - feat: Add code template selection function, select the available code template files under the current project path through the tree structure selector
 
-- **2020-07-18: 2.1.0**
-    
-    - **&gt;&gt; ZH-CN**
-    - feat/fix: 修复无法通过Java字段获取到该字段对应的数据库字段对象问题
-    - feat/fix: 修复无法直接获取到主键字段问题
-    - **&gt;&gt; EN**
-    - feat/fix: Fix the problem that the database field object corresponding to the field cannot be obtained through the Java field
-    - feat/fix: Fix the problem that the primary key field cannot be obtained directly
-    
 - **2020-07-18: 2.0.0**
-    
+  
     - **&gt;&gt; ZH-CN**
     - **该版本与旧版本不兼容，请查看 <a href="https://github.com/houkunlin/Database-Generator/blob/master/doc/upgrade-2.0.0.md">代码模板升级指南</a> ，和查看详细的编写 <a href="https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md">模板变量文档</a>**
     - 引入 `velocity/beetl` 模板支持，通过后缀 `ftl/vm/btl` 来自动调用相应模板引擎渲染
