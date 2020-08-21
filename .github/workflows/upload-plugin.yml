@@ -26,3 +26,7 @@ jobs:
       env: # Or as an environment variable
         INTELLIJPUBLISHTOKEN: ${{ secrets.INTELLIJPUBLISHTOKEN }}
       run: ./gradlew publishPlugin -DintellijPublishToken=${INTELLIJPUBLISHTOKEN}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Database Generator
+        path: build/distributions/*
