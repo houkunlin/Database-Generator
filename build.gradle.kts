@@ -3,7 +3,7 @@ plugins {
     id("org.kordamp.gradle.markdown") version "2.2.0"
     java
     idea
-    kotlin("jvm") version "1.3.71"
+    kotlin("jvm") version "1.4.0"
 }
 // intellij 版本（编译环境版本）
 val intellijVersion: String = when {
@@ -38,7 +38,7 @@ val pluginVersion: String = when {
         project.properties["pluginVersion"] as String
     }
     else -> { // 默认的插件版本
-        "2.2.1"
+        "2.3.0"
     }
 }
 
