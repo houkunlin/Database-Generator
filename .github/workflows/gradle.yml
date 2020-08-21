@@ -24,7 +24,11 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew buildPlugin
+    - name: Rename
+      run: mv build/distributions/*.zip build/distributions/plugin.zip
+    - name: Unpack Plugin Zip
+      run: unzip -d tmp/ build/distributions/plugin.zip
     - uses: actions/upload-artifact@v2
       with:
-        name: Database Generator
-        path: build/distributions/*
+        name: Database Generator.zip
+        path: tmp/**/*
