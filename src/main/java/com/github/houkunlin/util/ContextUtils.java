@@ -158,18 +158,15 @@ public class ContextUtils {
      * 刷新项目
      */
     public static void refreshProject() {
-        ProgressManager.getInstance().run(new Task.Backgroundable(project, "Refresh Project ...") {
-            @Override
-            public void run(@NotNull ProgressIndicator indicator) {
-                Consumer<VirtualFile> refresh = (virtualFile) -> {
-                    if (virtualFile != null) {
-                        virtualFile.refresh(false, true);
-                    }
-                };
-                refresh.accept(LocalFileSystem.getInstance().findFileByPath(Objects.requireNonNull(project.getBasePath())));
-                refresh.accept(project.getProjectFile());
-                refresh.accept(project.getWorkspaceFile());
+        ProgressManager.progress("正在刷新项目 ......");
+        Consumer<VirtualFile> refresh = (virtualFile) -> {
+            if (virtualFile != null) {
+                virtualFile.refresh(false, true);
             }
-        });
+        };
+        refresh.accept(LocalFileSystem.getInstance().findFileByPath(Objects.requireNonNull(project.getBasePath())));
+        refresh.accept(project.getProjectFile());
+        refresh.accept(project.getWorkspaceFile());
+        ProgressManager.progress("刷新项目完毕！");
     }
 }

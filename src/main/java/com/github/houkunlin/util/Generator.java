@@ -7,10 +7,15 @@ import com.github.houkunlin.model.SaveFilePath;
 import com.github.houkunlin.template.TemplateUtils;
 import com.github.houkunlin.vo.Variable;
 import com.github.houkunlin.vo.impl.RootModel;
+import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiFile;
+import com.intellij.util.ExceptionUtil;
+import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,16 +26,19 @@ import java.util.Map;
  * @author HouKunLin
  * @date 2020/4/3 0003 11:22
  */
+@Data
 public class Generator {
     private final Settings settings;
     private final Options options;
     private final Map<String, Object> map;
     private final TemplateUtils templateUtils;
+    private final List<PsiFile> saveFiles;
 
     public Generator(Settings settings, Options options, Developer developer) throws IOException {
         this.settings = settings;
         this.options = options;
         this.templateUtils = new TemplateUtils(ContextUtils.getTemplatesPath());
+        this.saveFiles = new ArrayList<>();
         this.map = new HashMap<>(8);
         map.put("settings", settings);
         map.put("developer", developer);
@@ -39,13 +47,12 @@ public class Generator {
 
     /**
      * 执行生成代码任务
-     *
-     * @throws Exception 异常
      */
-    public void generator(RootModel rootModel, List<File> templateFiles) throws Exception {
+    public void generator(RootModel rootModel, List<File> templateFiles) {
         if (rootModel == null || templateFiles == null || templateFiles.isEmpty()) {
             return;
         }
+        Project project = ContextUtils.getProject();
         map.put("table", rootModel.getTable());
         map.put("columns", rootModel.getColumns());
         map.put("entity", rootModel.getEntity(settings));
@@ -54,9 +61,8 @@ public class Generator {
         for (File templateFile : templateFiles) {
             // 重置内容，方便使用默认配置
             Variable.resetVariables();
-            String result;
             try {
-                result = templateUtils.generatorToString(templateFile, map);
+                String result = templateUtils.generatorToString(templateFile, map);
                 if (StringUtils.isBlank(result)) {
                     // 不保存空内容的文件
                     continue;
@@ -67,34 +73,14 @@ public class Generator {
                 } else {
                     saveFilePath = SaveFilePath.create(rootModel, settings);
                 }
-                autoOverrideSaveContent(result, saveFilePath);
-            } catch (Exception e) {
-                throw new Exception("解析错误：" + templateFile.getAbsolutePath() + "\r\n" + e.getMessage(), e);
+                File saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
+                PsiFile psiFile = FileUtils.getInstance().saveFileContent(project, saveFile, result, saveFilePath.isOverride(options));
+                if (psiFile != null) {
+                    saveFiles.add(psiFile);
+                }
+            } catch (Throwable e) {
+                ExceptionUtil.rethrow(new RuntimeException("解析错误：" + templateFile.getAbsolutePath() + "\r\n" + e.getMessage(), e));
             }
-        }
-    }
-
-    /**
-     * 自动判断是否需要覆盖内容
-     *
-     * @param saveFilePath 文件路径
-     */
-    private void autoOverrideSaveContent(String result, SaveFilePath saveFilePath) throws IOException {
-        boolean isOverride = false;
-        File saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
-        if (saveFile.exists()) {
-            if (options.isOverrideJava() && saveFilePath.isJava()) {
-                isOverride = true;
-            } else if (options.isOverrideXml() && saveFilePath.isXml()) {
-                isOverride = true;
-            } else if (options.isOverrideOther() && saveFilePath.isOther()) {
-                isOverride = true;
-            }
-            if (isOverride) {
-                IO.writeToFile(saveFile, result);
-            }
-        } else {
-            IO.writeToFile(saveFile, result);
         }
     }
 }

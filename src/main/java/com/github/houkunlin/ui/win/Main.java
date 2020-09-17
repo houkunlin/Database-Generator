@@ -5,17 +5,24 @@ import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.util.ContextUtils;
+import com.github.houkunlin.util.FileUtils;
 import com.github.houkunlin.util.Generator;
 import com.github.houkunlin.vo.impl.RootModel;
-import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -158,25 +165,58 @@ public class Main extends JFrame {
 
         // 点击完成按钮
         finishButton.addActionListener(event -> {
-            //用后台任务执行代码生成
-            ApplicationManager.getApplication().invokeLater(() -> {
-                try {
-                    List<File> allSelectFile = selectTemplate.getAllSelectFile();
-                    if (allSelectFile.isEmpty()) {
-                        Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
-                        return;
-                    }
-                    Generator generator = new Generator(settings, options, developer);
-                    List<RootModel> rootModels = tableSetting.getRootModels();
-                    for (RootModel rootModel : rootModels) {
-                        generator.generator(rootModel, allSelectFile);
-                    }
-                    finishAction(String.format("代码构建完毕，涉及 %s 个模板文件。由于代码模板编写格式问题，请手动格式化代码。", allSelectFile.size()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Messages.showErrorDialog("代码生成失败，当前插件 2.x 版本不兼容旧版的代码模板，请升级代码模板，代码模板升级指南请查看插件介绍。\n\n" + e.getMessage(), "生成代码失败");
+            // 用后台任务执行代码生成
+            try {
+                List<File> allSelectFile = selectTemplate.getAllSelectFile();
+                if (allSelectFile.isEmpty()) {
+                    Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
+                    return;
                 }
-            });
+                setVisible(false);
+                Generator generator = new Generator(settings, options, developer);
+                ProgressManager.getInstance().run(new Task.Modal(project, "请稍候 ......", false) {
+                    @Override
+                    public void run(@NotNull ProgressIndicator indicator) {
+                        indicator.setText("正在准备数据 ......");
+                        List<RootModel> rootModels = tableSetting.getRootModels();
+                        int size = rootModels.size();
+                        indicator.setText("正在生成代码 ......");
+                        for (int i = 0; i < size; i++) {
+                            RootModel rootModel = rootModels.get(i);
+                            indicator.setFraction(i * 1.0 / size);
+                            generator.generator(rootModel, allSelectFile);
+                        }
+                        indicator.setFraction(0.0);
+                        ContextUtils.refreshProject();
+                        indicator.setText("正在格式化代码 ......");
+                        WriteCommandAction.runWriteCommandAction(project, (Computable<List<PsiFile>>) () -> {
+                            FileUtils.getInstance().reformatCode(project, generator.getSaveFiles().toArray(new PsiFile[0]));
+                            return null;
+                        });
+                        indicator.setText("格式化代码完毕！");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        super.onSuccess();
+                        dispose();
+                        Messages.showInfoMessage(String.format("代码构建完毕，生成 %s 个文件。", generator.getSaveFiles().size()), "完成");
+                    }
+
+                    @Override
+                    public void onThrowable(@NotNull Throwable error) {
+                        super.onThrowable(error);
+                        Messages.showErrorDialog("代码生成失败，当前插件 2.x 版本不兼容旧版的代码模板，请升级代码模板，代码模板升级指南请查看插件介绍。\n\n" + error.getMessage(), "生成代码失败");
+                        setVisible(true);
+                    }
+                });
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                Messages.showErrorDialog("代码生成失败，初始化代码生成处理器失败，请联系开发者。\n\n" + throwable.getMessage(), "生成代码失败");
+            }
+            configService.setDeveloper(developer);
+            configService.setOptions(options);
+            configService.setSettings(settings);
         });
     }
 
@@ -186,18 +226,6 @@ public class Main extends JFrame {
     public void showWindows() {
         setAlwaysOnTop(true);
         setAlwaysOnTop(false);
-    }
-
-    /**
-     * 完成操作
-     */
-    public void finishAction(String message) {
-        ContextUtils.refreshProject();
-        dispose();
-        Messages.showInfoMessage(message, "完成");
-        configService.setDeveloper(developer);
-        configService.setOptions(options);
-        configService.setSettings(settings);
     }
 
     /**

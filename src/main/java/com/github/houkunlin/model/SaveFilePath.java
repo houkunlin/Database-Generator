@@ -1,5 +1,6 @@
 package com.github.houkunlin.model;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.vo.Variable;
 import com.github.houkunlin.vo.impl.RootModel;
@@ -142,6 +143,18 @@ public class SaveFilePath {
 
     public boolean isOther() {
         return !types.contains(type);
+    }
+
+    public boolean isOverride(Options options) {
+        boolean isOverride = false;
+        if (options.isOverrideJava() && isJava()) {
+            isOverride = true;
+        } else if (options.isOverrideXml() && isXml()) {
+            isOverride = true;
+        } else if (options.isOverrideOther() && isOther()) {
+            isOverride = true;
+        }
+        return isOverride;
     }
 
     @Override
