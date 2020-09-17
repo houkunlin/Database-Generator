@@ -79,7 +79,8 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = "IU-${intellijVersion}"
-    setPlugins("DatabaseTools", "coverage", "java")
+    setPlugins("DatabaseTools", "java")
+    sandboxDirectory = "${rootProject.rootDir}/idea-sandbox"
 }
 
 configure<JavaPluginConvention> {
