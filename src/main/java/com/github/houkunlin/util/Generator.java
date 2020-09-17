@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * 代码生成工具
@@ -48,7 +49,7 @@ public class Generator {
     /**
      * 执行生成代码任务
      */
-    public void generator(RootModel rootModel, List<File> templateFiles) {
+    public void generator(RootModel rootModel, List<File> templateFiles, BiConsumer<Integer, File> progress) {
         if (rootModel == null || templateFiles == null || templateFiles.isEmpty()) {
             return;
         }
@@ -58,7 +59,11 @@ public class Generator {
         map.put("entity", rootModel.getEntity(settings));
         map.put("fields", rootModel.getFields());
         map.put("primary", rootModel.getPrimary());
-        for (File templateFile : templateFiles) {
+        for (int i = 0; i < templateFiles.size(); i++) {
+            File templateFile = templateFiles.get(i);
+            if (progress != null) {
+                progress.accept(i, templateFile);
+            }
             // 重置内容，方便使用默认配置
             Variable.resetVariables();
             try {
