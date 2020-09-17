@@ -18,8 +18,8 @@ public class FreemarkerUtils {
 
     public FreemarkerUtils(File rootPath) throws IOException {
         // 把freemarker的jar包添加到工程中
-        //创建一个Configuration对象
-        configuration = new Configuration();
+        // 创建一个Configuration对象
+        configuration = new Configuration(Configuration.VERSION_2_3_30);
         // 设置config的默认字符集。一般是utf-8
         configuration.setDefaultEncoding("utf-8");
         configuration.setDirectoryForTemplateLoading(rootPath);
