@@ -40,11 +40,21 @@ public class GeneratorTask extends Task.Modal {
 
     @Override
     public void run(@NotNull ProgressIndicator indicator) {
+        generator(indicator);
+        ContextUtils.refreshProject(project, indicator);
+        reformatCode(indicator);
+    }
+
+    public void generator(ProgressIndicator indicator) {
+        indicator.setText("正在准备数据 ......");
+        indicator.setText2("正在准备数据 ......");
+
         indicator.setIndeterminate(false);
         indicator.setFraction(0.0);
-        indicator.setText("正在准备数据 ......");
+
         int modelSize = rootModels.size();
         int templateSize = templates.size();
+
         double count = (modelSize * templateSize) * 1.0;
         indicator.setText("正在生成代码 ......");
         for (int i = 0; i < modelSize; i++) {
@@ -55,17 +65,11 @@ public class GeneratorTask extends Task.Modal {
                 indicator.setFraction((start + integer + 1) / count);
             });
         }
+        indicator.setText("生成代码完毕！");
         indicator.setText2("");
-        indicator.setIndeterminate(true);
-        refreshProject(indicator);
-        reformatCode(indicator);
-    }
 
-    /**
-     * 刷新项目
-     */
-    public void refreshProject(ProgressIndicator indicator) {
-        ContextUtils.refreshProject(project, indicator);
+        indicator.setFraction(1.0);
+        indicator.setIndeterminate(true);
     }
 
     /**
