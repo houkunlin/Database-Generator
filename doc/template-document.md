@@ -81,6 +81,17 @@ Type: `Object` Class: `com.github.houkunlin.vo.Variable`
 
 
 
+### `date` 时间信息变量
+
+该变量实际上是一个 `joda-time` 的 `DateTime` 对象，其值默认为 `DateTime.now()` 点击“生成代码”按钮那一刻的时间。
+
+只要把该变量当做 `joda-time` 的 `DateTime` 对象来使用就行了，示例：
+
+- `${date.toString("yyyy-MM-dd HH:mm:ss")}` 该返回结果一直是点击“生成代码”按钮那一刻的时间，也就是在生成代码的过程中得到的这个时间是不变的
+- `${date.now().toString("yyyy-MM-dd HH:mm:ss")}` 能够得到最新的时间信息，也就是渲染模板时的当前时间信息
+
+
+
 ### `table` 数据库表信息变量
 
 Type: `Object` Class: `com.github.houkunlin.vo.impl.TableImpl` 实现了 `com.github.houkunlin.vo.ITable` 接口
