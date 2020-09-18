@@ -9,7 +9,6 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.util.Computable;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
@@ -78,30 +77,19 @@ public class GeneratorTask extends Task.Modal {
      * @param indicator 进程指示器
      */
     public void reformatCode(@NotNull ProgressIndicator indicator) {
-        indicator.setText("正在格式化代码 ......");
+        indicator.setText("正在处理代码 ......");
+        indicator.setText2("重新格式化代码、优化导入、重新排列代码需要一点时间，请稍候 ......");
 
-        indicator.setFraction(0.0);
+        indicator.setIndeterminate(true);
 
-        WriteCommandAction.runWriteCommandAction(project, (Computable<List<PsiFile>>) () -> {
-            indicator.setText2("正在提交文件改动 ......");
+        WriteCommandAction.runWriteCommandAction(project, "CommitAllDocuments", null, () -> {
             // 提交所有改动，并非CVS中的提交文件
             PsiDocumentManager.getInstance(project).commitAllDocuments();
-            List<PsiFile> saveFiles = generator.getSaveFiles();
-            int countInt = saveFiles.size();
-            double count = countInt * 1.0;
-            for (int i = 0; i < saveFiles.size(); i++) {
-                PsiFile psiFile = saveFiles.get(i);
-                int index = i + 1;
-                indicator.setText2(String.format("[%s/%s] --> %s", index, countInt, psiFile.getName()));
-                indicator.setFraction(index / count);
-                FileUtils.getInstance().reformatCode(project, generator.getSaveFiles().toArray(new PsiFile[0]));
-            }
-            return null;
         });
+        FileUtils.getInstance().reformatCode(project, generator.getSaveFiles().toArray(new PsiFile[0]));
+
         indicator.setText("格式化代码完毕！");
         indicator.setText2("");
-
-        indicator.setFraction(1.0);
     }
 
     @Override
