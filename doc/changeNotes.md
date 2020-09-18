@@ -1,3 +1,14 @@
+- **2020-09-18: 2.4.0**
+    - ZH-CN
+      - feat: 增加LOGO图标
+      - feat: 生成代码后代码格式化
+      - feat: 生成代码过程中进度条展示
+      - feat: 新增 **`date`** 时间信息模板变量，详情请查看  **[模板变量文档](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md)**
+    - EN
+      - feat: Add LOGO icon
+      - feat: code formatting after generating code
+      - feat: progress bar display during code generation
+      - feat: Added **`date`** time information template variable, please check for details **[Template Variable Document](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md)**
 - **2020-08-21: 2.3.0**
     - ZH-CN
       - feat: 包名、路径配置支持持久化

@@ -38,5 +38,6 @@
 
 ## 参考代码
 - better-mybatis-generator https://github.com/kmaster/better-mybatis-generator
+- EasyCode https://github.com/makejavas/EasyCode
 
 
