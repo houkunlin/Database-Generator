@@ -62,6 +62,7 @@ dependencies {
     // implementation("org.apache.velocity:velocity-engine-core:2.2")
     // https://mvnrepository.com/artifact/com.ibeetl/beetl
     implementation("com.ibeetl:beetl:3.1.7.RELEASE")
+    implementation("joda-time:joda-time:+")
 
     // implementation("com.google.code.gson:gson:2.8.5")
     // https://mvnrepository.com/artifact/jalopy/jalopy

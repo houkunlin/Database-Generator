@@ -12,6 +12,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.util.ExceptionUtil;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class Generator {
         map.put("settings", settings);
         map.put("developer", developer);
         map.put("gen", Variable.getInstance());
+        map.put("date", DateTime.now());
     }
 
     /**
