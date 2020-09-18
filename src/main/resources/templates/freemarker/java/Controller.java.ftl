@@ -25,7 +25,7 @@ import java.util.List;
 * Controller：${entity.comment}
 *
 * @author ${developer.author}
-* @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
+* @date ${date.toString("yyyy-MM-dd HH:mm:ss")}
  */
 @RestController
 @RequestMapping("/${table.name}")

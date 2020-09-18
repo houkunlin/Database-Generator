@@ -15,7 +15,7 @@ import java.util.List;
 * Service：${entity.comment}
 *
 * @author ${developer.author}
-* @date ${.now?string["yyyy-MM-dd HH:mm:ss"]}
+* @date ${date.toString("yyyy-MM-dd HH:mm:ss")}
 */
 @CacheConfig(cacheNames = {${entity.name.serviceImpl}.CACHE_NAME})
 @Transactional(rollbackFor = Exception.class)

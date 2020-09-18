@@ -10,7 +10,7 @@ import java.util.List;
 * Service：${entity.comment}
 *
 * @author ${developer.author}
-* @date ${date(),'yyyy-MM-dd HH:mm:ss'}
+* @date ${@date.toString("yyyy-MM-dd HH:mm:ss")}
 */
 public interface ${entity.name.service} extends IService<${entity.name.entity}> {
     String CACHE_NAME = "${table.name}";

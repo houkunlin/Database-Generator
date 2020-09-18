@@ -10,7 +10,7 @@ import ${entity.packages.entity.full};
 * 存储库：${entity.comment}
 *
 * @author ${developer.author}
-* @date ${date(),'yyyy-MM-dd HH:mm:ss'}
+* @date ${@date.toString("yyyy-MM-dd HH:mm:ss")}
 */
 @Repository
 public interface ${entity.name.dao} extends BaseMapper<${entity.name.entity}> {
