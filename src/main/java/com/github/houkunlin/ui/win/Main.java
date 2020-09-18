@@ -159,24 +159,21 @@ public class Main extends JFrame {
 
         // 点击完成按钮
         finishButton.addActionListener(event -> {
-            // 用后台任务执行代码生成
-            ApplicationManager.getApplication().invokeLater(() -> {
-                try {
-                    List<File> allSelectFile = selectTemplate.getAllSelectFile();
-                    if (allSelectFile.isEmpty()) {
-                        Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
-                        return;
-                    }
-                    setVisible(false);
-                    Generator generator = new Generator(settings, options, developer);
-                    GeneratorTask generatorTask = new GeneratorTask(project, this, generator, allSelectFile, tableSetting.getRootModels());
-                    ProgressManager.getInstance().run(generatorTask);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                    setVisible(true);
-                    Messages.showErrorDialog("初始化代码生成处理器失败，请联系开发者。\n\n" + throwable.getMessage(), "生成代码失败");
+            try {
+                List<File> allSelectFile = selectTemplate.getAllSelectFile();
+                if (allSelectFile.isEmpty()) {
+                    Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
+                    return;
                 }
-            });
+                setVisible(false);
+                Generator generator = new Generator(settings, options, developer);
+                GeneratorTask generatorTask = new GeneratorTask(project, this, generator, allSelectFile, tableSetting.getRootModels());
+                ProgressManager.getInstance().run(generatorTask);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                setVisible(true);
+                Messages.showErrorDialog("初始化代码生成处理器失败，请联系开发者。\n\n" + throwable.getMessage(), "生成代码失败");
+            }
             configService.setDeveloper(developer);
             configService.setOptions(options);
             configService.setSettings(settings);

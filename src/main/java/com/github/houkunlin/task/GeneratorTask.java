@@ -4,12 +4,11 @@ import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.util.FileUtils;
 import com.github.houkunlin.util.Generator;
 import com.github.houkunlin.vo.impl.RootModel;
-import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +41,6 @@ public class GeneratorTask extends Task.Modal {
         indicator.setIndeterminate(false);
 
         generator(indicator);
-        reformatCode(indicator);
     }
 
     public void generator(ProgressIndicator indicator) {
@@ -66,37 +64,27 @@ public class GeneratorTask extends Task.Modal {
             });
         }
         indicator.setText("生成代码完毕！");
-        indicator.setText2("");
+        indicator.setText2("正在执行收尾工作，请稍候 ......");
 
         indicator.setFraction(1.0);
-    }
-
-    /**
-     * 格式化代码
-     *
-     * @param indicator 进程指示器
-     */
-    public void reformatCode(@NotNull ProgressIndicator indicator) {
-        indicator.setText("正在处理代码 ......");
-        indicator.setText2("重新格式化代码、优化导入、重新排列代码需要一点时间，请稍候 ......");
-
         indicator.setIndeterminate(true);
-
-        WriteCommandAction.runWriteCommandAction(project, "CommitAllDocuments", null, () -> {
-            // 提交所有改动，并非CVS中的提交文件
-            PsiDocumentManager.getInstance(project).commitAllDocuments();
-        });
-        FileUtils.getInstance().reformatCode(project, generator.getSaveFiles().toArray(new PsiFile[0]));
-
-        indicator.setText("格式化代码完毕！");
-        indicator.setText2("");
+        ContextUtils.refreshProject();
     }
 
     @Override
     public void onSuccess() {
         super.onSuccess();
         windows.dispose();
-        ContextUtils.refreshProject();
+        DumbService dumbService = DumbService.getInstance(project);
+        if (dumbService.isDumb()) {
+            dumbService.showDumbModeNotification("正在等待其他任务完成后才能进行格式化代码操作 ...");
+        }
+        dumbService.smartInvokeLater(() -> {
+            List<PsiFile> saveFiles = generator.getSaveFiles();
+            if (!saveFiles.isEmpty()) {
+                FileUtils.getInstance().reformatCode(project, saveFiles.toArray(new PsiFile[0]));
+            }
+        });
         Messages.showInfoMessage(String.format("代码构建完毕，涉及 %s 个数据库表和 %s 个模板文件，总共生成 %s 个文件。", rootModels.size(), templates.size(), generator.getSaveFiles().size()), "完成");
     }
 
