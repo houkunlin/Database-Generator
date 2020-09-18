@@ -22,7 +22,7 @@ import java.util.List;
  * @author HouKunLin
  * @date 2020/9/18 0018 0:31
  */
-public class GeneratorTask extends Task.Modal {
+public class GeneratorTask extends Task.Backgroundable {
     private final Project project;
     private final JFrame windows;
     private final Generator generator;
@@ -41,7 +41,6 @@ public class GeneratorTask extends Task.Modal {
     @Override
     public void run(@NotNull ProgressIndicator indicator) {
         generator(indicator);
-        ContextUtils.refreshProject(project, indicator);
         reformatCode(indicator);
     }
 
@@ -79,11 +78,25 @@ public class GeneratorTask extends Task.Modal {
      */
     public void reformatCode(@NotNull ProgressIndicator indicator) {
         indicator.setText("正在格式化代码 ......");
+
+        indicator.setIndeterminate(false);
+        indicator.setFraction(0.0);
+
         WriteCommandAction.runWriteCommandAction(project, (Computable<List<PsiFile>>) () -> {
-            FileUtils.getInstance().reformatCode(project, generator.getSaveFiles().toArray(new PsiFile[0]));
+            List<PsiFile> saveFiles = generator.getSaveFiles();
+            for (int i = 0; i < saveFiles.size(); i++) {
+                PsiFile psiFile = saveFiles.get(i);
+                indicator.setText2(String.format("格式化代码 --> %s", psiFile.getName()));
+                indicator.setFraction((i + 1) * 1.0 / saveFiles.size());
+                FileUtils.getInstance().reformatCode(project, generator.getSaveFiles().toArray(new PsiFile[0]));
+            }
             return null;
         });
         indicator.setText("格式化代码完毕！");
+        indicator.setText2("");
+
+        indicator.setFraction(1.0);
+        indicator.setIndeterminate(true);
     }
 
     @Override
