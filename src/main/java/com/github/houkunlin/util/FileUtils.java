@@ -135,7 +135,7 @@ public class FileUtils {
         processor = new RearrangeCodeProcessor(processor);
 
         // 清理代码，进行旧版本兼容，旧版本的IDEA尚未提供该处理器
-        try {
+        /*try {
             Class<AbstractLayoutCodeProcessor> codeCleanupCodeProcessorCls = (Class<AbstractLayoutCodeProcessor>) Class.forName("com.intellij.codeInsight.actions.CodeCleanupCodeProcessor");
             Constructor<AbstractLayoutCodeProcessor> constructor = codeCleanupCodeProcessorCls.getConstructor(AbstractLayoutCodeProcessor.class);
             processor = constructor.newInstance(processor);
@@ -144,7 +144,7 @@ public class FileUtils {
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             // 抛出未知异常
             ExceptionUtil.rethrow(e);
-        }
+        }*/
         // 执行处理
         processor.run();
     }
