@@ -3,6 +3,7 @@ package com.github.houkunlin.util;
 import com.github.houkunlin.model.TableColumnType;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
+import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
@@ -157,30 +158,18 @@ public class ContextUtils {
      * 刷新项目
      */
     public static void refreshProject() {
-        refreshProject(project, null);
-    }
-
-    /**
-     * 刷新项目
-     */
-    public static void refreshProject(Project project, ProgressIndicator indicator) {
-        if (indicator != null) {
-            indicator.setText("正在刷新项目 ......");
-        } else {
-            ProgressManager.progress("正在刷新项目 ......");
-        }
-        Consumer<VirtualFile> refresh = (virtualFile) -> {
-            if (virtualFile != null) {
-                virtualFile.refresh(false, true);
+        ProgressManager.getInstance().run(new Task.Backgroundable(project, "刷新项目 ...") {
+            @Override
+            public void run(@NotNull ProgressIndicator indicator) {
+                Consumer<VirtualFile> refresh = (virtualFile) -> {
+                    if (virtualFile != null) {
+                        virtualFile.refresh(false, true);
+                    }
+                };
+                refresh.accept(LocalFileSystem.getInstance().findFileByPath(Objects.requireNonNull(project.getBasePath())));
+                refresh.accept(project.getProjectFile());
+                refresh.accept(project.getWorkspaceFile());
             }
-        };
-        refresh.accept(LocalFileSystem.getInstance().findFileByPath(Objects.requireNonNull(project.getBasePath())));
-        refresh.accept(project.getProjectFile());
-        refresh.accept(project.getWorkspaceFile());
-        if (indicator != null) {
-            indicator.setText("刷新项目完毕！");
-        } else {
-            ProgressManager.progress("刷新项目完毕！");
-        }
+        });
     }
 }

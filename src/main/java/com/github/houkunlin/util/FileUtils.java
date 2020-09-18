@@ -105,13 +105,10 @@ public class FileUtils {
             } else {
                 if (overrideFile) {
                     // 文档管理器
-                    PsiDocumentManager psiDocumentManager = PsiDocumentManager.getInstance(project);
-                    Document document = psiDocumentManager.getDocument(oldFile);
+                    Document document = PsiDocumentManager.getInstance(project).getDocument(oldFile);
                     LOG.assertTrue(document != null);
                     // 对旧文件进行替换操作
                     document.setText(content);
-                    // 提交所有改动，并非CVS中的提交文件
-                    psiDocumentManager.commitAllDocuments();
                 }
                 return oldFile;
             }
