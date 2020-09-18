@@ -80,7 +80,7 @@ public class Generator {
                 }
                 File saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
                 PsiFile psiFile = FileUtils.getInstance().saveFileContent(project, saveFile, result, saveFilePath.isOverride(options));
-                if (psiFile != null) {
+                if (psiFile != null && !saveFiles.contains(psiFile)) {
                     saveFiles.add(psiFile);
                 }
             } catch (Throwable e) {
