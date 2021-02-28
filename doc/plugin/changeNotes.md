@@ -1,3 +1,14 @@
+- **2021-02-28: 2.5.0**
+
+    - **&gt;&gt; ZH-CN**
+    - feat: 代码模板文件默认放到：Scratches and Consoles/Extensions
+    - feat: 同时支持以下模板路径：${project.dir}/.idea/generator/templates 和 ${project.dir}/generator/templates
+    - fix: 修复保存文件时可能出现因 CRLF 换行符问题导致的保存文件错误
+    - fix: 增加一个 URI 请求路径的输入项，可以在模板变量中引用它来做 API 接口前缀
+    - fix: 增加 all-variable.ftl 代码模板涵盖所有的变量使用说明情况
+    - other: upgrade beetl 3.3.2 / upgrade freemarker 2.3.31 / upgrade joda-time 2.10.10
+    - other: 优化部分代码
+
 - **2020-09-18: 2.4.0**
 
     - **&gt;&gt; ZH-CN**

@@ -4,6 +4,9 @@
 模板中会初始化8个变量，其中有3个变量为配置信息变量，有5个变量为数据库相关信息变量。
 
 
+新增了一个 `src/main/resources/templates/all-variable.ftl` 代码模板来说明所有变量的使用和对应的结果。
+
+
 
 ## 模板变量关系图
 
@@ -129,6 +132,7 @@ Type: `Object` Class: `com.github.houkunlin.vo.impl.EntityImpl` 实现了 `com.g
 | ----|----|----|
 |`name`|EntityName<br>(本文底部)|实体名称对象|
 |`comment`|String|实体注释对象（可通过UI修改）|
+|`uri`|String|库表对应的请求API前缀（可通过UI修改）|
 |`packages`|EntityPackage<br/>(本文底部)|实体字段中需要引入的包信息。直接使用该变量将返回Java导入包的代码|
 
 
