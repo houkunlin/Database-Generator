@@ -23,9 +23,6 @@ import java.util.stream.Collectors;
 
 /**
  * 分页排序参数处理
- *
- * @author HouKunLin
- * @date ${date(),'yyyy-MM-dd HH:mm:ss'}
  */
 public class MyBatisUtils {
     /**

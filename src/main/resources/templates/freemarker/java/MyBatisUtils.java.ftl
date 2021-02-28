@@ -23,9 +23,6 @@ import java.util.stream.Collectors;
 
 /**
  * 分页排序参数处理
- *
- * @author HouKunLin
- * @date 2019/12/20 0020 11:40
  */
 public class MyBatisUtils {
     /**
