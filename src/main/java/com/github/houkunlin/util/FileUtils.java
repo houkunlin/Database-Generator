@@ -90,6 +90,8 @@ public class FileUtils {
      * @return 返回这个新保存的文件对象
      */
     public PsiFile saveFileContent(Project project, File saveFile, String content, boolean overrideFile) {
+        // 在 2021-02-28 测试的时候发现，当内容存在 CRLF 换行符的时候会报错，只能使用 LF 换行符
+        String saveContent = content.replace("\r\n", "\n");
         return WriteCommandAction.runWriteCommandAction(project, (Computable<PsiFile>) () -> {
             // 保存文件的路径、目录对象
             PsiDirectory psiDirectory = getPsiDirectory(project, saveFile);
@@ -101,7 +103,7 @@ public class FileUtils {
             // 保存或替换文件
             PsiFile oldFile = psiDirectory.findFile(fileName);
             if (oldFile == null) {
-                PsiFile psiFile = PsiFileFactory.getInstance(project).createFileFromText(fileName, FileTypes.UNKNOWN, content);
+                PsiFile psiFile = PsiFileFactory.getInstance(project).createFileFromText(fileName, FileTypes.UNKNOWN, saveContent);
                 return (PsiFile) psiDirectory.add(psiFile);
             } else {
                 if (overrideFile) {
@@ -110,7 +112,7 @@ public class FileUtils {
                     Document document = documentManager.getDocument(oldFile);
                     LOG.assertTrue(document != null);
                     // 对旧文件进行替换操作
-                    document.setText(content);
+                    document.setText(saveContent);
                     documentManager.commitDocument(document);
                 }
                 return oldFile;
