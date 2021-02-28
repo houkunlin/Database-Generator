@@ -31,7 +31,7 @@ val intellijVersion: String = getProperty("intellijVersion", "2020.2")
 // intellij 上传插件 Token
 val intellijPublishToken: String = getProperty("intellijPublishToken", "")
 // 插件版本
-val pluginVersion: String = getProperty("pluginVersion", "2.4.0")
+val pluginVersion: String = getProperty("pluginVersion", "2.5.0")
 
 group = "com.github.houkunlin"
 version = pluginVersion
@@ -55,14 +55,14 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.guava/guava
     // implementation("com.google.guava:guava:29.0-jre")
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
-    implementation("org.freemarker:freemarker:2.3.30")
+    implementation("org.freemarker:freemarker:2.3.31")
     // https://mvnrepository.com/artifact/org.apache.velocity/velocity
     // implementation("org.apache.velocity:velocity:1.7")
     // https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
     // implementation("org.apache.velocity:velocity-engine-core:2.2")
     // https://mvnrepository.com/artifact/com.ibeetl/beetl
-    implementation("com.ibeetl:beetl:3.1.7.RELEASE")
-    implementation("joda-time:joda-time:+")
+    implementation("com.ibeetl:beetl:3.3.2.RELEASE")
+    implementation("joda-time:joda-time:2.10.10")
 
     // implementation("com.google.code.gson:gson:2.8.5")
     // https://mvnrepository.com/artifact/jalopy/jalopy
