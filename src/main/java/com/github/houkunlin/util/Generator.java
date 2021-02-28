@@ -33,22 +33,50 @@ public class Generator {
     private final Settings settings;
     private final Options options;
     private final Map<String, Object> map;
-    private final TemplateUtils templateUtils;
     private final List<PsiFile> saveFiles;
-    private final File templateRootPath = PluginUtils.getExtensionPluginDirFile(PluginUtils.TEMPLATE_DIR);
     private final Project project;
+    private final Map<File, TemplateUtils> templates = new HashMap<>();
 
-    public Generator(Settings settings, Options options, Developer developer) throws IOException {
+    public Generator(Settings settings, Options options, Developer developer) {
         this.project = PluginUtils.getProject();
         this.settings = settings;
         this.options = options;
-        this.templateUtils = new TemplateUtils(templateRootPath);
         this.saveFiles = new ArrayList<>();
         this.map = new HashMap<>(8);
         map.put("settings", settings);
         map.put("developer", developer);
         map.put("gen", Variable.getInstance());
         map.put("date", DateTime.now());
+    }
+
+    private File getTemplateRoot(File templateFile) {
+        final String absolutePath = templateFile.getAbsolutePath();
+        File file = PluginUtils.getProjectWorkspacePluginDir();
+        if (absolutePath.startsWith(file.getAbsolutePath())) {
+            return file;
+        }
+        file = PluginUtils.getProjectPluginDir();
+        if (absolutePath.startsWith(file.getAbsolutePath())) {
+            return file;
+        }
+        file = PluginUtils.getExtensionPluginDir();
+        if (absolutePath.startsWith(file.getAbsolutePath())) {
+            return file;
+        }
+        throw new RuntimeException("无法找到代码模板文件在插件中的根路径：" + templateFile.getAbsolutePath());
+    }
+
+    private TemplateUtils getTemplate(File templateRoot) {
+        TemplateUtils utils = templates.get(templateRoot);
+        if (utils == null) {
+            try {
+                utils = new TemplateUtils(templateRoot);
+                templates.put(templateRoot, utils);
+            } catch (IOException e) {
+                throw new RuntimeException("创建 Root 模板处理器失败：" + templateRoot.getAbsolutePath() + "\r\n" + e.getMessage(), e);
+            }
+        }
+        return utils;
     }
 
     /**
@@ -66,17 +94,18 @@ public class Generator {
         for (int i = 0; i < templateFiles.size(); i++) {
             File templateFile = templateFiles.get(i);
 
-            String templateFilename = FileUtils.relativePath(templateRootPath, templateFile);
+            final File templateRoot = getTemplateRoot(templateFile);
+            String templateFilename = FileUtils.relativePath(templateRoot, templateFile);
             if (progress != null) {
                 progress.accept(i, templateFilename);
             }
             // 重置内容，方便使用默认配置
             Variable.resetVariables();
-            generatorTemplateFile(rootModel, templateFile, templateFilename);
+            generatorTemplateFile(rootModel, getTemplate(templateRoot), templateFile, templateFilename);
         }
     }
 
-    private void generatorTemplateFile(RootModel rootModel, File templateFile, String templateFilename) {
+    private void generatorTemplateFile(RootModel rootModel, TemplateUtils templateUtils, File templateFile, String templateFilename) {
         try {
             String result = templateUtils.generatorFileToString(templateFilename, map);
             if (StringUtils.isBlank(result)) {

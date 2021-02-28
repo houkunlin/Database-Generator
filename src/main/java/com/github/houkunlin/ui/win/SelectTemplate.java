@@ -8,7 +8,10 @@ import com.github.houkunlin.util.PluginUtils;
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import java.io.File;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,14 +33,58 @@ public class SelectTemplate implements IWindows {
     private JPanel content;
 
     public SelectTemplate() {
-        File templatesPath = PluginUtils.getWorkspaceFile(PluginUtils.TEMPLATE_DIR);
-        File[] files = templatesPath.listFiles();
-        root = new CheckBoxTreeNode("代码模板文件");
-        getTreeData(root, files);
+        File extensionPluginPath = PluginUtils.getExtensionPluginDirFile(PluginUtils.TEMPLATE_DIR);
+        File projectPluginPath = PluginUtils.getProjectPluginDirFile(PluginUtils.TEMPLATE_DIR);
+        File projectWorkspacePluginPath = PluginUtils.getProjectWorkspacePluginDirFile(PluginUtils.TEMPLATE_DIR);
+
+        root = new CheckBoxTreeNode("Code Template File");
+
+        CheckBoxTreeNode extTemplate = new CheckBoxTreeNode("Scratches and Consoles - Extensions");
+        getTreeData(extTemplate, extensionPluginPath.listFiles());
+
+        CheckBoxTreeNode projectTemplate = new CheckBoxTreeNode("Current Project");
+        getTreeData(projectTemplate, projectPluginPath.listFiles());
+
+        CheckBoxTreeNode projectWorkspaceTemplate = new CheckBoxTreeNode("Project - IDE");
+        getTreeData(projectWorkspaceTemplate, projectWorkspacePluginPath.listFiles());
+
+        root.add(extTemplate);
+        root.add(projectWorkspaceTemplate);
+        if (projectTemplate.getChildCount() != 0) {
+            root.add(projectTemplate);
+        }
+
         tree.addMouseListener(new CheckBoxTreeNodeSelectionListener());
         tree.setModel(new DefaultTreeModel(root));
         tree.setCellRenderer(new CheckBoxTreeCellRenderer());
         tree.setShowsRootHandles(true);
+
+        expandDepthNode(new TreePath(root), true, 2);
+    }
+
+    /**
+     * 展开树的所有节点的方法
+     *
+     * @param parent root
+     * @param expand true false
+     */
+    private void expandDepthNode(TreePath parent, boolean expand, int depth) {
+        if (depth-- <= 0) {
+            return;
+        }
+        TreeNode node = (TreeNode) parent.getLastPathComponent();
+        if (node.getChildCount() >= 0) {
+            for (Enumeration e = node.children(); e.hasMoreElements(); ) {
+                TreeNode n = (TreeNode) e.nextElement();
+                TreePath path = parent.pathByAddingChild(n);
+                expandDepthNode(path, expand, depth);
+            }
+        }
+        if (expand) {
+            tree.expandPath(parent);
+        } else {
+            tree.collapsePath(parent);
+        }
     }
 
     private void getTreeData(DefaultMutableTreeNode treeNode, File[] files) {
