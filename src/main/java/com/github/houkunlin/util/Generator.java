@@ -35,7 +35,7 @@ public class Generator {
     private final Map<String, Object> map;
     private final TemplateUtils templateUtils;
     private final List<PsiFile> saveFiles;
-    private final File templateRootPath = PluginUtils.getExtensionDirFile(PluginUtils.TEMPLATE_DIR);
+    private final File templateRootPath = PluginUtils.getExtensionPluginDirFile(PluginUtils.TEMPLATE_DIR);
     private final Project project;
 
     public Generator(Settings settings, Options options, Developer developer) throws IOException {

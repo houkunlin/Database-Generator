@@ -30,7 +30,7 @@ public class SyncResources implements Runnable {
     @Override
     public void run() {
         checkOldVersion();
-        File initFile = PluginUtils.getExtensionDirFile(INIT_FILENAME);
+        File initFile = PluginUtils.getExtensionPluginDirFile(INIT_FILENAME);
         boolean initFileExists = initFile.exists();
         if (initFileExists) {
             // 不再强制覆盖 初始化文件
@@ -53,11 +53,11 @@ public class SyncResources implements Runnable {
     }
 
     private void checkOldVersion() {
-        final File initFile = PluginUtils.getProjectDirFile(INIT_FILENAME);
+        final File initFile = PluginUtils.getProjectPluginDirFile(INIT_FILENAME);
         if (initFile.exists()) {
             int dialog = Messages.showYesNoDialog(project, "在当前项目路径下发现 generator/init.properties 配置文件，请问是否需要把 generator/ 迁移到 .idea/generator/ 路径？\n\n我们建议您应该这样操作！", "插件配置迁移", Messages.getQuestionIcon());
             if (dialog == 0) {
-                if (!PluginUtils.getProjectDir().renameTo(PluginUtils.getProjectWorkspaceDir())) {
+                if (!PluginUtils.getProjectPluginDir().renameTo(PluginUtils.getProjectWorkspacePluginDir())) {
                     Messages.showWarningDialog("请手动把 generator/ 迁移到 .idea/generator/ 路径！", "迁移失败");
                 } else {
                     PluginUtils.refreshProject();
@@ -84,7 +84,7 @@ public class SyncResources implements Runnable {
             }
             String content = IO.read(inputStream);
 
-            FileUtils.copyFile(project, PluginUtils.getExtensionDirFile(filePath), content, true);
+            FileUtils.copyFile(project, PluginUtils.getExtensionPluginDirFile(filePath), content, true);
         }
     }
 }

@@ -37,9 +37,9 @@ public class PluginUtils {
      */
     private static TableColumnType[] columnTypes;
 
-    private static File extensionDir;
-    private static File projectDir;
-    private static File projectWorkspaceDir;
+    private static File extensionPluginDir;
+    private static File projectPluginDir;
+    private static File projectWorkspacePluginDir;
 
     private PluginUtils() {
     }
@@ -48,42 +48,42 @@ public class PluginUtils {
         return project;
     }
 
-    public static File getExtensionDir() {
-        return extensionDir;
+    public static File getExtensionPluginDir() {
+        return extensionPluginDir;
     }
 
-    public static File getProjectDir() {
-        return projectDir;
+    public static File getProjectPluginDir() {
+        return projectPluginDir;
     }
 
-    public static File getProjectWorkspaceDir() {
-        return projectWorkspaceDir;
+    public static File getProjectWorkspacePluginDir() {
+        return projectWorkspacePluginDir;
     }
 
     public static void setProject(Project project) {
         PluginUtils.project = project;
 
-        extensionDir = new File(PathManager.getConfigPath(), "extensions/" + PLUGIN_ID);
-        projectDir = new File(project.getBasePath(), PROJECT_WORK_DIR);
-        projectWorkspaceDir = new File(project.getBasePath(), ".idea/" + PROJECT_WORK_DIR);
+        extensionPluginDir = new File(PathManager.getConfigPath(), "extensions/" + PLUGIN_ID);
+        projectPluginDir = new File(project.getBasePath(), PROJECT_WORK_DIR);
+        projectWorkspacePluginDir = new File(project.getBasePath(), ".idea/" + PROJECT_WORK_DIR);
 
-        mkdirs(extensionDir);
+        mkdirs(extensionPluginDir);
     }
 
-    public static File getExtensionDirFile(String relativeFilepath) {
-        File file = new File(extensionDir, relativeFilepath);
+    public static File getExtensionPluginDirFile(String relativeFilepath) {
+        File file = new File(extensionPluginDir, relativeFilepath);
         mkdirs(file.getParentFile());
         return file;
     }
 
-    public static File getProjectDirFile(String relativeFilepath) {
-        File file = new File(projectDir, relativeFilepath);
+    public static File getProjectPluginDirFile(String relativeFilepath) {
+        File file = new File(projectPluginDir, relativeFilepath);
         mkdirs(file.getParentFile());
         return file;
     }
 
-    public static File getProjectWorkspaceDirFile(String relativeFilepath) {
-        File file = new File(projectWorkspaceDir, relativeFilepath);
+    public static File getProjectWorkspacePluginDirFile(String relativeFilepath) {
+        File file = new File(projectWorkspacePluginDir, relativeFilepath);
         mkdirs(file.getParentFile());
         return file;
     }
@@ -168,7 +168,7 @@ public class PluginUtils {
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "刷新插件工作空间 ...") {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
-                VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(PluginUtils.getExtensionDir());
+                VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(PluginUtils.getExtensionPluginDir());
                 if (virtualFile != null) {
                     virtualFile.refresh(false, true);
                 }

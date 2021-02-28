@@ -53,7 +53,7 @@ public class JsonUtils {
      */
     public static <T> T parseJson(Class<T> tClass, String resources) {
         try {
-            File jsonFile = PluginUtils.getExtensionDirFile(resources);
+            File jsonFile = PluginUtils.getExtensionPluginDirFile(resources);
             if (jsonFile.exists()) {
                 return parse(tClass, new FileInputStream(jsonFile));
             }
