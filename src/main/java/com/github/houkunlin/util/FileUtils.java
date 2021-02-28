@@ -15,9 +15,12 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
 import com.intellij.util.ExceptionUtil;
+import lombok.NonNull;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * 文件处理工具
@@ -132,5 +135,49 @@ public class FileUtils {
         processor = new RearrangeCodeProcessor(processor);
         // 执行处理
         processor.run();
+    }
+
+    public static boolean copyFile(InputStream inputStream, String fullFileName) {
+        return copyFile(inputStream, new File(fullFileName));
+    }
+
+    public static boolean copyFile(InputStream inputStream, File output) {
+        try (inputStream;
+             FileOutputStream fos = new FileOutputStream(output)) {
+            byte[] buf = new byte[1024];
+            int i;
+            while ((i = inputStream.read(buf)) != -1) {
+                fos.write(buf, 0, i);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 获取文件的相对路径
+     *
+     * @param basePath 基础路径
+     * @param file     子路径文件
+     * @return 文件的相对路径
+     */
+    public static String relativePath(@NonNull File basePath, @NonNull File file) {
+        return relativePath(basePath.getAbsolutePath(), file);
+    }
+
+    /**
+     * 获取文件的相对路径
+     *
+     * @param basePath 基础路径
+     * @param file     子路径文件
+     * @return 文件的相对路径
+     */
+    public static String relativePath(@NonNull String basePath, @NonNull File file) {
+        String fileAbsolutePath = file.getAbsolutePath();
+        if (fileAbsolutePath.startsWith(basePath)) {
+            return fileAbsolutePath.substring(basePath.length() + 1).replace("\\", "/");
+        }
+        return fileAbsolutePath.replace("\\", "/");
     }
 }

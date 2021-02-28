@@ -66,47 +66,4 @@ public class IO {
             }
         }
     }
-
-
-    /**
-     * 保存内容到文件
-     *
-     * @param file   保存的文件
-     * @param result 文件内容信息
-     * @throws IOException 异常
-     */
-    public static void writeToFile(File file, String result) throws IOException {
-        writeToFile(file, new ByteArrayInputStream(result.getBytes()));
-    }
-
-    /**
-     * 保存内容到文件
-     *
-     * @param file        保存的文件
-     * @param inputStream 文件输入流
-     * @throws IOException 异常
-     */
-    public static void writeToFile(File file, InputStream inputStream) throws IOException {
-        if (file == null) {
-            return;
-        }
-        File parentFile = file.getParentFile();
-        if (!parentFile.exists()) {
-            if (!parentFile.mkdirs()) {
-                Messages.showMessageDialog("在保存 \"" + file + "\"文件时，创建\"" + parentFile + "\"路径失败", "创建路径失败", Messages.getErrorIcon());
-            }
-        }
-        OutputStream outputStream = new FileOutputStream(file);
-        byte[] buf = new byte[1024];
-
-        while (true) {
-            int read = inputStream.read(buf, 0, buf.length);
-            if (read == -1) {
-                break;
-            }
-            outputStream.write(buf, 0, read);
-        }
-        outputStream.flush();
-        outputStream.close();
-    }
 }
