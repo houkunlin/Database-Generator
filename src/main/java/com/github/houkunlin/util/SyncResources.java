@@ -68,8 +68,10 @@ public class SyncResources implements Runnable {
             }
         }
 
-        final File initFile1 = PluginUtils.getProjectPluginDirFile(INIT_FILENAME);
-        final File initFile2 = PluginUtils.getProjectWorkspacePluginDirFile(INIT_FILENAME);
+        final File projectPluginDir = PluginUtils.getProjectPluginDir();
+        final File projectWorkspacePluginDir = PluginUtils.getProjectWorkspacePluginDir();
+        final File initFile1 = new File(projectPluginDir, INIT_FILENAME);
+        final File initFile2 = new File(projectWorkspacePluginDir, INIT_FILENAME);
         if (initFile1.exists() && !initFile2.exists()) {
             int dialog = Messages.showYesNoDialog(project,
                     "在当前项目路径下发现 generator/init.properties 配置文件，请问是否需要把 generator/ 迁移到 .idea/generator/ 路径？\n\n我们建议您应该这样操作！",
@@ -77,9 +79,23 @@ public class SyncResources implements Runnable {
                     Messages.getQuestionIcon(),
                     getDoNotAskOption(otherConfig));
             if (dialog == 0) {
-                if (!PluginUtils.getProjectPluginDir().renameTo(PluginUtils.getProjectWorkspacePluginDir())) {
+                // 当 projectWorkspacePluginDir.exists() == false 时，projectWorkspacePluginDir.listFiles() == null
+                final File[] listFiles = projectWorkspacePluginDir.listFiles();
+                if (listFiles != null && listFiles.length > 0) {
+                    // 此时 projectWorkspacePluginDir 路径一定存在，并且路径下一定存在文件
+                    Messages.showWarningDialog(".idea/generator/ 路径下存在文件，请手动把 generator/ 迁移到 .idea/generator/ 路径！", "迁移失败");
+                    return;
+                }
+                if (projectWorkspacePluginDir.exists()) {
+                    // 此时 projectWorkspacePluginDir 一定是一个空的文件夹，可以直接删除
+                    projectWorkspacePluginDir.delete();
+                }
+                if (!projectPluginDir.renameTo(projectWorkspacePluginDir)) {
                     Messages.showWarningDialog("请手动把 generator/ 迁移到 .idea/generator/ 路径！", "迁移失败");
                 } else {
+                    if (projectPluginDir.exists()) {
+                        projectPluginDir.delete();
+                    }
                     PluginUtils.refreshProject();
                 }
             }
