@@ -1,3 +1,7 @@
+config/developer.json
+config/options.json
+config/settings.json
+config/types.json
 templates/beetl/java/Controller.java.btl
 templates/beetl/java/Entity.java.btl
 templates/beetl/java/Mapper.xml.btl
