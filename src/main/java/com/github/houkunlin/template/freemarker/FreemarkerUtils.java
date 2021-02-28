@@ -1,6 +1,5 @@
 package com.github.houkunlin.template.freemarker;
 
-import com.github.houkunlin.util.ContextUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -34,8 +33,8 @@ public class FreemarkerUtils {
      * @throws IOException       IO异常
      * @throws TemplateException 渲染模板失败
      */
-    public String generatorToString(File templateFile, Object model) throws IOException, TemplateException {
-        Template template = configuration.getTemplate(ContextUtils.getTemplateRelativePath(templateFile));
+    public String generatorFileToString(String templateFile, Object model) throws IOException, TemplateException {
+        Template template = configuration.getTemplate(templateFile);
         Writer out = new StringWriter();
         template.process(model, out);
         return out.toString();

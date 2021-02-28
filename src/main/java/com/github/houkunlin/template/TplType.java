@@ -31,7 +31,11 @@ public enum TplType {
     ;
 
     public static TplType create(File file) {
-        String extension = FilenameUtils.getExtension(file.getName());
+        return create(file.getName());
+    }
+
+    public static TplType create(String file) {
+        String extension = FilenameUtils.getExtension(file);
         if (StringUtils.isBlank(extension)) {
             return NONE;
         }

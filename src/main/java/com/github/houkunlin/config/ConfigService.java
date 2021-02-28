@@ -1,6 +1,6 @@
 package com.github.houkunlin.config;
 
-import com.github.houkunlin.util.ReadJsonConfig;
+import com.github.houkunlin.util.PluginUtils;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
@@ -27,9 +27,12 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
     private Settings settings;
 
     public ConfigService() {
-        developer = ReadJsonConfig.getDeveloper();
-        options = ReadJsonConfig.getOptions();
-        settings = ReadJsonConfig.getSettings();
+        developer = PluginUtils.getConfig(Developer.class);
+        options = PluginUtils.getConfig(Options.class);
+        settings = PluginUtils.getConfig(Settings.class);
+        assert developer != null;
+        assert options != null;
+        assert settings != null;
     }
 
     @Nullable

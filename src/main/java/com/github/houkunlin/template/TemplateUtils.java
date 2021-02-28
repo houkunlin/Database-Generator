@@ -33,14 +33,14 @@ public class TemplateUtils {
      * @return 渲染结果
      * @throws IOException IO异常
      */
-    public String generatorToString(File templateFile, Map<String, Object> model) throws Exception {
+    public String generatorFileToString(String templateFile, Map<String, Object> model) throws Exception {
         switch (TplType.create(templateFile)) {
             case BEETL:
-                return beetlUtils.generatorToString(templateFile, model);
+                return beetlUtils.generatorFileToString(templateFile, model);
             case VELOCITY:
-                return velocityUtils.generatorToString(templateFile, model);
+                return velocityUtils.generatorFileToString(templateFile, model);
             case FREEMARKER:
-                return freemarkerUtils.generatorToString(templateFile, model);
+                return freemarkerUtils.generatorFileToString(templateFile, model);
             default:
         }
         return "";

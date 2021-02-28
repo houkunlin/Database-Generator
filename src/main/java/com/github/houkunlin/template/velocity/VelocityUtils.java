@@ -1,6 +1,5 @@
 package com.github.houkunlin.template.velocity;
 
-import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.util.IO;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -39,9 +38,9 @@ public class VelocityUtils {
      * @return 渲染结果
      * @throws IOException IO异常
      */
-    public String generatorToString(File templateFile, Map<String, Object> model) throws Exception {
+    public String generatorFileToString(String templateFile, Map<String, Object> model) throws Exception {
         VelocityContext context = new VelocityContext(model);
-        Template template = engine.getTemplate(ContextUtils.getTemplateRelativePath(templateFile));
+        Template template = engine.getTemplate(templateFile);
         Writer out = new StringWriter();
         template.merge(context, out);
         return out.toString();

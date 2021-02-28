@@ -2,8 +2,7 @@ package com.github.houkunlin.action;
 
 import com.github.houkunlin.config.ConfigService;
 import com.github.houkunlin.ui.win.Main;
-import com.github.houkunlin.util.ContextUtils;
-import com.github.houkunlin.util.SyncResources;
+import com.github.houkunlin.util.PluginUtils;
 import com.intellij.database.psi.DbTable;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -49,8 +48,8 @@ public class MainAction extends AnAction {
             Messages.showErrorDialog("无法获取到当前项目的 Project 对象", "错误");
             return;
         }
-        ContextUtils.setProject(project);
-        new SyncResources().run();
+        PluginUtils.setProject(project);
+        PluginUtils.syncResources();
         ConfigService configService = ConfigService.getInstance(project);
         if (configService == null) {
             Messages.showWarningDialog("初始化配置信息失败，但并不影响继续使用！", "错误");

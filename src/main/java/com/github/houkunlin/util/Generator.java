@@ -35,11 +35,14 @@ public class Generator {
     private final Map<String, Object> map;
     private final TemplateUtils templateUtils;
     private final List<PsiFile> saveFiles;
+    private final File templateRootPath = PluginUtils.getWorkspaceFile(PluginUtils.TEMPLATE_DIR);
+    private final Project project;
 
     public Generator(Settings settings, Options options, Developer developer) throws IOException {
+        this.project = PluginUtils.getProject();
         this.settings = settings;
         this.options = options;
-        this.templateUtils = new TemplateUtils(ContextUtils.getTemplatesPath());
+        this.templateUtils = new TemplateUtils(templateRootPath);
         this.saveFiles = new ArrayList<>();
         this.map = new HashMap<>(8);
         map.put("settings", settings);
@@ -51,11 +54,10 @@ public class Generator {
     /**
      * 执行生成代码任务
      */
-    public void generator(RootModel rootModel, List<File> templateFiles, BiConsumer<Integer, File> progress) {
+    public void generator(RootModel rootModel, List<File> templateFiles, BiConsumer<Integer, String> progress) {
         if (rootModel == null || templateFiles == null || templateFiles.isEmpty()) {
             return;
         }
-        Project project = ContextUtils.getProject();
         map.put("table", rootModel.getTable());
         map.put("columns", rootModel.getColumns());
         map.put("entity", rootModel.getEntity(settings));
@@ -63,31 +65,37 @@ public class Generator {
         map.put("primary", rootModel.getPrimary());
         for (int i = 0; i < templateFiles.size(); i++) {
             File templateFile = templateFiles.get(i);
+
+            String templateFilename = FileUtils.relativePath(templateRootPath, templateFile);
             if (progress != null) {
-                progress.accept(i, templateFile);
+                progress.accept(i, templateFilename);
             }
             // 重置内容，方便使用默认配置
             Variable.resetVariables();
-            try {
-                String result = templateUtils.generatorToString(templateFile, map);
-                if (StringUtils.isBlank(result)) {
-                    // 不保存空内容的文件
-                    continue;
-                }
-                SaveFilePath saveFilePath;
-                if (Variable.type == null) {
-                    saveFilePath = new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
-                } else {
-                    saveFilePath = SaveFilePath.create(rootModel, settings);
-                }
-                File saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
-                PsiFile psiFile = FileUtils.getInstance().saveFileContent(project, saveFile, result, saveFilePath.isOverride(options));
-                if (psiFile != null && !saveFiles.contains(psiFile)) {
-                    saveFiles.add(psiFile);
-                }
-            } catch (Throwable e) {
-                ExceptionUtil.rethrow(new RuntimeException("解析错误：" + templateFile.getAbsolutePath() + "\r\n" + e.getMessage(), e));
+            generatorTemplateFile(rootModel, templateFile, templateFilename);
+        }
+    }
+
+    private void generatorTemplateFile(RootModel rootModel, File templateFile, String templateFilename) {
+        try {
+            String result = templateUtils.generatorFileToString(templateFilename, map);
+            if (StringUtils.isBlank(result)) {
+                // 不保存空内容的文件
+                return;
             }
+            SaveFilePath saveFilePath;
+            if (Variable.type == null) {
+                saveFilePath = new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
+            } else {
+                saveFilePath = SaveFilePath.create(rootModel, settings);
+            }
+            File saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
+            PsiFile psiFile = FileUtils.getInstance().saveFileContent(project, saveFile, result, saveFilePath.isOverride(options));
+            if (psiFile != null && !saveFiles.contains(psiFile)) {
+                saveFiles.add(psiFile);
+            }
+        } catch (Throwable e) {
+            ExceptionUtil.rethrow(new RuntimeException("解析错误：" + templateFile.getAbsolutePath() + "\r\n" + e.getMessage(), e));
         }
     }
 }

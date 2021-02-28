@@ -5,9 +5,8 @@ import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.task.GeneratorTask;
-import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.util.Generator;
-import com.intellij.openapi.application.ApplicationManager;
+import com.github.houkunlin.util.PluginUtils;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.progress.ProgressManager;
@@ -150,7 +149,7 @@ public class Main extends JFrame {
      */
     private void initConfig() {
         initSettings();
-        Project project = ContextUtils.getProject();
+        Project project = PluginUtils.getProject();
 
         FileChooserDescriptor chooserDescriptor = FileChooserDescriptorFactory.createSingleFileOrFolderDescriptor();
         chooserDescriptor.setTitle("选择项目路径");
@@ -198,7 +197,7 @@ public class Main extends JFrame {
 
         String projectPath = settings.getProjectPath();
         if (StringUtils.isBlank(projectPath)) {
-            projectPath = ContextUtils.getProject().getBasePath();
+            projectPath = PluginUtils.getProject().getBasePath();
         }
         projectPathField.setText(projectPath);
         javaPathField.setText(settings.getJavaPath());

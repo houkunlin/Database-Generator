@@ -3,7 +3,7 @@ package com.github.houkunlin.ui.win;
 import com.github.houkunlin.ui.win.tree.CheckBoxTreeCellRenderer;
 import com.github.houkunlin.ui.win.tree.CheckBoxTreeNode;
 import com.github.houkunlin.ui.win.tree.CheckBoxTreeNodeSelectionListener;
-import com.github.houkunlin.util.ContextUtils;
+import com.github.houkunlin.util.PluginUtils;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -30,7 +30,7 @@ public class SelectTemplate implements IWindows {
     private JPanel content;
 
     public SelectTemplate() {
-        File templatesPath = ContextUtils.getTemplatesPath();
+        File templatesPath = PluginUtils.getWorkspaceFile(PluginUtils.TEMPLATE_DIR);
         File[] files = templatesPath.listFiles();
         root = new CheckBoxTreeNode("代码模板文件");
         getTreeData(root, files);

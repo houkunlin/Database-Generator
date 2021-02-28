@@ -1,8 +1,8 @@
 package com.github.houkunlin.task;
 
-import com.github.houkunlin.util.ContextUtils;
 import com.github.houkunlin.util.FileUtils;
 import com.github.houkunlin.util.Generator;
+import com.github.houkunlin.util.PluginUtils;
 import com.github.houkunlin.vo.impl.RootModel;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
@@ -56,10 +56,10 @@ public class GeneratorTask extends Task.Modal {
         for (int i = 0; i < modelSize; i++) {
             RootModel rootModel = rootModels.get(i);
             int start = i * templateSize;
-            generator.generator(rootModel, templates, (integer, file) -> {
+            generator.generator(rootModel, templates, (integer, filename) -> {
                 int index = start + integer + 1;
                 indicator.setText2(String.format("[%s/%s] [%s] --> %s",
-                        index, countInt, rootModel.getTable().getName(), ContextUtils.getTemplateRelativePath(file)));
+                        index, countInt, rootModel.getTable().getName(), filename));
                 indicator.setFraction(index / count);
             });
         }
@@ -68,7 +68,7 @@ public class GeneratorTask extends Task.Modal {
 
         indicator.setFraction(1.0);
         indicator.setIndeterminate(true);
-        ContextUtils.refreshProject();
+        PluginUtils.refreshProject();
     }
 
     @Override

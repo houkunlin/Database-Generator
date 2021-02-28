@@ -1,6 +1,5 @@
 package com.github.houkunlin.template.beetl;
 
-import com.github.houkunlin.util.ContextUtils;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.ResourceLoader;
@@ -47,9 +46,9 @@ public class BeetlUtils {
      * @return 渲染结果
      * @throws IOException IO异常
      */
-    public String generatorToString(File templateFile, Map<String, Object> model) throws Exception {
+    public String generatorFileToString(String templateFile, Map<String, Object> model) throws Exception {
         //获取模板
-        Template template = groupTemplateFile.getTemplate(ContextUtils.getTemplateRelativePath(templateFile));
+        Template template = groupTemplateFile.getTemplate(templateFile);
         template.binding(model);
         //渲染结果
         return template.render();

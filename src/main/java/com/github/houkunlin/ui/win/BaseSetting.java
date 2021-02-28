@@ -3,7 +3,7 @@ package com.github.houkunlin.ui.win;
 import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
-import com.github.houkunlin.util.ContextUtils;
+import com.github.houkunlin.util.PluginUtils;
 import com.google.common.collect.Maps;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.ide.util.PackageChooserDialog;
@@ -245,7 +245,7 @@ public class BaseSetting implements IWindows {
     }
 
     private void createUIComponents() {
-        Project project = ContextUtils.getProject();
+        Project project = PluginUtils.getProject();
         entityPackageField = createEditorTextField(project);
         daoPackageField = createEditorTextField(project);
         servicePackageField = createEditorTextField(project);
@@ -291,7 +291,7 @@ public class BaseSetting implements IWindows {
      * @param consumer      完成事件
      */
     private void chooserPackage(String defaultSelect, Consumer<String> consumer) {
-        PackageChooserDialog chooser = new PackageChooserDialog("请选择模块包", ContextUtils.getProject());
+        PackageChooserDialog chooser = new PackageChooserDialog("请选择模块包", PluginUtils.getProject());
         chooser.selectPackage(defaultSelect);
         chooser.show();
         PsiPackage psiPackage = chooser.getSelectedPackage();

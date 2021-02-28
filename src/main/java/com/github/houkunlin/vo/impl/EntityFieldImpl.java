@@ -1,7 +1,7 @@
 package com.github.houkunlin.vo.impl;
 
 import com.github.houkunlin.model.TableColumnType;
-import com.github.houkunlin.util.ContextUtils;
+import com.github.houkunlin.util.PluginUtils;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.ITableColumn;
 import com.google.common.base.CaseFormat;
@@ -71,7 +71,7 @@ public class EntityFieldImpl implements IEntityField {
     }
 
     public TableColumnType type(String dbType) {
-        TableColumnType[] columnTypes = ContextUtils.getColumnTypes();
+        TableColumnType[] columnTypes = PluginUtils.getColumnTypes();
         if (dbType == null) {
             return TableColumnType.DEFAULT;
         }
