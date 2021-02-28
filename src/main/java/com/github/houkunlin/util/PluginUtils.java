@@ -13,6 +13,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -36,9 +37,17 @@ public class PluginUtils {
      * 字段类型映射
      */
     private static TableColumnType[] columnTypes;
-
+    /**
+     * 全局的草稿文件和控制台-扩展 路径： ${PathManager.getConfigPath}/extensions/${PLUGIN_ID}
+     */
     private static File extensionPluginDir;
+    /**
+     * 当前项目下的插件路径： ${project.dir}/${PROJECT_WORK_DIR}
+     */
     private static File projectPluginDir;
+    /**
+     * 当前项目下的idea配置路径下的插件路径： ${project.dir}/.idea/${PROJECT_WORK_DIR}
+     */
     private static File projectWorkspacePluginDir;
 
     private PluginUtils() {
@@ -101,6 +110,13 @@ public class PluginUtils {
         }
     }
 
+    /**
+     * 获取配置文件
+     *
+     * @param clazz 配置文件对象
+     * @param <T>   泛型
+     * @return 配置文件对象
+     */
     public static <T> T getConfig(Class<T> clazz) {
         String filename = clazz.getSimpleName().toLowerCase();
         try {
@@ -111,13 +127,55 @@ public class PluginUtils {
         return null;
     }
 
+    /**
+     * 获取配置文件
+     *
+     * @param clazz          配置文件对象
+     * @param configFileName 配置文件名称（实际为 class 的名称，与文件名称一一对应）
+     * @param <T>            泛型
+     * @return 配置文件对象
+     * @throws Exception 异常
+     */
     public static <T> T getConfig(Class<T> clazz, String configFileName) throws Exception {
+        String resource = "config/" + configFileName + ".json";
+        final File file = getConfigFile(resource);
+        if (file != null) {
+            // 此时 file 一定是存在的
+            try {
+                return JsonUtils.parse(clazz, new FileInputStream(file));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         try {
-            return JsonUtils.parseJson(clazz, "config/" + configFileName + ".json");
+            // 项目文件中不存在配置文件，尝试从插件内部读取配置文件
+            return JsonUtils.parse(clazz, resource);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return clazz.getDeclaredConstructor().newInstance();
+    }
+
+    /**
+     * 获得配置文件
+     *
+     * @param resource 配置文件名称（相对插件路径的名称，带 config 前缀）
+     * @return 配置文件
+     */
+    private static File getConfigFile(String resource) {
+        File file = new File(projectWorkspacePluginDir, resource);
+        if (file.exists()) {
+            return file;
+        }
+        file = new File(projectPluginDir, resource);
+        if (file.exists()) {
+            return file;
+        }
+        file = new File(extensionPluginDir, resource);
+        if (file.exists()) {
+            return file;
+        }
+        return null;
     }
 
     /**
@@ -135,6 +193,9 @@ public class PluginUtils {
         }
     }
 
+    /**
+     * 获得数据库与Java映射配置
+     */
     public static TableColumnType[] getColumnTypes() {
         if (columnTypes == null) {
             columnTypes = getTableColumnTypes();
@@ -176,6 +237,9 @@ public class PluginUtils {
         });
     }
 
+    /**
+     * 同步插件内部的代码模板、配置文件
+     */
     public static void syncResources() {
         try {
             new SyncResources().run();
