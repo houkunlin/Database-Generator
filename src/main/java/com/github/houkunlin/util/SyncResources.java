@@ -28,16 +28,16 @@ public class SyncResources implements Runnable {
      */
     @Override
     public void run() {
-        File workspaceInitFile = PluginUtils.getWorkspaceFile(INIT_FILENAME);
-        boolean workspaceInitFileExists = workspaceInitFile.exists();
-        if (workspaceInitFileExists) {
+        File initFile = PluginUtils.getExtensionDirFile(INIT_FILENAME);
+        boolean initFileExists = initFile.exists();
+        if (initFileExists) {
             // 不再强制覆盖 初始化文件
             return;
         }
         try {
             // 只处理不存在的初始化文件
             String content = IO.readResources(INIT_FILENAME);
-            FileUtils.copyFile(project, workspaceInitFile, content, false);
+            FileUtils.copyFile(project, initFile, content, false);
         } catch (Throwable e) {
             ExceptionUtil.rethrow(new RuntimeException("同步插件文件到本地出现错误：\r\n" + e.getMessage(), e));
         }
@@ -68,7 +68,7 @@ public class SyncResources implements Runnable {
             }
             String content = IO.read(inputStream);
 
-            FileUtils.copyFile(project, PluginUtils.getWorkspaceFile(filePath), content, true);
+            FileUtils.copyFile(project, PluginUtils.getExtensionDirFile(filePath), content, true);
         }
     }
 }

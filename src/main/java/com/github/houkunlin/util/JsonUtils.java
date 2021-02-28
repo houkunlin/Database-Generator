@@ -53,9 +53,9 @@ public class JsonUtils {
      */
     public static <T> T parseJson(Class<T> tClass, String resources) {
         try {
-            File localConfigFile = PluginUtils.getWorkspaceFile(resources);
-            if (localConfigFile.exists()) {
-                return parse(tClass, new FileInputStream(localConfigFile));
+            File jsonFile = PluginUtils.getExtensionDirFile(resources);
+            if (jsonFile.exists()) {
+                return parse(tClass, new FileInputStream(jsonFile));
             }
         } catch (Exception e) {
             e.printStackTrace();

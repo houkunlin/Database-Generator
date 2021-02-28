@@ -37,8 +37,8 @@ public class PluginUtils {
      */
     private static TableColumnType[] columnTypes;
 
-    private static File workspace;
-    private static File projectSpace;
+    private static File extensionDir;
+    private static File projectDir;
 
     private PluginUtils() {
     }
@@ -47,31 +47,31 @@ public class PluginUtils {
         return project;
     }
 
-    public static File getWorkspace() {
-        return workspace;
+    public static File getExtensionDir() {
+        return extensionDir;
     }
 
-    public static File getProjectSpace() {
-        return projectSpace;
+    public static File getProjectDir() {
+        return projectDir;
     }
 
     public static void setProject(Project project) {
         PluginUtils.project = project;
 
-        workspace = new File(PathManager.getConfigPath(), "extensions/" + PLUGIN_ID);
-        projectSpace = new File(project.getBasePath(), PROJECT_WORK_DIR);
+        extensionDir = new File(PathManager.getConfigPath(), "extensions/" + PLUGIN_ID);
+        projectDir = new File(project.getBasePath(), PROJECT_WORK_DIR);
 
-        mkdirs(workspace);
+        mkdirs(extensionDir);
     }
 
-    public static File getWorkspaceFile(String relativeFilepath) {
-        File file = new File(workspace, relativeFilepath);
+    public static File getExtensionDirFile(String relativeFilepath) {
+        File file = new File(extensionDir, relativeFilepath);
         mkdirs(file.getParentFile());
         return file;
     }
 
-    public static File getProjectSpaceFile(String relativeFilepath) {
-        File file = new File(projectSpace, relativeFilepath);
+    public static File getProjectDirFile(String relativeFilepath) {
+        File file = new File(projectDir, relativeFilepath);
         mkdirs(file.getParentFile());
         return file;
     }
@@ -156,7 +156,7 @@ public class PluginUtils {
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "刷新插件工作空间 ...") {
             @Override
             public void run(@NotNull ProgressIndicator indicator) {
-                VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(PluginUtils.getWorkspace());
+                VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(PluginUtils.getExtensionDir());
                 if (virtualFile != null) {
                     virtualFile.refresh(false, true);
                 }
