@@ -43,7 +43,7 @@ public class IO {
                 outputStream.write(bytes, 0, len);
             }
             outputStream.flush();
-            return new String(outputStream.toByteArray());
+            return outputStream.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
