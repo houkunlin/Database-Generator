@@ -1,10 +1,16 @@
 package com.github.houkunlin.util;
 
+import com.github.houkunlin.config.ConfigService;
+import com.github.houkunlin.config.OtherConfig;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.NlsContexts;
 import com.intellij.util.ExceptionUtil;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,9 +59,23 @@ public class SyncResources implements Runnable {
     }
 
     private void checkOldVersion() {
-        final File initFile = PluginUtils.getProjectPluginDirFile(INIT_FILENAME);
-        if (initFile.exists()) {
-            int dialog = Messages.showYesNoDialog(project, "在当前项目路径下发现 generator/init.properties 配置文件，请问是否需要把 generator/ 迁移到 .idea/generator/ 路径？\n\n我们建议您应该这样操作！", "插件配置迁移", Messages.getQuestionIcon());
+        OtherConfig otherConfig = null;
+        final ConfigService configService = ConfigService.getInstance(project);
+        if (configService != null) {
+            otherConfig = configService.getOtherConfig();
+            if (!otherConfig.isShowUpgradeMoveTip()) {
+                return;
+            }
+        }
+
+        final File initFile1 = PluginUtils.getProjectPluginDirFile(INIT_FILENAME);
+        final File initFile2 = PluginUtils.getProjectWorkspacePluginDirFile(INIT_FILENAME);
+        if (initFile1.exists() && !initFile2.exists()) {
+            int dialog = Messages.showYesNoDialog(project,
+                    "在当前项目路径下发现 generator/init.properties 配置文件，请问是否需要把 generator/ 迁移到 .idea/generator/ 路径？\n\n我们建议您应该这样操作！",
+                    "插件配置迁移",
+                    Messages.getQuestionIcon(),
+                    getDoNotAskOption(otherConfig));
             if (dialog == 0) {
                 if (!PluginUtils.getProjectPluginDir().renameTo(PluginUtils.getProjectWorkspacePluginDir())) {
                     Messages.showWarningDialog("请手动把 generator/ 迁移到 .idea/generator/ 路径！", "迁移失败");
@@ -86,5 +106,39 @@ public class SyncResources implements Runnable {
 
             FileUtils.copyFile(project, PluginUtils.getExtensionPluginDirFile(filePath), content, true);
         }
+    }
+
+    @Nullable
+    private DialogWrapper.DoNotAskOption getDoNotAskOption(OtherConfig otherConfig) {
+        if (otherConfig == null) {
+            return null;
+        }
+        return new DialogWrapper.DoNotAskOption() {
+            @Override
+            public boolean isToBeShown() {
+                return otherConfig.isShowUpgradeMoveTip();
+            }
+
+            @Override
+            public void setToBeShown(boolean toBeShown, int exitCode) {
+                otherConfig.setShowUpgradeMoveTip(toBeShown);
+            }
+
+            @Override
+            public boolean canBeHidden() {
+                return true;
+            }
+
+            @Override
+            public boolean shouldSaveOptionsOnCancel() {
+                return true;
+            }
+
+            @Override
+            public @NotNull
+            @NlsContexts.Checkbox String getDoNotShowMessage() {
+                return "下次不再提示此消息";
+            }
+        };
     }
 }
