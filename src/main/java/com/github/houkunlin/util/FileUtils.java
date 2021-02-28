@@ -18,9 +18,7 @@ import com.intellij.util.ExceptionUtil;
 import lombok.NonNull;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * 文件处理工具
@@ -139,22 +137,16 @@ public class FileUtils {
         processor.run();
     }
 
-    public static boolean copyFile(InputStream inputStream, String fullFileName) {
-        return copyFile(inputStream, new File(fullFileName));
-    }
-
-    public static boolean copyFile(InputStream inputStream, File output) {
-        try (inputStream;
-             FileOutputStream fos = new FileOutputStream(output)) {
-            byte[] buf = new byte[1024];
-            int i;
-            while ((i = inputStream.read(buf)) != -1) {
-                fos.write(buf, 0, i);
-            }
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    /**
+     * 写入文件
+     *
+     * @param project      项目对象
+     * @param content      文件内容
+     * @param saveFile     输出文件
+     * @param overrideFile 如果已经存在该文件，是否覆盖文件内容
+     */
+    public static void copyFile(Project project, File saveFile, String content, boolean overrideFile) {
+        getInstance().saveFileContent(project, saveFile, content, overrideFile);
     }
 
     /**

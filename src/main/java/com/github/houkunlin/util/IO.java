@@ -1,8 +1,9 @@
 package com.github.houkunlin.util;
 
-import com.intellij.openapi.ui.Messages;
-
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class IO {
     /**

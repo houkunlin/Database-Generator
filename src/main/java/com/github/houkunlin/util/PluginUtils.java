@@ -165,6 +165,11 @@ public class PluginUtils {
     }
 
     public static void syncResources() {
-        new SyncResources().run();
+        try {
+            new SyncResources().run();
+        } catch (Exception error) {
+            error.printStackTrace();
+            Messages.showErrorDialog("插件初始化错误，可能导致无法使用，主要涉及到插件配置 JSON 文件和插件代码模板文件。\n\n" + error.getMessage(), "初始化错误");
+        }
     }
 }

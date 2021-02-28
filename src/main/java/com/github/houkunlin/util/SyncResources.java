@@ -1,5 +1,7 @@
 package com.github.houkunlin.util;
 
+import com.intellij.openapi.project.Project;
+import com.intellij.util.ExceptionUtil;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
 
@@ -19,26 +21,30 @@ public class SyncResources implements Runnable {
      * 插件初始化文件
      */
     private static final String INIT_FILENAME = "init.properties";
+    private Project project = PluginUtils.getProject();
 
     /**
      * 复制插件内部的模板文件到项目路径中
      */
     @Override
     public void run() {
-        File initFile = PluginUtils.getWorkspaceFile(INIT_FILENAME);
-        boolean initFileExists = initFile.exists();
-        try {
-            // 强制覆盖初始化文件
-            InputStream inputStream = IO.getInputStream(INIT_FILENAME);
-            FileUtils.copyFile(inputStream, initFile);
-        } catch (Exception ignore) {
-        }
-        if (initFileExists) {
+        File workspaceInitFile = PluginUtils.getWorkspaceFile(INIT_FILENAME);
+        boolean workspaceInitFileExists = workspaceInitFile.exists();
+        if (workspaceInitFileExists) {
+            // 不再强制覆盖 初始化文件
             return;
         }
         try {
+            // 只处理不存在的初始化文件
+            String content = IO.readResources(INIT_FILENAME);
+            FileUtils.copyFile(project, workspaceInitFile, content, false);
+        } catch (Throwable e) {
+            ExceptionUtil.rethrow(new RuntimeException("同步插件文件到本地出现错误：\r\n" + e.getMessage(), e));
+        }
+        try {
             syncFiles();
-        } catch (Exception ignore) {
+        } catch (Throwable e) {
+            ExceptionUtil.rethrow(new RuntimeException("同步插件文件到本地出现错误：\r\n" + e.getMessage(), e));
         }
 
         PluginUtils.refreshWorkspace();
@@ -60,7 +66,9 @@ public class SyncResources implements Runnable {
             if (inputStream == null) {
                 continue;
             }
-            FileUtils.copyFile(inputStream, PluginUtils.getWorkspaceFile(filePath));
+            String content = IO.read(inputStream);
+
+            FileUtils.copyFile(project, PluginUtils.getWorkspaceFile(filePath), content, true);
         }
     }
 }
