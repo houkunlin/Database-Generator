@@ -1,6 +1,7 @@
 package com.github.houkunlin.util;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.util.ExceptionUtil;
 import lombok.Data;
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +29,7 @@ public class SyncResources implements Runnable {
      */
     @Override
     public void run() {
+        checkOldVersion();
         File initFile = PluginUtils.getExtensionDirFile(INIT_FILENAME);
         boolean initFileExists = initFile.exists();
         if (initFileExists) {
@@ -48,6 +50,20 @@ public class SyncResources implements Runnable {
         }
 
         PluginUtils.refreshWorkspace();
+    }
+
+    private void checkOldVersion() {
+        final File initFile = PluginUtils.getProjectDirFile(INIT_FILENAME);
+        if (initFile.exists()) {
+            int dialog = Messages.showYesNoDialog(project, "在当前项目路径下发现 generator/init.properties 配置文件，请问是否需要把 generator/ 迁移到 .idea/generator/ 路径？\n\n我们建议您应该这样操作！", "插件配置迁移", Messages.getQuestionIcon());
+            if (dialog == 0) {
+                if (!PluginUtils.getProjectDir().renameTo(PluginUtils.getProjectWorkspaceDir())) {
+                    Messages.showWarningDialog("请手动把 generator/ 迁移到 .idea/generator/ 路径！", "迁移失败");
+                } else {
+                    PluginUtils.refreshProject();
+                }
+            }
+        }
     }
 
     /**

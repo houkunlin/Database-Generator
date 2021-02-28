@@ -39,6 +39,7 @@ public class PluginUtils {
 
     private static File extensionDir;
     private static File projectDir;
+    private static File projectWorkspaceDir;
 
     private PluginUtils() {
     }
@@ -55,11 +56,16 @@ public class PluginUtils {
         return projectDir;
     }
 
+    public static File getProjectWorkspaceDir() {
+        return projectWorkspaceDir;
+    }
+
     public static void setProject(Project project) {
         PluginUtils.project = project;
 
         extensionDir = new File(PathManager.getConfigPath(), "extensions/" + PLUGIN_ID);
         projectDir = new File(project.getBasePath(), PROJECT_WORK_DIR);
+        projectWorkspaceDir = new File(project.getBasePath(), ".idea/" + PROJECT_WORK_DIR);
 
         mkdirs(extensionDir);
     }
@@ -72,6 +78,12 @@ public class PluginUtils {
 
     public static File getProjectDirFile(String relativeFilepath) {
         File file = new File(projectDir, relativeFilepath);
+        mkdirs(file.getParentFile());
+        return file;
+    }
+
+    public static File getProjectWorkspaceDirFile(String relativeFilepath) {
+        File file = new File(projectWorkspaceDir, relativeFilepath);
         mkdirs(file.getParentFile());
         return file;
     }
