@@ -3,7 +3,7 @@ plugins {
     id("org.kordamp.gradle.markdown") version "2.2.0"
     java
     idea
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.4.31"
 }
 
 /**
