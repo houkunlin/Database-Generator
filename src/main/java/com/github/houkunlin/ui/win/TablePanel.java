@@ -41,6 +41,7 @@ public class TablePanel implements IWindows {
      * 表格：数据库表的字段信息
      */
     private JTable table1;
+    private JTextField uriField;
     /**
      * 界面表格对象的数据模型
      */
@@ -63,11 +64,13 @@ public class TablePanel implements IWindows {
             tableNameField.setText(rootModel.getTable().getName());
             entityNameField.setText(String.valueOf(rootModel.getEntity().getName()));
             commentField.setText(rootModel.getTable().getComment());
+            uriField.setText(rootModel.getTable().getName());
             return rootModel;
         }
         EntityImpl entity = rootModel.getEntity();
         entity.setName(entityNameField.getText());
         entity.setComment(StringUtils.defaultString(commentField.getText(), ""));
+        entity.setUri(StringUtils.defaultString(uriField.getText(), ""));
         return rootModel;
     }
 

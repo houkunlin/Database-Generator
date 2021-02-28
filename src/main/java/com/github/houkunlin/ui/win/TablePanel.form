@@ -55,6 +55,18 @@
               <preferredSize width="150" height="30"/>
             </properties>
           </component>
+          <component id="3b743" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text resource-bundle="i18n/language" key="table.uri"/>
+            </properties>
+          </component>
+          <component id="7d1ba" class="javax.swing.JTextField" binding="uriField">
+            <constraints/>
+            <properties>
+              <preferredSize width="150" height="30"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <scrollpane id="faa95">

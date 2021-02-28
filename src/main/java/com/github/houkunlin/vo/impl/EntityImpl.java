@@ -21,6 +21,8 @@ public class EntityImpl implements IEntity {
     private EntityName name;
     @Setter
     private String comment;
+    @Setter
+    private String uri;
 
     public EntityImpl(DbTable dbTable) {
         this.comment = StringUtils.defaultString(dbTable.getComment(), "");
