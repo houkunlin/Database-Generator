@@ -80,21 +80,15 @@ public class PluginUtils {
     }
 
     public static File getExtensionPluginDirFile(String relativeFilepath) {
-        File file = new File(extensionPluginDir, relativeFilepath);
-        mkdirs(file.getParentFile());
-        return file;
+        return new File(extensionPluginDir, relativeFilepath);
     }
 
     public static File getProjectPluginDirFile(String relativeFilepath) {
-        File file = new File(projectPluginDir, relativeFilepath);
-        mkdirs(file.getParentFile());
-        return file;
+        return new File(projectPluginDir, relativeFilepath);
     }
 
     public static File getProjectWorkspacePluginDirFile(String relativeFilepath) {
-        File file = new File(projectWorkspacePluginDir, relativeFilepath);
-        mkdirs(file.getParentFile());
-        return file;
+        return new File(projectWorkspacePluginDir, relativeFilepath);
     }
 
     /**
