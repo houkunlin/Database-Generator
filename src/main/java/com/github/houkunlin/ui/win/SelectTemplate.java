@@ -49,7 +49,9 @@ public class SelectTemplate implements IWindows {
         getTreeData(projectWorkspaceTemplate, projectWorkspacePluginPath.listFiles());
 
         root.add(extTemplate);
-        root.add(projectWorkspaceTemplate);
+        if (projectWorkspaceTemplate.getChildCount() != 0) {
+            root.add(projectWorkspaceTemplate);
+        }
         if (projectTemplate.getChildCount() != 0) {
             root.add(projectTemplate);
         }
