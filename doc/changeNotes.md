@@ -1,3 +1,8 @@
+- **2021-03-02: 2.5.1**
+
+    - ZH-CN
+        - fix: 修复因 template root 设置错误，导致代码的 include 指令报错问题
+
 - **2021-02-28: 2.5.0**
     - ZH-CN
         - feat: 代码模板文件默认放到：Scratches and Consoles/Extensions
