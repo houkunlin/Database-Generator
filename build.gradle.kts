@@ -31,7 +31,7 @@ val intellijVersion: String = getProperty("intellijVersion", "2020.2")
 // intellij 上传插件 Token
 val intellijPublishToken: String = getProperty("intellijPublishToken", "")
 // 插件版本
-val pluginVersion: String = getProperty("pluginVersion", "2.5.0")
+val pluginVersion: String = getProperty("pluginVersion", "2.5.1")
 
 group = "com.github.houkunlin"
 version = pluginVersion
