@@ -49,7 +49,7 @@ public class Generator {
         map.put("date", DateTime.now());
     }
 
-    private File getTemplateRoot(File templateFile) {
+    private File getTemplateWorkspace(File templateFile) {
         final String absolutePath = templateFile.getAbsolutePath();
         File file = PluginUtils.getProjectWorkspacePluginDir();
         if (absolutePath.startsWith(file.getAbsolutePath())) {
@@ -66,12 +66,13 @@ public class Generator {
         throw new RuntimeException("无法找到代码模板文件在插件中的根路径：" + templateFile.getAbsolutePath());
     }
 
-    private TemplateUtils getTemplate(File templateRoot) {
-        TemplateUtils utils = templates.get(templateRoot);
+    private TemplateUtils getTemplateUtils(File templateWorkspace) {
+        TemplateUtils utils = templates.get(templateWorkspace);
         if (utils == null) {
+            final File templateRoot = new File(templateWorkspace, PluginUtils.TEMPLATE_DIR);
             try {
                 utils = new TemplateUtils(templateRoot);
-                templates.put(templateRoot, utils);
+                templates.put(templateWorkspace, utils);
             } catch (IOException e) {
                 throw new RuntimeException("创建 Root 模板处理器失败：" + templateRoot.getAbsolutePath() + "\r\n" + e.getMessage(), e);
             }
@@ -94,14 +95,14 @@ public class Generator {
         for (int i = 0; i < templateFiles.size(); i++) {
             File templateFile = templateFiles.get(i);
 
-            final File templateRoot = getTemplateRoot(templateFile);
-            String templateFilename = FileUtils.relativePath(templateRoot, templateFile);
+            final File templateWorkspace = getTemplateWorkspace(templateFile);
+            String templateFilename = FileUtils.relativePath(templateWorkspace, templateFile).replaceFirst(PluginUtils.TEMPLATE_DIR, "");
             if (progress != null) {
                 progress.accept(i, templateFilename);
             }
             // 重置内容，方便使用默认配置
             Variable.resetVariables();
-            generatorTemplateFile(rootModel, getTemplate(templateRoot), templateFile, templateFilename);
+            generatorTemplateFile(rootModel, getTemplateUtils(templateWorkspace), templateFile, templateFilename);
         }
     }
 
