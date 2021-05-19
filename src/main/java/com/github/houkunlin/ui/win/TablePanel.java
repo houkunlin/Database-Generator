@@ -64,7 +64,7 @@ public class TablePanel implements IWindows {
             tableNameField.setText(rootModel.getTable().getName());
             entityNameField.setText(String.valueOf(rootModel.getEntity().getName()));
             commentField.setText(rootModel.getTable().getComment());
-            uriField.setText(rootModel.getTable().getName());
+            uriField.setText(rootModel.getTable().getName().replace("_", "-"));
             return rootModel;
         }
         EntityImpl entity = rootModel.getEntity();
