@@ -1,5 +1,7 @@
 package com.github.houkunlin.vo;
 
+import com.intellij.database.model.DataType;
+
 /**
  * 实体类字段信息
  *
@@ -27,6 +29,13 @@ public interface IEntityField {
      * @return 字段类型名称（短名称）
      */
     String getTypeName();
+
+    /**
+     * 获得数据库的字段数据类型（IDEA内置对象）
+     *
+     * @return 字段类型信息
+     */
+    DataType getDataType();
 
     /**
      * 获得字段类型名称（长名称、完整名称）

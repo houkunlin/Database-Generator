@@ -29,6 +29,7 @@ public class TableColumnImpl implements ITableColumn {
     private final String name;
     private final String comment;
     private final String typeName;
+    private final DataType dataType;
     private final String fullTypeName;
     private final boolean primaryKey;
     @Setter
@@ -42,6 +43,7 @@ public class TableColumnImpl implements ITableColumn {
         this.dbColumn = null;
         this.name = name;
         this.typeName = typeName;
+        this.dataType = null;
         this.fullTypeName = fullTypeName;
         this.comment = comment;
         this.primaryKey = primaryKey;
@@ -51,7 +53,7 @@ public class TableColumnImpl implements ITableColumn {
     public TableColumnImpl(DasColumn dbColumn) {
         this.dbColumn = dbColumn;
         this.name = dbColumn.getName();
-        DataType dataType = dbColumn.getDataType();
+        this.dataType = dbColumn.getDataType();
         this.fullTypeName = dataType.getSpecification();
         this.typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
         this.comment = StringUtils.defaultString(dbColumn.getComment(), "");

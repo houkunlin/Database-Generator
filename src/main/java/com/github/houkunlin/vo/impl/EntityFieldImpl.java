@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 public class EntityFieldImpl implements IEntityField {
     private final FieldNameInfo name;
     private final String typeName;
+    private final DataType dataType;
     private final String fullTypeName;
     private final boolean primaryKey;
     @Setter
@@ -39,6 +40,7 @@ public class EntityFieldImpl implements IEntityField {
     private EntityFieldImpl(FieldNameInfo name, String typeName, String fullTypeName, boolean primaryKey, String comment, boolean selected) {
         this.name = name;
         this.typeName = typeName;
+        this.dataType = null;
         this.fullTypeName = fullTypeName;
         this.primaryKey = primaryKey;
         this.comment = comment;
@@ -47,7 +49,8 @@ public class EntityFieldImpl implements IEntityField {
 
     public EntityFieldImpl(DasColumn dbColumn) {
         this.name = new FieldNameInfo(dbColumn);
-        String typeName = ReflectionUtil.getField(DataType.class, dbColumn.getDataType(), String.class, "typeName");
+        this.dataType = dbColumn.getDataType();
+        String typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
         TableColumnType columnType = type(typeName);
         this.typeName = columnType.getShortName();
         this.fullTypeName = columnType.getLongName();

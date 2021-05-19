@@ -1,4 +1,4 @@
-${gen.setFilepath("src")}
+${gen.setFilepath("")}
 ${gen.setFilename("all-variable.txt")}
 
 settings.projectPath = ${settings.projectPath}
@@ -98,6 +98,10 @@ primary.field.name.firstUpper = ${primary.field.name.firstUpper}
 primary.field.name.firstLower = ${primary.field.name.firstLower}
 primary.field.comment = ${primary.field.comment}
 primary.field.typeName = ${primary.field.typeName}
+(primary.field.dataType.length)!'null' = ${(primary.field.dataType.length)!'null'}
+(primary.field.dataType.precision)!'null' = ${(primary.field.dataType.precision)!'null'}
+(primary.field.dataType.scale)!'null' = ${(primary.field.dataType.scale)!'null'}
+(primary.field.dataType.specification)!'null' = ${(primary.field.dataType.specification)!'null'}
 primary.field.fullTypeName = ${primary.field.fullTypeName}
 primary.field.primaryKey = ${primary.field.primaryKey?string('true', 'false')}
 primary.field.selected = ${primary.field.selected?string('true', 'false')}
@@ -105,6 +109,10 @@ primary.field.selected = ${primary.field.selected?string('true', 'false')}
 primary.column.name = ${primary.column.name}
 primary.column.comment = ${primary.column.comment}
 primary.column.typeName = ${primary.column.typeName}
+(primary.column.dataType.length)!'null' = ${(primary.column.dataType.length)!'null'}
+(primary.column.dataType.precision)!'null' = ${(primary.column.dataType.precision)!'null'}
+(primary.column.dataType.scale)!'null' = ${(primary.column.dataType.scale)!'null'}
+(primary.column.dataType.specification)!'null' = ${(primary.column.dataType.specification)!'null'}
 primary.column.fullTypeName = ${primary.column.fullTypeName}
 primary.column.primaryKey = ${primary.column.primaryKey?string('true', 'false')}
 primary.column.selected = ${primary.column.selected?string('true', 'false')}
@@ -126,6 +134,10 @@ field.name.firstLower = ${field.name.firstLower}
 field.comment = ${field.comment}
 field.typeName = ${field.typeName}
 field.fullTypeName = ${field.fullTypeName}
+field.dataType.length = ${field.dataType.length}
+field.dataType.precision = ${field.dataType.precision}
+field.dataType.scale = ${field.dataType.scale}
+field.dataType.specification = ${field.dataType.specification}
 field.primaryKey = ${field.primaryKey?string('true', 'false')}
 field.selected = ${field.selected?string('true', 'false')}
 --------------------------
@@ -133,6 +145,10 @@ field.column.name = ${field.column.name}
 field.column.comment = ${field.column.comment}
 field.column.typeName = ${field.column.typeName}
 field.column.fullTypeName = ${field.column.fullTypeName}
+field.column.dataType.length = ${field.column.dataType.length}
+field.column.dataType.precision = ${field.column.dataType.precision}
+field.column.dataType.scale = ${field.column.dataType.scale}
+field.column.dataType.specification = ${field.column.dataType.specification}
 field.column.primaryKey = ${field.column.primaryKey?string('true', 'false')}
 field.column.selected = ${field.column.selected?string('true', 'false')}
 ---
@@ -147,6 +163,10 @@ column.name = ${column.name}
 column.comment = ${column.comment}
 column.typeName = ${column.typeName}
 column.fullTypeName = ${column.fullTypeName}
+column.dataType.length = ${column.dataType.length}
+column.dataType.precision = ${column.dataType.precision}
+column.dataType.scale = ${column.dataType.scale}
+column.dataType.specification = ${column.dataType.specification}
 column.primaryKey = ${column.primaryKey?string('true', 'false')}
 column.selected = ${column.selected?string('true', 'false')}
 --------------------------
@@ -156,6 +176,10 @@ column.field.name.firstLower = ${column.field.name.firstLower}
 column.field.comment = ${column.field.comment}
 column.field.typeName = ${column.field.typeName}
 column.field.fullTypeName = ${column.field.fullTypeName}
+column.field.dataType.length = ${column.field.dataType.length}
+column.field.dataType.precision = ${column.field.dataType.precision}
+column.field.dataType.scale = ${column.field.dataType.scale}
+column.field.dataType.specification = ${column.dataType.specification}
 column.field.primaryKey = ${column.field.primaryKey?string('true', 'false')}
 column.field.selected = ${column.field.selected?string('true', 'false')}
 ---
