@@ -9,3 +9,4 @@
   - [插件说明](plugin/description.md) 
   - [插件更新日志](plugin/changeNotes.md) 
 
+- 涵盖所有模板变量使用的模板文件 [all-variable.ftl](https://github.com/houkunlin/Database-Generator/blob/master/src/main/resources/templates/all-variable.ftl) 

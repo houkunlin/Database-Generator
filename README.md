@@ -12,11 +12,18 @@
 
 
 
-[更新日志](./doc/changeNotes.md) | [模板变量说明](./doc/template-document.md) | [旧版模板升级2.0.0插件版本指南](./doc/upgrade-2.0.0.md) | [插件截图](./doc/images.md) 
+[更新日志](./doc/changeNotes.md) | [模板变量说明](./doc/template-document.md) | [旧版模板升级2.0.0插件版本指南](./doc/upgrade-2.0.0.md) | [插件截图](./doc/images.md) | [所有变量使用 all-variable.ftl](https://github.com/houkunlin/Database-Generator/blob/master/src/main/resources/templates/all-variable.ftl)
 
 
 
 默认提供三种模板引擎（`beetl`/`freemarker`/`velocity`）的代码模板（SpringBoot+MyBatis-Plus+自定义工具），可选择保留其中一种模板引擎的代码模板，然后根据自己的需求对代码模板进行修改，阅读 [模板变量说明](./doc/template-document.md) 了解模板变量的具体内容。
+
+
+
+## 代码模板文件在IDEA中存放的位置
+
+- 代码模板文件默认放到：Scratches and Consoles/Extensions （中文：草稿文件和控制台/扩展/Database Generator）
+- 同时支持以下模板路径：${project.dir}/.idea/generator/templates 和 ${project.dir}/generator/templates
 
 
 
@@ -39,5 +46,4 @@
 ## 参考代码
 - better-mybatis-generator https://github.com/kmaster/better-mybatis-generator
 - EasyCode https://github.com/makejavas/EasyCode
-
 

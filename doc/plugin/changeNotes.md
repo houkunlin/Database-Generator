@@ -1,3 +1,9 @@
+- **2021-05-19: 2.6.0**
+
+  - **ZH-CN**
+  - feat: 实体类字段视图对象、数据库表字段视图对象增加一个 IDEA 内置的 DataType 类型的 dataType 字段。可用此字段获取数据库字段的设置的数据长度，具体用法请见最新的 [all-variable.ftl](https://github.com/houkunlin/Database-Generator/blob/master/src/main/resources/templates/all-variable.ftl) 代码模板
+  - refactor: 初始化数据库表 URL 输入框内容把下划线替换成减号
+
 - **2021-03-02: 2.5.1**
 
   - **&gt;&gt; ZH-CN**
@@ -27,32 +33,6 @@
     - feat: progress bar display during code generation
     - feat: Added **`date`** time information template variable, please check for details **[Template Variable Document](https://github.com/houkunlin/Database-Generator/blob/master/doc/template-document.md)**
     
-- **2020-08-21: 2.3.0**
-
-    - **&gt;&gt; ZH-CN**
-    - feat: 包名、路径配置支持持久化
-    - feat: 如果未选中模板时弹出警告，提示至少选中一个代码模板
-    - feat: 界面逻辑代码优化
-    - **&gt;&gt; EN**
-    - feat: Package name and path configuration support persistence
-    - feat: If a warning pops up when the template is not selected, it prompts that at least one code template is selected
-    - feat: interface logic code optimization
-    
-- **2020-08-17: 2.2.0**
-
-    - **&gt;&gt; ZH-CN**
-    - feat: 更改UI布局
-    - feat: 项目路径选择输入框更改输入框组件
-    - feat: 包名输入框增加包名自动补全、提示
-    - feat: 更改输入框内容修改后重新赋值的方式，通过监听事件来改变配置信息内容
-    - feat: 增加代码模板选择功能，通过树形结构选择器选择当前项目路径下可用的代码模板文件
-    - **&gt;&gt; EN**
-    - feat: Change UI layout
-    - feat: project path selection input box to change the input box component
-    - feat: Add package name auto completion and prompt to the package name input box
-    - feat: change the way of re-assignment after modification of the input box content, and change the configuration information content by monitoring events
-    - feat: Add code template selection function, select the available code template files under the current project path through the tree structure selector
-
 - **2020-07-18: 2.0.0**
   
     - **&gt;&gt; ZH-CN**

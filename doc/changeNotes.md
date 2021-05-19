@@ -1,8 +1,10 @@
+- **2021-05-19: 2.6.0**
+    - ZH-CN
+      - feat: 实体类字段视图对象、数据库表字段视图对象增加一个 IDEA 内置的 DataType 类型的 dataType 字段。可用此字段获取数据库字段的设置的数据长度，具体用法请见最新的 [all-variable.ftl](https://github.com/houkunlin/Database-Generator/blob/master/src/main/resources/templates/all-variable.ftl) 代码模板
+      - refactor: 初始化数据库表 URL 输入框内容把下划线替换成减号
 - **2021-03-02: 2.5.1**
-
     - ZH-CN
         - fix: 修复因 template root 设置错误，导致代码的 include 指令报错问题
-
 - **2021-02-28: 2.5.0**
     - ZH-CN
         - feat: 代码模板文件默认放到：Scratches and Consoles/Extensions
@@ -12,7 +14,6 @@
         - fix: 增加 all-variable.ftl 代码模板涵盖所有的变量使用说明情况
         - other: upgrade beetl 3.3.2 / upgrade freemarker 2.3.31 / upgrade joda-time 2.10.10
         - other: 优化部分代码
-
 - **2020-09-18: 2.4.0**
     - ZH-CN
       - feat: 增加LOGO图标
