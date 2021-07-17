@@ -4,6 +4,7 @@ import com.github.houkunlin.config.ConfigService;
 import com.github.houkunlin.config.OtherConfig;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.MessageDialogBuilder;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.util.ExceptionUtil;
@@ -27,7 +28,7 @@ public class SyncResources implements Runnable {
     /**
      * 插件初始化文件
      */
-    private static final String INIT_FILENAME = "init.properties";
+    private static final String INIT_FILENAME = "init.properties" ;
     private Project project = PluginUtils.getProject();
 
     /**
@@ -73,6 +74,12 @@ public class SyncResources implements Runnable {
         final File initFile1 = new File(projectPluginDir, INIT_FILENAME);
         final File initFile2 = new File(projectWorkspacePluginDir, INIT_FILENAME);
         if (initFile1.exists() && !initFile2.exists()) {
+            // 2021.1
+            // boolean dialogYes = MessageDialogBuilder.yesNo("插件配置迁移",
+            //     "在当前项目路径下发现 generator/init.properties 配置文件，请问是否需要把 generator/ 迁移到 .idea/generator/ 路径？\n\n我们建议您应该这样操作！")
+            //     .icon(Messages.getQuestionIcon())
+            //     .doNotAsk(getDoNotAskOption(otherConfig))
+            //     .ask(project);
             int dialog = Messages.showYesNoDialog(project,
                     "在当前项目路径下发现 generator/init.properties 配置文件，请问是否需要把 generator/ 迁移到 .idea/generator/ 路径？\n\n我们建议您应该这样操作！",
                     "插件配置迁移",
@@ -153,7 +160,7 @@ public class SyncResources implements Runnable {
             @Override
             public @NotNull
             @NlsContexts.Checkbox String getDoNotShowMessage() {
-                return "下次不再提示此消息";
+                return "下次不再提示此消息" ;
             }
         };
     }
