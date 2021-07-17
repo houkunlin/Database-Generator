@@ -23,6 +23,8 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
+      env: # Or as an environment variable
+        intellijPublishToken: ${{ secrets.INTELLIJPUBLISHTOKEN }}
       # 不打包 Kotlin 标准依赖：https://kotlinlang.org/docs/reference/using-gradle.html#dependency-on-the-standard-library
       run: ./gradlew buildPlugin -Pkotlin.stdlib.default.dependency=false
     - name: Rename

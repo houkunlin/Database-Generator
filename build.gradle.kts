@@ -6,37 +6,15 @@ plugins {
     kotlin("jvm") version "1.4.31"
 }
 
-/**
- * 获取配置信息。优先从系统环境变量中获取值，再从项目配置中获取值，最后才使用默认值
- *
- * @param key 键
- * @param defaultValue 默认值
- */
-fun getProperty(key: String, defaultValue: String): String {
-    return when {
-        System.getProperty(key) != null -> { // 从系统环境变量中获取值
-            System.getProperty(key)
-        }
-        project.properties[key] != null -> { // 从项目配置中获取值
-            project.properties[key] as String
-        }
-        else -> {// 默认值
-            defaultValue
-        }
-    }
-}
-
 // intellij 版本（编译环境版本）
-val intellijVersion: String = getProperty("intellijVersion", "2020.2")
+val intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellijVersion") ?: "2020.2"
 // intellij 上传插件 Token
-val intellijPublishToken: String = getProperty("intellijPublishToken", "")
-// 插件版本
-val pluginVersion: String = getProperty("pluginVersion", "2.6.0")
+val intellijPublishToken = findProperty("intellijPublishToken") ?: System.getenv("intellijPublishToken")
 
 group = "com.github.houkunlin"
-version = pluginVersion
+version = "2.6.0"
 
-println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, intellij-publish-token = ${intellijPublishToken.isNotBlank()}, plugin-version = $version }")
+println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, plugin-version = $version }")
 
 repositories {
     mavenLocal()
