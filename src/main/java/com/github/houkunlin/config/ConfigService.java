@@ -2,7 +2,6 @@ package com.github.houkunlin.config;
 
 import com.github.houkunlin.util.PluginUtils;
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
@@ -19,8 +18,8 @@ import org.jetbrains.annotations.Nullable;
  */
 @Data
 @State(name = "com.github.houkunlin.database.generator.config.ConfigService",
-        defaultStateAsResource = true,
-        storages = {@Storage("database-generator-config.xml")})
+    defaultStateAsResource = true,
+    storages = {@Storage("database-generator-config.xml")})
 public class ConfigService implements PersistentStateComponent<ConfigService> {
     private Developer developer;
     private Options options;
@@ -39,7 +38,7 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
 
     @Nullable
     public static ConfigService getInstance(Project project) {
-        return ServiceManager.getService(project, ConfigService.class);
+        return project.getService(ConfigService.class);
     }
 
     @Nullable
