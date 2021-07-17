@@ -6,15 +6,20 @@ import com.baomidou.mybatisplus.annotation.*;
 ${entity.packages}
 
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
 * 实体类：${entity.comment}<% if(strutil.length(table.comment) > 0 && entity.comment != table.comment){%> (${table.comment})<%}%>
 *
 * @author ${developer.author}
-* @date ${@date.toString("yyyy-MM-dd HH:mm:ss")}
 */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("${table.name}")
 public class ${entity.name.entity} implements Serializable {
 <%

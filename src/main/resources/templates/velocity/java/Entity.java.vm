@@ -6,23 +6,27 @@ import com.baomidou.mybatisplus.annotation.*;
     ${entity.packages}
 
 import java.io.Serializable;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 实体类：${entity.comment}#if($table.comment.trim.length gt 0 && $entity.comment != $table.comment) (${table.comment})#end
  *
  * @author ${developer.author}
- * @date ${date.toString("yyyy-MM-dd HH:mm:ss")}
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("${table.name}")
 public class ${entity.name.entity} implements Serializable{
 #foreach($field in $fields)
     #if($field.selected)
-
     /**
      * ${field.comment}
+     #if($field.column.comment.trim.length gt 0 && $field.comment != $field.column.comment) * <p>数据库字段说明：${field.column.comment}</p>#end
      */
         #if ($field.primaryKey)
         @TableId(type = IdType.ASSIGN_ID)
