@@ -24,13 +24,11 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
     private Developer developer;
     private Options options;
     private Settings settings;
-    private OtherConfig otherConfig;
 
     public ConfigService() {
         developer = PluginUtils.getConfig(Developer.class);
         options = PluginUtils.getConfig(Options.class);
         settings = PluginUtils.getConfig(Settings.class);
-        otherConfig = new OtherConfig();
         assert developer != null;
         assert options != null;
         assert settings != null;
