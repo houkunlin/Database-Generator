@@ -91,7 +91,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
     dependsOn("markdownToHtml")
     setPluginId("com.github.houkunlin.database.generator")
     // 最小支持版本
-    setSinceBuild("181")
+    setSinceBuild("193")
     // 最大支持版本
     setUntilBuild(null)
     doFirst {
