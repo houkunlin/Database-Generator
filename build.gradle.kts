@@ -12,7 +12,7 @@ val intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellij
 val intellijPublishToken = findProperty("intellijPublishToken") ?: System.getenv("intellijPublishToken")
 
 group = "com.github.houkunlin"
-version = "2.6.0"
+version = "2.6.1"
 
 println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, plugin-version = $version }")
 

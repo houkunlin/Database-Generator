@@ -1,3 +1,10 @@
+- **2022-08-26: 2.6.1**
+    - ZH-CN
+        - fix: 代码模板文件默认路径被定制后无法正常使用 #1
+        - fix: 修复一个在 212.3116.43 被视为弃用的调用方式
+        - chore: 修改模板文件内容，删除几个模板文件
+        - 增加一个 jdbc-typescript-type.ftl 模板文件
+
 - **2021-05-19: 2.6.0**
     - ZH-CN
       - feat: 实体类字段视图对象、数据库表字段视图对象增加一个 IDEA 内置的 DataType 类型的 dataType 字段。可用此字段获取数据库字段的设置的数据长度，具体用法请见最新的 [all-variable.ftl](https://github.com/houkunlin/Database-Generator/blob/master/src/main/resources/templates/all-variable.ftl) 代码模板
