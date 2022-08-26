@@ -72,7 +72,7 @@ public class PluginUtils {
     public static void setProject(Project project) {
         PluginUtils.project = project;
 
-        extensionPluginDir = new File(PathManager.getConfigPath(), "extensions/" + PLUGIN_ID);
+        extensionPluginDir = new File(PathManager.getScratchPath(), "extensions/" + PLUGIN_ID);
         projectPluginDir = new File(project.getBasePath(), PROJECT_WORK_DIR);
         projectWorkspacePluginDir = new File(project.getBasePath(), ".idea/" + PROJECT_WORK_DIR);
 
