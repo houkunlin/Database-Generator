@@ -41,7 +41,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
     // implementation("org.apache.velocity:velocity-engine-core:2.2")
     // https://mvnrepository.com/artifact/com.ibeetl/beetl
-    implementation("com.ibeetl:beetl:3.3.2.RELEASE")
+    implementation("com.ibeetl:beetl:3.10.0.RELEASE")
     implementation("joda-time:joda-time:2.10.10")
     implementation("org.yaml:snakeyaml:1.30")
 
