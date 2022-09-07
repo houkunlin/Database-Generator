@@ -1,8 +1,10 @@
 plugins {
     id("org.jetbrains.intellij") version "0.4.18"
     id("org.kordamp.gradle.markdown") version "2.2.0"
+    id("io.freefair.lombok") version "6.4.3"
     java
     idea
+    application
     kotlin("jvm") version "1.4.31"
 }
 
@@ -41,18 +43,17 @@ dependencies {
     // https://mvnrepository.com/artifact/com.ibeetl/beetl
     implementation("com.ibeetl:beetl:3.3.2.RELEASE")
     implementation("joda-time:joda-time:2.10.10")
+    implementation("org.yaml:snakeyaml:1.30")
 
     // implementation("com.google.code.gson:gson:2.8.5")
     // https://mvnrepository.com/artifact/jalopy/jalopy
     // implementation("jalopy:jalopy:1.5rc3")
 
-    testImplementation("junit:junit:4.13")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
+}
 
-    // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    compileOnly("org.projectlombok:lombok:1.18.12")
-    testCompileOnly("org.projectlombok:lombok:1.18.12")
-    annotationProcessor("org.projectlombok:lombok:1.18.12")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.12")
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
