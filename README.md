@@ -22,8 +22,18 @@
 
 ## 代码模板文件在IDEA中存放的位置
 
-- 代码模板文件默认放到：Scratches and Consoles/Extensions （中文：草稿文件和控制台/扩展/Database Generator）
-- 同时支持以下模板路径：${project.dir}/.idea/generator/templates 和 ${project.dir}/generator/templates
+- 代码模板文件默认放到：`Scratches and Consoles/Extensions` （中文：草稿文件和控制台/扩展/Database Generator）
+- 同时支持以下模板路径：`${project.dir}/.idea/generator/templates` 和 `${project.dir}/generator/templates`
+
+
+
+## 注意事项
+
+**版本 `v2.7.0` 对配置文件产生了破坏性变更，由原来的 `config/*.json` JSON格式配置文件改为 `config.yml` YAML配置文件** 
+
+**在旧版本升级后，原来的 `config/*.json` 配置文件将失效，请参照 `src/main/resources/config.yml` 文件重制你自定义的配置文件**
+
+**也可以删除本地的 `init.properties` 文件然后重新生成配置文件，但请注意备份您的自定义模板文件**
 
 
 

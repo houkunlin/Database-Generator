@@ -1,3 +1,10 @@
+- **2022-09-07: 2.7.0**
+
+  - feat: 配置文件由 json 改为 yml （破坏性变更）
+  - 版本 `v2.7.0` 对配置文件产生了破坏性变更，由原来的 `config/*.json` JSON格式配置文件改为 `config.yml` YAML配置文件
+  - 在旧版本升级后，原来的 `config/*.json` 配置文件将失效，请参照 [src/main/resources/config.yml](https://github.com/houkunlin/Database-Generator/blob/master/src/main/resources/config.yml) 文件重制你自定义的配置文件
+  - 也可以删除本地的 `init.properties` 文件然后重新生成配置文件，但**请注意备份您的自定义模板文件**
+  
 - **2022-08-26: 2.6.1**
 
   - fix: 代码模板文件默认路径被定制后无法正常使用 #1
@@ -10,22 +17,6 @@
   - **ZH-CN**
   - feat: 实体类字段视图对象、数据库表字段视图对象增加一个 IDEA 内置的 DataType 类型的 dataType 字段。可用此字段获取数据库字段的设置的数据长度，具体用法请见最新的 [all-variable.ftl](https://github.com/houkunlin/Database-Generator/blob/master/src/main/resources/templates/all-variable.ftl) 代码模板
   - refactor: 初始化数据库表 URL 输入框内容把下划线替换成减号
-
-- **2021-03-02: 2.5.1**
-
-  - **&gt;&gt; ZH-CN**
-  - fix: 修复因 template root 设置错误，导致代码的 include 指令报错问题
-
-- **2021-02-28: 2.5.0**
-
-    - **&gt;&gt; ZH-CN**
-    - feat: 代码模板文件默认放到：Scratches and Consoles/Extensions
-    - feat: 同时支持以下模板路径：${project.dir}/.idea/generator/templates 和 ${project.dir}/generator/templates
-    - fix: 修复保存文件时可能出现因 CRLF 换行符问题导致的保存文件错误
-    - fix: 增加一个 URI 请求路径的输入项，可以在模板变量中引用它来做 API 接口前缀
-    - fix: 增加 all-variable.ftl 代码模板涵盖所有的变量使用说明情况
-    - other: upgrade beetl 3.3.2 / upgrade freemarker 2.3.31 / upgrade joda-time 2.10.10
-    - other: 优化部分代码
 
 - **2020-09-18: 2.4.0**
 
