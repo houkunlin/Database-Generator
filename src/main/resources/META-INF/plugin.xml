@@ -1,6 +1,6 @@
 <idea-plugin require-restart="false">
     <name>Database Generator</name>
-    <vendor email="1184511588@qq.com" url="https://github.com/houkunlin/Database-Generator">侯坤林</vendor>
+    <vendor email="houkunlin@aliyun.com" url="https://github.com/houkunlin/Database-Generator">侯坤林</vendor>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->

@@ -1,7 +1,4 @@
-config/developer.json
-config/options.json
-config/settings.json
-config/types.json
+config.yml
 templates/all-variable.ftl
 templates/beetl/java/Entity.java.btl
 templates/beetl/java/Mapper.xml.btl

@@ -1,5 +1,6 @@
 package com.github.houkunlin.util;
 
+import com.github.houkunlin.config.ConfigVo;
 import com.github.houkunlin.model.TableColumnType;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.progress.ProgressIndicator;
@@ -11,9 +12,11 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -29,6 +32,7 @@ public class PluginUtils {
     public static final String CONFIG_DIR = "config";
     public static final String TEMPLATE_DIR = "templates";
     public static final String PROJECT_WORK_DIR = "generator";
+    public static final Yaml YAML = new Yaml();
     /**
      * 当前项目对象
      */
@@ -104,50 +108,22 @@ public class PluginUtils {
         }
     }
 
-    /**
-     * 获取配置文件
-     *
-     * @param clazz 配置文件对象
-     * @param <T>   泛型
-     * @return 配置文件对象
-     */
-    public static <T> T getConfig(Class<T> clazz) {
-        String filename = clazz.getSimpleName().toLowerCase();
-        try {
-            return getConfig(clazz, filename);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 获取配置文件
-     *
-     * @param clazz          配置文件对象
-     * @param configFileName 配置文件名称（实际为 class 的名称，与文件名称一一对应）
-     * @param <T>            泛型
-     * @return 配置文件对象
-     * @throws Exception 异常
-     */
-    public static <T> T getConfig(Class<T> clazz, String configFileName) throws Exception {
-        String resource = "config/" + configFileName + ".json";
-        final File file = getConfigFile(resource);
+    public static ConfigVo loadConfig() {
+        final File file = getConfigFile("config.yml");
         if (file != null) {
             // 此时 file 一定是存在的
-            try {
-                return JsonUtils.parse(clazz, new FileInputStream(file));
+            try (final InputStream inputStream = new FileInputStream(file)) {
+                return YAML.loadAs(inputStream, ConfigVo.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        try {
-            // 项目文件中不存在配置文件，尝试从插件内部读取配置文件
-            return JsonUtils.parse(clazz, resource);
+        try (final InputStream inputStream = PluginUtils.class.getResourceAsStream("config.yml")) {
+            return YAML.loadAs(inputStream, ConfigVo.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return clazz.getDeclaredConstructor().newInstance();
+        return ConfigVo.getInstance();
     }
 
     /**
@@ -179,7 +155,7 @@ public class PluginUtils {
      */
     public static TableColumnType[] getTableColumnTypes() {
         try {
-            return getConfig(TableColumnType[].class, "types");
+            return loadConfig().getTypes();
         } catch (Exception e) {
             e.printStackTrace();
             Messages.showMessageDialog(e.getMessage(), "解析默认类型映射配置失败(严重影响功能)", Messages.getErrorIcon());

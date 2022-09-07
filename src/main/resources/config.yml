@@ -1,0 +1,73 @@
+developer:
+  author: ''
+  email: ''
+options:
+  overrideJava: true
+  overrideXml: true
+  overrideOther: true
+settings:
+  javaPath: src/main/java
+  sourcesPath: src/main/resources
+  entitySuffix: Entity
+  daoSuffix: Repository
+  serviceSuffix: Service
+  controllerSuffix: Controller
+  entityPackage: com.example.entity
+  daoPackage: com.example.repository
+  servicePackage: com.example.service
+  controllerPackage: com.example.controller
+  xmlPackage: mapper
+types:
+  - shortName: Object
+    longName: java.lang.Object
+    isDefault: true
+    dbTypes: []
+  - shortName: Boolean
+    longName: java.lang.Boolean
+    dbTypes:
+      - ^bit
+  - shortName: Long
+    longName: java.lang.Long
+    dbTypes:
+      - ^bigint
+  - shortName: Integer
+    longName: java.lang.Integer
+    dbTypes:
+      - ^tinyint
+      - ^smallint
+      - ^mediumint
+      - ^int
+  - shortName: String
+    longName: java.lang.String
+    dbTypes:
+      - ^char
+      - ^varchar
+      - ^text
+      - ^longtext
+      - ^tinytext
+  - shortName: BigDecimal
+    longName: java.math.BigDecimal
+    dbTypes:
+      - ^decimal
+      - ^numeric
+  - shortName: Float
+    longName: java.lang.Float
+    dbTypes:
+      - ^float
+  - shortName: Double
+    longName: java.lang.Double
+    dbTypes:
+      - ^double
+  - shortName: LocalDateTime
+    longName: java.time.LocalDateTime
+    dbTypes:
+      - ^datetime
+      - ^timestamp
+  - shortName: LocalDate
+    longName: java.time.LocalDate
+    dbTypes:
+      - ^date
+  - shortName: LocalTime
+    longName: java.time.LocalTime
+    dbTypes:
+      - ^time

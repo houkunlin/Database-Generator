@@ -120,7 +120,7 @@ task("buildSyncFiles") {
     dependsOn("markdownToHtml")
     val sourcePath = "src/main/resources/"
 
-    val dir = arrayOf("config/", "templates/")
+    val dir = arrayOf("config.yml", "templates/")
     val source = File(rootProject.rootDir, sourcePath)
     val start = source.absolutePath.length
 

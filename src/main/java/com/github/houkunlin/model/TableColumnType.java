@@ -30,7 +30,10 @@ public class TableColumnType {
     /**
      * 是否是默认的类型
      */
-    private boolean isDefault = false;
+    private Boolean isDefault = false;
+
+    public TableColumnType() {
+    }
 
     private TableColumnType(boolean isDefault) {
         this.isDefault = isDefault;
@@ -62,4 +65,7 @@ public class TableColumnType {
         return false;
     }
 
+    public boolean isDefault() {
+        return isDefault != null && isDefault;
+    }
 }
