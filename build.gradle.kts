@@ -31,6 +31,7 @@ configurations {
 
 dependencies {
     //    implementation(kotlin("stdlib-jdk8"))
+    implementation ("cn.hutool:hutool-core:5.8.5")
     // https://mvnrepository.com/artifact/com.google.guava/guava
     // implementation("com.google.guava:guava:29.0-jre")
     // https://mvnrepository.com/artifact/org.freemarker/freemarker

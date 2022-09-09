@@ -304,7 +304,7 @@ public class BaseSetting implements IWindows {
     /**
      * 初始化开发者信息的输入框内容
      */
-    private void initConfig() {
+    public void initConfig() {
         authorField.setText(developer.getAuthor());
         emailField.setText(developer.getEmail());
 

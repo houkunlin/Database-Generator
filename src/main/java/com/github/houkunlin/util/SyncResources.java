@@ -39,12 +39,12 @@ public class SyncResources implements Runnable {
             String content = IO.readResources(INIT_FILENAME);
             FileUtils.copyFile(project, initFile, content, false);
         } catch (Throwable e) {
-            ExceptionUtil.rethrow(new RuntimeException("同步插件文件到本地出现错误：\r\n" + e.getMessage(), e));
+            ExceptionUtil.rethrow(new RuntimeException("同步插件init文件到本地出现错误：\r\n" + e.getMessage(), e));
         }
         try {
             syncFiles();
         } catch (Throwable e) {
-            ExceptionUtil.rethrow(new RuntimeException("同步插件文件到本地出现错误：\r\n" + e.getMessage(), e));
+            ExceptionUtil.rethrow(new RuntimeException("同步插件配置文件到本地出现错误：\r\n" + e.getMessage(), e));
         }
 
         PluginUtils.refreshWorkspace();

@@ -4,9 +4,12 @@ import com.github.houkunlin.config.ConfigService;
 import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
+import com.github.houkunlin.icon.DatabaseIcons;
 import com.github.houkunlin.task.GeneratorTask;
 import com.github.houkunlin.util.Generator;
 import com.github.houkunlin.util.PluginUtils;
+import com.intellij.icons.AllIcons;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.progress.ProgressManager;
@@ -21,10 +24,15 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
 public class Main extends JFrame {
+
+    private static final Logger log = Logger.getInstance(Main.class);
+
     /**
      * 配置对象
      */
@@ -111,6 +119,7 @@ public class Main extends JFrame {
      * 面板：内容面板
      */
     private JPanel content;
+    private JButton refreshConfig;
 
     public Main(PsiElement[] psiElements, ConfigService configService) {
         super("代码生成器");
@@ -142,6 +151,7 @@ public class Main extends JFrame {
         setResizable(false);
         pack();
         setVisible(true);
+        refreshConfig.setEnabled(true);
     }
 
     /**
@@ -156,7 +166,24 @@ public class Main extends JFrame {
 
         projectPathField.addBrowseFolderListener(new TextBrowseFolderListener(chooserDescriptor, project));
 
-        // 点击完成按钮
+        refreshConfig.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton jButton = (JButton) e.getSource();
+                Project project = PluginUtils.getProject();
+
+                jButton.setEnabled(false);
+                ConfigService  configService = ConfigService.getInstance(project);
+                if (configService != null) {
+                    configService.refresh();
+                    refreshMainConfig();
+                    baseSetting.initConfig();
+                }
+                jButton.setEnabled(true);
+                refreshConfig.setIcon(DatabaseIcons.REFRESH);
+            }
+        });
+        // 点击完成按钮 默认
         finishButton.addActionListener(event -> {
             try {
                 List<File> allSelectFile = selectTemplate.getAllSelectFile();
@@ -200,6 +227,9 @@ public class Main extends JFrame {
             projectPath = PluginUtils.getProject().getBasePath();
         }
         projectPathField.setText(projectPath);
+    }
+
+    private void refreshMainConfig(){
         javaPathField.setText(settings.getJavaPath());
         sourcesPathField.setText(settings.getSourcesPath());
     }

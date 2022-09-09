@@ -1,5 +1,6 @@
 package com.github.houkunlin.config;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.github.houkunlin.util.PluginUtils;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
@@ -33,6 +34,19 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
         assert developer != null;
         assert options != null;
         assert settings != null;
+    }
+
+    public synchronized void refresh(){
+        ConfigVo configVo = PluginUtils.loadConfig();
+        Developer developer = configVo.getDeveloper();
+        Options options = configVo.getOptions();
+        Settings settings = configVo.getSettings();
+        assert developer != null;
+        assert options != null;
+        assert settings != null;
+        BeanUtil.copyProperties(developer,this.developer);
+        BeanUtil.copyProperties(options,this.options);
+        BeanUtil.copyProperties(settings,this.settings);
     }
 
     @Nullable
