@@ -1,11 +1,10 @@
 plugins {
-    id("org.jetbrains.intellij") version "0.4.18"
+    id("org.jetbrains.intellij") version "1.1.2"
     id("org.kordamp.gradle.markdown") version "2.2.0"
     id("io.freefair.lombok") version "6.4.3"
     java
     idea
-    application
-    kotlin("jvm") version "1.4.31"
+//    application
 }
 
 // intellij 版本（编译环境版本）
@@ -14,7 +13,7 @@ val intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellij
 val intellijPublishToken = findProperty("intellijPublishToken") ?: System.getenv("intellijPublishToken")
 
 group = "com.github.houkunlin"
-version = "2.7.0"
+version = "2.8.0"
 
 println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, plugin-version = $version }")
 
@@ -58,21 +57,16 @@ tasks.withType<Test> {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = "IU-${intellijVersion}"
-    setPlugins("DatabaseTools", "java")
-    sandboxDirectory = "${rootProject.rootDir}/idea-sandbox"
+    pluginName.set(rootProject.name)
+    version.set("IU-${intellijVersion}")
+    plugins.set(listOf("DatabaseTools", "java"))
+    sandboxDir.set("${rootProject.rootDir}/idea-sandbox")
+    updateSinceUntilBuild.set(false)
 }
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
-    }
 }
 
 tasks.withType<JavaCompile> {
@@ -81,33 +75,31 @@ tasks.withType<JavaCompile> {
     options.compilerArgs = listOf("-Xlint:deprecation", "-Xlint:unchecked")
 }
 
-tasks.getByName<org.jetbrains.intellij.tasks.PublishTask>("publishPlugin") {
+tasks.publishPlugin{
     // 在 gradle.properties 文件中设置 intellijPublishToken 属性存储 Token 信息
     // https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html
-    setToken(intellijPublishToken)
+    token.set(intellijPublishToken as String)
 }
 
-tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
+tasks.patchPluginXml {
+    val notes = file("$buildDir/gen-html/changeNotes.html")
+    val desc = file("$buildDir/gen-html/description.html")
+    if (notes.exists() && notes.isFile) {
+        changeNotes.set(notes.readText())
+    }
+    if (desc.exists() && desc.isFile) {
+        pluginDescription.set(desc.readText())
+    }
     outputs.upToDateWhen { false }
     dependsOn("markdownToHtml")
-    setPluginId("com.github.houkunlin.database.generator")
-    // 最小支持版本
-    setSinceBuild("193")
+    pluginId.set("com.github.houkunlin.database.generator")
+    //最小支持版本
+    sinceBuild.set("193")
     // 最大支持版本
-    setUntilBuild(null)
-    doFirst {
-        val notes = file("$buildDir/gen-html/changeNotes.html")
-        val desc = file("$buildDir/gen-html/description.html")
-        if (notes.exists() && notes.isFile) {
-            changeNotes(notes.readText())
-        }
-        if (desc.exists() && desc.isFile) {
-            setPluginDescription(desc.readText())
-        }
-    }
+//    setUntilBuild(null)
 }
 
-tasks.getByName<org.kordamp.gradle.plugin.markdown.tasks.MarkdownToHtmlTask>("markdownToHtml") {
+tasks.markdownToHtml {
     sourceDir = file("doc/plugin")
     outputDir = file("$buildDir/gen-html")
 }
