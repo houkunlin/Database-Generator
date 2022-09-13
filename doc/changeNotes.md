@@ -4,6 +4,7 @@
       - 添加刷新配置按钮
       - 更新 ibeetl模板版本
       - 更新开发插件版本
+      - 贡献者：[tanqi(gitee)](https://gitee.com/Tanqishare) [tanqi(github)](https://github.com/TanqiZhou)
 - **2022-09-07: 2.7.0**
     
     - feat: 配置文件由 json 改为 yml （破坏性变更）
