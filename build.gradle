@@ -1,21 +1,21 @@
 import java.util.stream.Collectors
 
 plugins {
-    id 'org.jetbrains.intellij' version '1.1.2'
+    id 'org.jetbrains.intellij' version '1.15.0'
     id 'org.kordamp.gradle.markdown' version '2.2.0'
-    id 'io.freefair.lombok' version '6.4.3'
+    id 'io.freefair.lombok' version '8.2.2'
     // id 'application'
     id 'java-library'
     id 'idea'
 }
 
 // intellij 版本（编译环境版本）
-var intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellijVersion") ?: "2020.2"
+var intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellijVersion") ?: "2022.2.5"
 // intellij 上传插件 Token
 var intellijPublishToken = findProperty("intellijPublishToken") ?: System.getenv("intellijPublishToken")
 
 group = "com.github.houkunlin"
-version = "2.8.0"
+version = "2.8.1"
 
 println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, plugin-version = $version }")
 
@@ -65,6 +65,14 @@ intellij {
     plugins.addAll("DatabaseTools", "java")
     sandboxDir = "${rootProject.rootDir}/idea-sandbox"
     updateSinceUntilBuild = false
+    downloadSources = true
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
 java {
@@ -102,7 +110,7 @@ patchPluginXml {
     //最小支持版本
     sinceBuild.set("193")
     // 最大支持版本
-//    setUntilBuild(null)
+    setUntilBuild("222.*")
 }
 
 markdownToHtml {

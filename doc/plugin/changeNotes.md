@@ -1,3 +1,11 @@
+- **2023-08-15: 2.8.1**
+
+    - 升级 beetl 到 3.15.8.RELEASE
+    - 升级 hutool-core 到 5.8.21
+    - 升级 snakeyaml 到 2.1
+    - 重构构建脚本
+    - 增加一个选项来配置数据库的字段风格
+
 - **2022-09-09: 2.8.0**
 
     - 修改默认模板位置到default/路径下
@@ -5,6 +13,7 @@
     - 更新 ibeetl模板版本
     - 更新开发插件版本
     - 贡献者：[tanqi(gitee)](https://gitee.com/Tanqishare) [tanqi(github)](https://github.com/TanqiZhou)
+
 - **2022-09-07: 2.7.0**
 
   - feat: 配置文件由 json 改为 yml （破坏性变更）
