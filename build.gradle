@@ -1,16 +1,18 @@
+import java.util.stream.Collectors
+
 plugins {
-    id("org.jetbrains.intellij") version "1.1.2"
-    id("org.kordamp.gradle.markdown") version "2.2.0"
-    id("io.freefair.lombok") version "6.4.3"
-    java
-    idea
-//    application
+    id 'org.jetbrains.intellij' version '1.1.2'
+    id 'org.kordamp.gradle.markdown' version '2.2.0'
+    id 'io.freefair.lombok' version '6.4.3'
+    // id 'application'
+    id 'java-library'
+    id 'idea'
 }
 
 // intellij 版本（编译环境版本）
-val intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellijVersion") ?: "2020.2"
+var intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellijVersion") ?: "2020.2"
 // intellij 上传插件 Token
-val intellijPublishToken = findProperty("intellijPublishToken") ?: System.getenv("intellijPublishToken")
+var intellijPublishToken = findProperty("intellijPublishToken") ?: System.getenv("intellijPublishToken")
 
 group = "com.github.houkunlin"
 version = "2.8.0"
@@ -19,19 +21,19 @@ println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion,
 
 repositories {
     mavenLocal()
-    maven("https://maven.aliyun.com/repository/public")
-    maven("https://repo1.maven.org/maven2")
+    maven { url = "https://maven.aliyun.com/repository/public" }
+    maven { url = "https://repo1.maven.org/maven2" }
     mavenCentral()
 }
 configurations {
     compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
+        extendsFrom annotationProcessor
     }
 }
 
 dependencies {
     //    implementation(kotlin("stdlib-jdk8"))
-    implementation ("cn.hutool:hutool-core:5.8.5")
+    implementation("cn.hutool:hutool-core:5.8.21")
     // https://mvnrepository.com/artifact/com.google.guava/guava
     // implementation("com.google.guava:guava:29.0-jre")
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
@@ -41,9 +43,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
     // implementation("org.apache.velocity:velocity-engine-core:2.2")
     // https://mvnrepository.com/artifact/com.ibeetl/beetl
-    implementation("com.ibeetl:beetl:3.10.0.RELEASE")
+    implementation("com.ibeetl:beetl:3.15.8.RELEASE")
     implementation("joda-time:joda-time:2.10.10")
-    implementation("org.yaml:snakeyaml:1.30")
+    implementation("org.yaml:snakeyaml:2.1")
 
     // implementation("com.google.code.gson:gson:2.8.5")
     // https://mvnrepository.com/artifact/jalopy/jalopy
@@ -52,44 +54,47 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
-tasks.withType<Test> {
+test {
     useJUnitPlatform()
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    pluginName.set(rootProject.name)
-    version.set("IU-${intellijVersion}")
-    plugins.set(listOf("DatabaseTools", "java"))
-    sandboxDir.set("${rootProject.rootDir}/idea-sandbox")
-    updateSinceUntilBuild.set(false)
+    pluginName = rootProject.name
+    version = "IU-${intellijVersion}"
+    plugins.addAll("DatabaseTools", "java")
+    sandboxDir = "${rootProject.rootDir}/idea-sandbox"
+    updateSinceUntilBuild = false
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+java {
+    sourceCompatibility = '11'
+    // 构建编译 java 时生成 java doc 的 jar
+    withJavadocJar()
+    // 构建编译 java 时生成源代码的 jar
+    withSourcesJar()
 }
 
-tasks.withType<JavaCompile> {
+compileJava {
     dependsOn("buildSyncFiles")
     options.encoding = "utf-8"
-    options.compilerArgs = listOf("-Xlint:deprecation", "-Xlint:unchecked")
+    options.compilerArgs = ["-Xlint:deprecation", "-Xlint:unchecked"]
 }
 
-tasks.publishPlugin{
+publishPlugin {
     // 在 gradle.properties 文件中设置 intellijPublishToken 属性存储 Token 信息
     // https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html
-    token.set(intellijPublishToken as String)
+    token.set(String.valueOf(intellijPublishToken))
 }
 
-tasks.patchPluginXml {
-    val notes = file("$buildDir/gen-html/changeNotes.html")
-    val desc = file("$buildDir/gen-html/description.html")
-    if (notes.exists() && notes.isFile) {
-        changeNotes.set(notes.readText())
+patchPluginXml {
+    var notes = file("$buildDir/gen-html/changeNotes.html")
+    var desc = file("$buildDir/gen-html/description.html")
+    if (notes.exists() && notes.isFile()) {
+        changeNotes.set(new String(notes.readBytes(), "UTF-8"))
     }
-    if (desc.exists() && desc.isFile) {
-        pluginDescription.set(desc.readText())
+    if (desc.exists() && desc.isFile()) {
+        pluginDescription.set(new String(desc.readBytes(), "UTF-8"))
     }
     outputs.upToDateWhen { false }
     dependsOn("markdownToHtml")
@@ -100,7 +105,7 @@ tasks.patchPluginXml {
 //    setUntilBuild(null)
 }
 
-tasks.markdownToHtml {
+markdownToHtml {
     sourceDir = file("doc/plugin")
     outputDir = file("$buildDir/gen-html")
 }
@@ -108,21 +113,21 @@ tasks.markdownToHtml {
 /**
  * 生成插件运行时需要同步的模板文件列表
  */
-task("buildSyncFiles") {
+tasks.register("buildSyncFiles") {
     outputs.upToDateWhen { false }
     dependsOn("markdownToHtml")
-    val sourcePath = "src/main/resources/"
+    var sourcePath = "src/main/resources/"
 
-    val dir = arrayOf("config.yml", "templates/")
-    val source = File(rootProject.rootDir, sourcePath)
-    val start = source.absolutePath.length
+    var dir = ["config.yml", "templates/"]
+    var source = new File(rootProject.rootDir, sourcePath)
+    var start = source.getAbsolutePath().length()
 
-    val filesText = fileTree(sourcePath)
-        .map { it.absolutePath.substring(start + 1).replace("\\", "/") }
+    var filesText = fileTree(sourcePath).asList().stream()
+        .map { it.getAbsolutePath().substring(start + 1).replace("\\", "/") }
         .filter { path ->
             dir.any { path.startsWith(it) }
         }
-        .joinToString("\n")
+        .collect(Collectors.joining("\n"))
 
-    file("${sourcePath}/syncFiles.txt").writeText(filesText)
+    file("${sourcePath}/syncFiles.txt").write(filesText)
 }
