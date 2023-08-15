@@ -50,7 +50,7 @@ public class EntityFieldImpl implements IEntityField {
 
     public EntityFieldImpl(DasColumn dbColumn, Options options) {
         this.name = new FieldNameInfo(dbColumn, options);
-        this.dataType = dbColumn.getDataType();
+        this.dataType = dbColumn.getDasType().toDataType();
         String typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
         TableColumnType columnType = type(typeName);
         this.typeName = columnType.getShortName();

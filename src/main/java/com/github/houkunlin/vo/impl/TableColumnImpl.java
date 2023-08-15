@@ -53,7 +53,7 @@ public class TableColumnImpl implements ITableColumn {
     public TableColumnImpl(DasColumn dbColumn) {
         this.dbColumn = dbColumn;
         this.name = dbColumn.getName();
-        this.dataType = dbColumn.getDataType();
+        this.dataType = dbColumn.getDasType().toDataType();
         this.fullTypeName = dataType.getSpecification();
         this.typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
         this.comment = StringUtils.defaultString(dbColumn.getComment(), "");
