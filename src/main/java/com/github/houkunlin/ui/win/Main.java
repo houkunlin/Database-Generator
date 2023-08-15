@@ -159,6 +159,7 @@ public class Main extends JFrame {
         pack();
         setVisible(true);
         refreshConfig.setEnabled(true);
+        refreshConfig.setIcon(DatabaseIcons.REFRESH);
     }
 
     /**
@@ -187,7 +188,6 @@ public class Main extends JFrame {
                     baseSetting.initConfig();
                 }
                 jButton.setEnabled(true);
-                refreshConfig.setIcon(DatabaseIcons.REFRESH);
             }
         });
         // 点击完成按钮 默认

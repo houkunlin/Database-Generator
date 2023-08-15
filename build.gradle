@@ -76,7 +76,8 @@ idea {
 }
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
     // 构建编译 java 时生成 java doc 的 jar
     withJavadocJar()
     // 构建编译 java 时生成源代码的 jar

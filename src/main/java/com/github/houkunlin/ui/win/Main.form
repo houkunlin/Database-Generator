@@ -62,8 +62,7 @@
             <constraints/>
             <properties>
               <enabled value="false"/>
-              <icon value="actions/refresh.png"/>
-              <text value=""/>
+              <text value="刷新"/>
               <verticalAlignment value="0"/>
             </properties>
           </component>
