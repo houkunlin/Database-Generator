@@ -252,6 +252,18 @@
               <text value="覆盖其他类型文件"/>
             </properties>
           </component>
+          <component id="f4dea" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <horizontalAlignment value="4"/>
+              <preferredSize width="130" height="17"/>
+              <text value="数据库字段风格："/>
+            </properties>
+          </component>
+          <component id="2a014" class="javax.swing.JComboBox" binding="databaseFieldStyleType">
+            <constraints/>
+            <properties/>
+          </component>
         </children>
       </grid>
     </children>

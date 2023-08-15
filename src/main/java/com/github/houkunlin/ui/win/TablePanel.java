@@ -1,5 +1,6 @@
 package com.github.houkunlin.ui.win;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.model.JTableModel;
 import com.github.houkunlin.vo.impl.EntityImpl;
 import com.github.houkunlin.vo.impl.RootModel;
@@ -50,17 +51,19 @@ public class TablePanel implements IWindows {
      * 生成代码时需要用到的model对象
      */
     private RootModel rootModel;
+    private Options options;
 
-    public TablePanel(DbTable dbTable) {
+    public TablePanel(DbTable dbTable, Options options) {
         this.dbTable = dbTable;
+        this.options = options;
 
-        model = new JTableModel(table1, dbTable);
+        model = new JTableModel(table1, dbTable, options);
         toModel();
     }
 
     public RootModel toModel() {
         if (rootModel == null) {
-            rootModel = new RootModel(dbTable, model.getFieldImpls(), model.getColumnImpls());
+            rootModel = new RootModel(dbTable, model.getFieldImpls(), model.getColumnImpls(), options);
             tableNameField.setText(rootModel.getTable().getName());
             entityNameField.setText(String.valueOf(rootModel.getEntity().getName()));
             commentField.setText(rootModel.getTable().getComment());

@@ -1,5 +1,6 @@
 package com.github.houkunlin.vo.impl;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.vo.IName;
 import com.google.common.base.CaseFormat;
@@ -38,8 +39,8 @@ public class EntityName implements IName {
      */
     private IName controller;
 
-    public EntityName(DbTable dbTable) {
-        this.value = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, dbTable.getName());
+    public EntityName(DbTable dbTable, Options options) {
+        this.value = options.obtainCaseFormat().to(CaseFormat.UPPER_CAMEL, dbTable.getName());
         this.firstUpper = value;
         this.firstLower = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, value);
     }

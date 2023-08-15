@@ -121,11 +121,24 @@ public class BaseSetting implements IWindows {
      * 复选：是否覆盖其他文件
      */
     private JCheckBox overrideOtherCheckBox;
+    /**
+     * 下拉框：数据库字段风格类型
+     */
+    private JComboBox<String> databaseFieldStyleType;
+    private Runnable noteReset;
 
-    public BaseSetting(Settings settings, Developer developer, Options options) {
+    public BaseSetting(Settings settings, Developer developer, Options options, Runnable noteReset) {
         this.settings = settings;
         this.developer = developer;
         this.options = options;
+        this.noteReset = noteReset;
+
+        databaseFieldStyleType.addItem("下划线（LOWER_UNDERSCORE）");
+        databaseFieldStyleType.addItem("下划线（UPPER_UNDERSCORE）");
+        databaseFieldStyleType.addItem("小驼峰（LOWER_CAMEL）");
+        databaseFieldStyleType.addItem("大坨峰（UPPER_CAMEL）");
+        databaseFieldStyleType.addItem("连接符（LOWER_HYPHEN）");
+
         initConfig();
         configSelectPackage();
 
@@ -229,19 +242,25 @@ public class BaseSetting implements IWindows {
              */
             @Override
             public void itemStateChanged(ItemEvent e) {
-                Object item = e.getItem();
+                Object item = e.getSource();
                 if (overrideJavaCheckBox == item) {
                     options.setOverrideJava(overrideJavaCheckBox.isSelected());
                 } else if (overrideXmlCheckBox == item) {
                     options.setOverrideXml(overrideXmlCheckBox.isSelected());
                 } else if (overrideOtherCheckBox == item) {
                     options.setOverrideOther(overrideOtherCheckBox.isSelected());
+                } else if (databaseFieldStyleType == item) {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        options.setDbFieldStyleType(databaseFieldStyleType.getSelectedIndex());
+                        noteReset.run();
+                    }
                 }
             }
         };
         overrideJavaCheckBox.addItemListener(checkBoxItemListener);
         overrideXmlCheckBox.addItemListener(checkBoxItemListener);
         overrideOtherCheckBox.addItemListener(checkBoxItemListener);
+        databaseFieldStyleType.addItemListener(checkBoxItemListener);
     }
 
     private void createUIComponents() {
@@ -322,6 +341,7 @@ public class BaseSetting implements IWindows {
         overrideJavaCheckBox.setSelected(options.isOverrideJava());
         overrideXmlCheckBox.setSelected(options.isOverrideXml());
         overrideOtherCheckBox.setSelected(options.isOverrideOther());
+        databaseFieldStyleType.setSelectedIndex(options.getDbFieldStyleType());
     }
 
     @Override

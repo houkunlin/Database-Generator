@@ -1,5 +1,6 @@
 package com.github.houkunlin.ui.win;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.vo.impl.RootModel;
 import com.intellij.database.psi.DbTable;
 import com.intellij.psi.PsiElement;
@@ -28,12 +29,12 @@ public class TableSetting implements IWindows {
     private PsiElement[] psiElements;
     private List<TablePanel> tablePanels = new ArrayList<>();
 
-    public TableSetting(PsiElement[] psiElements) {
+    public TableSetting(PsiElement[] psiElements, Options options) {
         this.psiElements = psiElements;
         for (PsiElement psiElement : psiElements) {
             if (psiElement instanceof DbTable) {
                 DbTable dbTable = (DbTable) psiElement;
-                TablePanel tablePanel = new TablePanel(dbTable);
+                TablePanel tablePanel = new TablePanel(dbTable, options);
                 tableTabbedPane.addTab(dbTable.getName(), tablePanel.getContent());
                 tablePanels.add(tablePanel);
             }

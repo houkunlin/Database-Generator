@@ -8,7 +8,6 @@ import com.github.houkunlin.icon.DatabaseIcons;
 import com.github.houkunlin.task.GeneratorTask;
 import com.github.houkunlin.util.Generator;
 import com.github.houkunlin.util.PluginUtils;
-import com.intellij.icons.AllIcons;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
@@ -52,15 +51,15 @@ public class Main extends JFrame {
     /**
      * 面板对象：数据库表配置
      */
-    private final TableSetting tableSetting;
+    private TableSetting tableSetting;
     /**
      * 面板对象：基础信息配置
      */
-    private final BaseSetting baseSetting;
+    private BaseSetting baseSetting;
     /**
      * 面板对象：模板选择配置
      */
-    private final SelectTemplate selectTemplate;
+    private SelectTemplate selectTemplate;
     /**
      * 输入框：项目路径输入、选择
      */
@@ -127,12 +126,20 @@ public class Main extends JFrame {
         this.settings = configService.getSettings();
         this.developer = configService.getDeveloper();
         this.options = configService.getOptions();
-        baseSetting = new BaseSetting(settings, developer, options);
         selectTemplate = new SelectTemplate();
-        tableSetting = new TableSetting(psiElements);
-        tableTabbedPane.addTab("基础配置", baseSetting.getContent());
-        tableTabbedPane.addTab("模板选择", selectTemplate.getContent());
-        tableTabbedPane.addTab("数据库表配置", tableSetting.getContent());
+        final Runnable initPane = new Runnable() {
+            @Override
+            public void run() {
+                baseSetting = new BaseSetting(settings, developer, options, this);
+                tableSetting = new TableSetting(psiElements, options);
+                tableTabbedPane.removeAll();
+                tableTabbedPane.addTab("基础配置", baseSetting.getContent());
+                tableTabbedPane.addTab("模板选择", selectTemplate.getContent());
+                tableTabbedPane.addTab("数据库表配置", tableSetting.getContent());
+            }
+        };
+        initPane.run();
+
         initWindows();
         initConfig();
     }
@@ -173,7 +180,7 @@ public class Main extends JFrame {
                 Project project = PluginUtils.getProject();
 
                 jButton.setEnabled(false);
-                ConfigService  configService = ConfigService.getInstance(project);
+                ConfigService configService = ConfigService.getInstance(project);
                 if (configService != null) {
                     configService.refresh();
                     refreshMainConfig();
@@ -229,7 +236,7 @@ public class Main extends JFrame {
         projectPathField.setText(projectPath);
     }
 
-    private void refreshMainConfig(){
+    private void refreshMainConfig() {
         javaPathField.setText(settings.getJavaPath());
         sourcesPathField.setText(settings.getSourcesPath());
     }

@@ -1,5 +1,6 @@
 package com.github.houkunlin.vo.impl;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.ITable;
@@ -38,9 +39,9 @@ public class RootModel {
 
     private final PrimaryInfo primary;
 
-    public RootModel(DbTable dbTable, List<EntityFieldImpl> fields, List<TableColumnImpl> columns) {
+    public RootModel(DbTable dbTable, List<EntityFieldImpl> fields, List<TableColumnImpl> columns, Options options) {
         this.table = new TableImpl(dbTable);
-        this.entity = new EntityImpl(dbTable);
+        this.entity = new EntityImpl(dbTable, options);
         this.fields = fields;
         this.columns = columns;
         this.primary = new PrimaryInfo(fields);

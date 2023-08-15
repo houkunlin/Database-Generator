@@ -1,5 +1,6 @@
 package com.github.houkunlin.vo.impl;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.vo.IEntity;
 import com.intellij.database.psi.DbTable;
@@ -24,9 +25,9 @@ public class EntityImpl implements IEntity {
     @Setter
     private String uri;
 
-    public EntityImpl(DbTable dbTable) {
+    public EntityImpl(DbTable dbTable, Options options) {
         this.comment = StringUtils.defaultString(dbTable.getComment(), "");
-        this.name = new EntityName(dbTable);
+        this.name = new EntityName(dbTable, options);
     }
 
     public void setName(String name) {

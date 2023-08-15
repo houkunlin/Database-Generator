@@ -1,5 +1,6 @@
 package com.github.houkunlin.model;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.vo.impl.EntityFieldImpl;
 import com.github.houkunlin.vo.impl.TableColumnImpl;
 import com.google.common.collect.HashBasedTable;
@@ -33,8 +34,8 @@ public class JTableModel extends AbstractTableModel {
     String[] names = {"选中", "DB列名", "Java字段", "DB类型", "Java类型", "注释"};
     Boolean[] editable = {true, false, false, false, false, true};
 
-    public JTableModel(JTable columnTable, DbTable dbTable) {
-        initTableContent(dbTable);
+    public JTableModel(JTable columnTable, DbTable dbTable, Options options) {
+        initTableContent(dbTable, options);
         columnTable.setModel(this);
         setColumnSelected(columnTable);
     }
@@ -47,7 +48,7 @@ public class JTableModel extends AbstractTableModel {
         column.setMinWidth(width);
     }
 
-    private void initTableContent(DbTable dbTable) {
+    private void initTableContent(DbTable dbTable, Options options) {
         // ((DbTableImpl) psiElements[0]).getDelegate().getDasChildren(ObjectKind.COLUMN).get(3)
         // ((DbTableImpl)((DbColumnImpl) psiElement).getTable()).getDelegate().getDasChildren(ObjectKind.COLUMN).get(5).getName()
         // ((MysqlImplModel.Table) delegate).getKeys().myElements.get(0).getColNames()
@@ -55,7 +56,7 @@ public class JTableModel extends AbstractTableModel {
         int rowIndex = -1;
         JBIterable<? extends DasColumn> columns = DasUtil.getColumns(dbTable);
         for (DasColumn column : columns) {
-            EntityFieldImpl entityField = new EntityFieldImpl(column);
+            EntityFieldImpl entityField = new EntityFieldImpl(column, options);
             TableColumnImpl tableColumn = new TableColumnImpl(column);
             entityField.setColumn(tableColumn);
             tableColumn.setField(entityField);

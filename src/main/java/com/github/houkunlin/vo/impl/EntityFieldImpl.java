@@ -1,5 +1,6 @@
 package com.github.houkunlin.vo.impl;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.PluginUtils;
 import com.github.houkunlin.vo.IEntityField;
@@ -47,8 +48,8 @@ public class EntityFieldImpl implements IEntityField {
         this.selected = selected;
     }
 
-    public EntityFieldImpl(DasColumn dbColumn) {
-        this.name = new FieldNameInfo(dbColumn);
+    public EntityFieldImpl(DasColumn dbColumn, Options options) {
+        this.name = new FieldNameInfo(dbColumn, options);
         this.dataType = dbColumn.getDataType();
         String typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
         TableColumnType columnType = type(typeName);

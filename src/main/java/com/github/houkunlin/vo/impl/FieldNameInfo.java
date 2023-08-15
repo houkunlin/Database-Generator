@@ -1,5 +1,6 @@
 package com.github.houkunlin.vo.impl;
 
+import com.github.houkunlin.config.Options;
 import com.github.houkunlin.vo.IName;
 import com.google.common.base.CaseFormat;
 import com.intellij.database.model.DasColumn;
@@ -23,8 +24,8 @@ public class FieldNameInfo implements IName {
         this.firstLower = firstLower;
     }
 
-    public FieldNameInfo(DasColumn dbColumn) {
-        this.value = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, dbColumn.getName());
+    public FieldNameInfo(DasColumn dbColumn, Options options) {
+        this.value = options.obtainCaseFormat().to(CaseFormat.LOWER_CAMEL, dbColumn.getName());
         this.firstUpper = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, value);
         this.firstLower = value;
     }
