@@ -3,7 +3,6 @@ package com.github.houkunlin.util;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ExceptionUtil;
 import lombok.Data;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +58,7 @@ public class SyncResources implements Runnable {
         String syncFiles = IO.readResources("syncFiles.txt");
         String[] split = syncFiles.split("\n");
         for (String filePath : split) {
-            if (StringUtils.isBlank(filePath)) {
+            if (filePath == null || filePath.isBlank()) {
                 continue;
             }
             InputStream inputStream = IO.getInputStream(filePath);

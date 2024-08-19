@@ -6,8 +6,8 @@ import com.github.houkunlin.vo.IEntity;
 import com.intellij.database.psi.DbTable;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang.StringUtils;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -26,7 +26,7 @@ public class EntityImpl implements IEntity {
     private String uri;
 
     public EntityImpl(DbTable dbTable, Options options) {
-        this.comment = StringUtils.defaultString(dbTable.getComment(), "");
+        this.comment = Objects.toString(dbTable.getComment(), "");
         this.name = new EntityName(dbTable, options);
     }
 

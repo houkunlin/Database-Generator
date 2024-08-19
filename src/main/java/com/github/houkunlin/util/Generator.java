@@ -11,7 +11,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiFile;
 import com.intellij.util.ExceptionUtil;
 import lombok.Data;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import java.io.File;
@@ -109,7 +108,7 @@ public class Generator {
     private void generatorTemplateFile(RootModel rootModel, TemplateUtils templateUtils, File templateFile, String templateFilename) {
         try {
             String result = templateUtils.generatorFileToString(templateFilename, map);
-            if (StringUtils.isBlank(result)) {
+            if (result == null || result.isBlank()) {
                 // 不保存空内容的文件
                 return;
             }

@@ -6,9 +6,9 @@ import com.github.houkunlin.vo.impl.EntityImpl;
 import com.github.houkunlin.vo.impl.RootModel;
 import com.intellij.database.psi.DbTable;
 import lombok.Data;
-import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
+import java.util.Objects;
 
 /**
  * 数据库表面板（对应了单个表的配置信息）
@@ -72,8 +72,8 @@ public class TablePanel implements IWindows {
         }
         EntityImpl entity = rootModel.getEntity();
         entity.setName(entityNameField.getText());
-        entity.setComment(StringUtils.defaultString(commentField.getText(), ""));
-        entity.setUri(StringUtils.defaultString(uriField.getText(), ""));
+        entity.setComment(Objects.toString(commentField.getText(), ""));
+        entity.setUri(Objects.toString(uriField.getText(), ""));
         return rootModel;
     }
 

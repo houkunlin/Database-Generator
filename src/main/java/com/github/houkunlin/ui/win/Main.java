@@ -17,7 +17,6 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.TextBrowseFolderListener;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.psi.PsiElement;
-import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -230,7 +229,7 @@ public class Main extends JFrame {
         sourcesPathField.getDocument().addDocumentListener(documentListener);
 
         String projectPath = settings.getProjectPath();
-        if (StringUtils.isBlank(projectPath)) {
+        if (projectPath == null || projectPath.isBlank()) {
             projectPath = PluginUtils.getProject().getBasePath();
         }
         projectPathField.setText(projectPath);

@@ -10,7 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
+
+import java.util.Objects;
 
 /**
  * 数据库表字段信息（数据库表列对象信息）
@@ -56,7 +57,7 @@ public class TableColumnImpl implements ITableColumn {
         this.dataType = dbColumn.getDasType().toDataType();
         this.fullTypeName = dataType.getSpecification();
         this.typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
-        this.comment = StringUtils.defaultString(dbColumn.getComment(), "");
+        this.comment = Objects.toString(dbColumn.getComment(), "");
         this.primaryKey = DasUtil.isPrimary(dbColumn);
         this.selected = true;
     }

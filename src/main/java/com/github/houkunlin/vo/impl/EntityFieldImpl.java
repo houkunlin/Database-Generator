@@ -14,7 +14,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
+
+import java.util.Objects;
 
 /**
  * 实体类字段信息
@@ -55,7 +56,7 @@ public class EntityFieldImpl implements IEntityField {
         TableColumnType columnType = type(typeName);
         this.typeName = columnType.getShortName();
         this.fullTypeName = columnType.getLongName();
-        this.comment = StringUtils.defaultString(dbColumn.getComment(), "");
+        this.comment = Objects.toString(dbColumn.getComment(), "");
         this.primaryKey = DasUtil.isPrimary(dbColumn);
         this.selected = true;
     }

@@ -2,7 +2,6 @@ package com.github.houkunlin.vo.impl;
 
 import com.github.houkunlin.config.Settings;
 import lombok.Getter;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -55,7 +54,7 @@ public class EntityPackage {
 
     @Override
     public String toString() {
-        if (StringUtils.isBlank(toString)) {
+        if (toString == null || toString.isBlank()) {
             toString = list.stream().map(item -> String.format("import %s;\n", item)).collect(Collectors.joining());
         }
         return toString;

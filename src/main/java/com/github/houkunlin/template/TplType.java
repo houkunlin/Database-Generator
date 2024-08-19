@@ -1,7 +1,6 @@
 package com.github.houkunlin.template;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 
@@ -36,7 +35,7 @@ public enum TplType {
 
     public static TplType create(String file) {
         String extension = FilenameUtils.getExtension(file);
-        if (StringUtils.isBlank(extension)) {
+        if (extension == null || extension.isBlank()) {
             return NONE;
         }
         switch (extension) {
