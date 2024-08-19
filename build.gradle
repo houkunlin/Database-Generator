@@ -1,8 +1,14 @@
+import com.youbenzi.mdtool.tool.MDTool
+
 import java.util.stream.Collectors
 
+buildscript {
+    dependencies {
+        classpath 'com.youbenzi:MDTool:1.2.4'
+    }
+}
 plugins {
     id 'org.jetbrains.intellij' version '1.15.0'
-    id 'org.kordamp.gradle.markdown' version '2.2.0'
     id 'io.freefair.lombok' version '8.2.2'
     // id 'application'
     id 'java-library'
@@ -125,9 +131,10 @@ patchPluginXml {
     setUntilBuild("232.*")
 }
 
-markdownToHtml {
-    sourceDir = file("doc/plugin")
-    outputDir = file("$buildDir/gen-html")
+tasks.register("markdownToHtml") {
+    file("$buildDir/gen-html").mkdirs()
+    file("$buildDir/gen-html/changeNotes.html").write(MDTool.markdown2Html(file("doc/plugin/changeNotes.md")))
+    file("$buildDir/gen-html/description.html").write(MDTool.markdown2Html(file("doc/plugin/description.md")))
 }
 
 /**
