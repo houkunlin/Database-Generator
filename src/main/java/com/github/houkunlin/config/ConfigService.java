@@ -1,6 +1,5 @@
 package com.github.houkunlin.config;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.github.houkunlin.util.PluginUtils;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
@@ -10,6 +9,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mapstruct.factory.Mappers;
 
 /**
  * 配置 Service
@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
     defaultStateAsResource = true,
     storages = {@Storage("database-generator-config.xml")})
 public class ConfigService implements PersistentStateComponent<ConfigService> {
+    public static final BeanTransform BEAN_TRANSFORM = Mappers.getMapper(BeanTransform.class);
     private Developer developer;
     private Options options;
     private Settings settings;
@@ -44,9 +45,9 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
         assert developer != null;
         assert options != null;
         assert settings != null;
-        BeanUtil.copyProperties(developer,this.developer);
-        BeanUtil.copyProperties(options,this.options);
-        BeanUtil.copyProperties(settings,this.settings);
+        BEAN_TRANSFORM.copyTo(developer, this.developer);
+        BEAN_TRANSFORM.copyTo(options, this.options);
+        BEAN_TRANSFORM.copyTo(settings, this.settings);
     }
 
     @Nullable

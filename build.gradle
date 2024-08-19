@@ -30,10 +30,12 @@ configurations {
         extendsFrom annotationProcessor
     }
 }
-
+// 存放一些变量信息
+ext {
+    set('mapstruct', "1.5.5.Final")
+}
 dependencies {
     //    implementation(kotlin("stdlib-jdk8"))
-    implementation("cn.hutool:hutool-core:5.8.21")
     // https://mvnrepository.com/artifact/com.google.guava/guava
     // implementation("com.google.guava:guava:29.0-jre")
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
@@ -46,6 +48,15 @@ dependencies {
     implementation("com.ibeetl:beetl:3.15.8.RELEASE")
     implementation("joda-time:joda-time:2.10.10")
     implementation("org.yaml:snakeyaml:2.1")
+
+    // 这是一个代码处理工具，在编译阶段执行，可以自动转换两个POJO对象，只需要创建一个 interface 并在方法上配合它的注解使用，
+    // 在项目构建的过程中，它会根据这个 interface 代码内容自动生成实际的转换代码
+    implementation("org.mapstruct:mapstruct:${mapstruct}")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${mapstruct}")
+    testAnnotationProcessor("org.mapstruct:mapstruct-processor:${mapstruct}")
+    // 这是一个代码处理工具，在编译阶段执行，使用它提供的一些注解，可以减少项目中的一些不必要的代码量，例如POJO对象的getter、setter方法等，项目中的基础类大量用到了这个工具提供的功能
+    annotationProcessor('org.projectlombok:lombok-mapstruct-binding:0.2.0')
+    testAnnotationProcessor('org.projectlombok:lombok-mapstruct-binding:0.2.0')
 
     // implementation("com.google.code.gson:gson:2.8.5")
     // https://mvnrepository.com/artifact/jalopy/jalopy
