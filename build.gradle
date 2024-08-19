@@ -8,8 +8,8 @@ buildscript {
     }
 }
 plugins {
-    id 'org.jetbrains.intellij' version '1.15.0'
-    id 'io.freefair.lombok' version '8.2.2'
+    id 'org.jetbrains.intellij' version '1.17.4'
+    id 'io.freefair.lombok' version '8.7.1'
     // id 'application'
     id 'java-library'
     id 'idea'
@@ -93,8 +93,8 @@ idea {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
     // 构建编译 java 时生成 java doc 的 jar
     withJavadocJar()
     // 构建编译 java 时生成源代码的 jar
