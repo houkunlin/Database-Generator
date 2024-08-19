@@ -4,8 +4,6 @@ import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.ResourceLoader;
 import org.beetl.core.Template;
-import org.beetl.core.om.AABuilder;
-import org.beetl.core.om.DefaultAAFactory;
 import org.beetl.core.resource.FileResourceLoader;
 import org.beetl.core.resource.StringTemplateResourceLoader;
 
@@ -28,8 +26,6 @@ public class BeetlUtils {
         Configuration configuration = Configuration.defaultConfiguration();
         groupTemplateString = createGroupTemplate(new StringTemplateResourceLoader(), configuration);
         groupTemplateFile = createGroupTemplate(new FileResourceLoader(templateRootPath.getAbsolutePath()), configuration);
-        // 必须重新设置，不然因为 ClassLoader 不正确导致渲染错误
-        AABuilder.defalutAAFactory = new DefaultAAFactory();
     }
 
     private GroupTemplate createGroupTemplate(ResourceLoader loader, Configuration configuration) {
