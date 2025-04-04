@@ -252,6 +252,12 @@
               <text value="覆盖其他类型文件"/>
             </properties>
           </component>
+          <component id="39f23" class="javax.swing.JCheckBox" binding="retainLastSelectionTemplates">
+            <constraints/>
+            <properties>
+              <text value="是否记住上次选择模板"/>
+            </properties>
+          </component>
           <component id="f4dea" class="javax.swing.JLabel">
             <constraints/>
             <properties>

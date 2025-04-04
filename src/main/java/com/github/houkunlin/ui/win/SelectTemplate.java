@@ -11,8 +11,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -32,7 +34,13 @@ public class SelectTemplate implements IWindows {
      */
     private JPanel content;
 
-    public SelectTemplate() {
+    /**
+     * 上次选择的模板文件列表
+     */
+    private final List<String> lastSelectionTemplates;
+
+    public SelectTemplate(List<String> lastSelectionTemplates) {
+        this.lastSelectionTemplates = lastSelectionTemplates;
         File extensionPluginPath = PluginUtils.getExtensionPluginDirFile(PluginUtils.TEMPLATE_DIR);
         File projectPluginPath = PluginUtils.getProjectPluginDirFile(PluginUtils.TEMPLATE_DIR);
         File projectWorkspacePluginPath = PluginUtils.getProjectWorkspacePluginDirFile(PluginUtils.TEMPLATE_DIR);
@@ -76,7 +84,7 @@ public class SelectTemplate implements IWindows {
         }
         TreeNode node = (TreeNode) parent.getLastPathComponent();
         if (node.getChildCount() >= 0) {
-            for (Enumeration e = node.children(); e.hasMoreElements(); ) {
+            for (Enumeration<?> e = node.children(); e.hasMoreElements(); ) {
                 TreeNode n = (TreeNode) e.nextElement();
                 TreePath path = parent.pathByAddingChild(n);
                 expandDepthNode(path, expand, depth);
@@ -90,7 +98,7 @@ public class SelectTemplate implements IWindows {
     }
 
     private void getTreeData(DefaultMutableTreeNode treeNode, File[] files) {
-        if (files == null || files.length == 0) {
+        if (files == null) {
             return;
         }
         for (File file : files) {
@@ -100,10 +108,23 @@ public class SelectTemplate implements IWindows {
                 getTreeData(node, file.listFiles());
             } else {
                 // 是一个模板文件
-                node = new CheckBoxTreeNode(file);
+                var checkbox = new CheckBoxTreeNode(file);
+                checkbox.setSelected(isLastSelected(file.toPath()));
+                node = checkbox;
             }
             treeNode.add(node);
         }
+    }
+
+    private boolean isLastSelected(Path path) {
+        if (lastSelectionTemplates == null) {
+            return false;
+        }
+        String pathStr = path.normalize()
+                             .toString();
+        // 对于项目目录下的模板文件，直接判断是否包含上次选择的相对路径
+        return lastSelectionTemplates.contains(pathStr) || lastSelectionTemplates.stream()
+                                                                                 .anyMatch(pathStr::contains);
     }
 
     @Override
@@ -112,11 +133,35 @@ public class SelectTemplate implements IWindows {
     }
 
     public List<File> getAllSelectFile() {
-        List<CheckBoxTreeNode> allSelectNodes = root.getAllSelectNodes();
-        return allSelectNodes
-                .stream()
-                .filter(item -> item.getUserObject() instanceof File)
-                .map(item -> (File) item.getUserObject())
-                .collect(Collectors.toList());
+        return getAllSelectionFiles(Function.identity());
+    }
+
+    /**
+     * 获取所有选择的文件路径.
+     * <p>
+     *     其中，对于项目目录下的模板文件，返回的是相对路径，否则返回绝对路径。<br>
+     *     简单的认为整个项目路径下的文件均被VCS管理，以实现跨设备的路径访问。
+     * </p>
+     *
+     * @return 文件路径
+     */
+    public List<String> getAllSelectFilePaths() {
+        var projectPath = PluginUtils.getProjectPath()
+                                     .normalize()
+                                     .toString();
+        return getAllSelectionFiles(file -> file.toPath()
+                                                .normalize()
+                                                .toString()
+                                                .replace(projectPath, ""));
+    }
+
+    private <T> List<T> getAllSelectionFiles(Function<File, T> mapper) {
+        return root.getAllSelectNodes()
+                   .stream()
+                   .map(DefaultMutableTreeNode::getUserObject)
+                   .filter(item -> item instanceof File)
+                   .map(item -> ((File) item))
+                   .map(mapper)
+                   .collect(Collectors.toList());
     }
 }

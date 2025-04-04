@@ -56,7 +56,7 @@ public class Main extends JFrame {
     /**
      * 面板对象：模板选择配置
      */
-    private SelectTemplate selectTemplate;
+    private final SelectTemplate selectTemplate;
     /**
      * 输入框：项目路径输入、选择
      */
@@ -128,7 +128,7 @@ public class Main extends JFrame {
         this.settings = configService.getSettings();
         this.developer = configService.getDeveloper();
         this.options = configService.getOptions();
-        selectTemplate = new SelectTemplate();
+        selectTemplate = new SelectTemplate(configService.getLastSelectionTemplates());
         final Runnable initPane = new Runnable() {
             @Override
             public void run() {
@@ -190,6 +190,8 @@ public class Main extends JFrame {
                     Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
                     return;
                 }
+                var allSelectFilePaths = selectTemplate.getAllSelectFilePaths();
+                configService.setLastSelectionTemplates(allSelectFilePaths);
                 setVisible(false);
                 Generator generator = new Generator(settings, options, developer);
                 GeneratorTask generatorTask = new GeneratorTask(project, this, generator, allSelectFile, tableSetting.getRootModels());
@@ -205,13 +207,14 @@ public class Main extends JFrame {
         });
     }
 
-    private void doRefresh(Project project1) {
-        ConfigService configService = ConfigService.getInstance(project1);
-        if (configService != null) {
-            configService.refresh();
-            refreshMainConfig();
-            baseSetting.initConfig();
+    private void doRefresh(Project project) {
+        ConfigService configService = ConfigService.getInstance(project);
+        if (configService == null) {
+            return;
         }
+        configService.refresh();
+        refreshMainConfig();
+        baseSetting.initConfig();
     }
 
     /**

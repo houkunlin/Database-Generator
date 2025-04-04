@@ -11,6 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mapstruct.factory.Mappers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 配置 Service
  *
@@ -26,6 +30,7 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
     private Developer developer;
     private Options options;
     private Settings settings;
+    private final List<String> lastSelectionTemplates = new ArrayList<>();
 
     public ConfigService() {
         ConfigVo configVo = PluginUtils.loadConfig();
@@ -67,5 +72,29 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
     @Override
     public void loadState(@NotNull ConfigService state) {
         XmlSerializerUtil.copyBean(state, this);
+    }
+
+    /**
+     * 设置上次选择的模板列表，仅当启用 "记住上次选择的模板" 选项时，才生效
+     *
+     * @param lastSelectionTemplates 上次选择的模板列表
+     */
+    public void setLastSelectionTemplates(List<String> lastSelectionTemplates) {
+        if (this.options == null || !this.options.isRetainLastSelectionTemplates()) {
+            return;
+        }
+        this.lastSelectionTemplates.clear();
+        this.lastSelectionTemplates.addAll(lastSelectionTemplates);
+    }
+
+    /**
+     * 获取上次选择的模板列表， 当未启用 "记住上次选择的模板" 选项时，直接返回空列表
+     * @return 上次选择的模板列表
+     */
+    public List<String> getLastSelectionTemplates() {
+        if (this.options == null || !this.options.isRetainLastSelectionTemplates()) {
+            return Collections.emptyList();
+        }
+        return this.lastSelectionTemplates;
     }
 }
