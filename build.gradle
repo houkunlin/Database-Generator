@@ -92,6 +92,10 @@ idea {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+        vendor = JvmVendorSpec.JETBRAINS
+    }
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
     // 构建编译 java 时生成 java doc 的 jar
