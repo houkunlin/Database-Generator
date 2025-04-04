@@ -22,8 +22,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -105,6 +103,7 @@ public class Main extends JFrame {
             }
         }
     };
+
     /**
      * 内容Tab标签
      */
@@ -117,6 +116,10 @@ public class Main extends JFrame {
      * 面板：内容面板
      */
     private JPanel content;
+
+    /**
+     * 刷新按钮
+     */
     private JButton refreshConfig;
 
     public Main(PsiElement[] psiElements, ConfigService configService) {
@@ -172,22 +175,12 @@ public class Main extends JFrame {
         chooserDescriptor.setTitle("选择项目路径");
 
         projectPathField.addBrowseFolderListener(new TextBrowseFolderListener(chooserDescriptor, project));
-
-        refreshConfig.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton jButton = (JButton) e.getSource();
-                Project project = PluginUtils.getProject();
-
-                jButton.setEnabled(false);
-                ConfigService configService = ConfigService.getInstance(project);
-                if (configService != null) {
-                    configService.refresh();
-                    refreshMainConfig();
-                    baseSetting.initConfig();
-                }
-                jButton.setEnabled(true);
-            }
+        doRefresh(PluginUtils.getProject());
+        refreshConfig.addActionListener(e -> {
+            JButton jButton = (JButton) e.getSource();
+            jButton.setEnabled(false);
+            doRefresh(PluginUtils.getProject());
+            jButton.setEnabled(true);
         });
         // 点击完成按钮 默认
         finishButton.addActionListener(event -> {
@@ -202,7 +195,7 @@ public class Main extends JFrame {
                 GeneratorTask generatorTask = new GeneratorTask(project, this, generator, allSelectFile, tableSetting.getRootModels());
                 ProgressManager.getInstance().run(generatorTask);
             } catch (Throwable throwable) {
-                throwable.printStackTrace();
+                log.error(throwable);
                 setVisible(true);
                 Messages.showErrorDialog("初始化代码生成处理器失败，请联系开发者。\n\n" + throwable.getMessage(), "生成代码失败");
             }
@@ -210,6 +203,15 @@ public class Main extends JFrame {
             configService.setOptions(options);
             configService.setSettings(settings);
         });
+    }
+
+    private void doRefresh(Project project1) {
+        ConfigService configService = ConfigService.getInstance(project1);
+        if (configService != null) {
+            configService.refresh();
+            refreshMainConfig();
+            baseSetting.initConfig();
+        }
     }
 
     /**
