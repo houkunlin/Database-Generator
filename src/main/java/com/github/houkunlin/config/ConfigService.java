@@ -45,6 +45,9 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
         assert developer != null;
         assert options != null;
         assert settings != null;
+        if (settings.getProjectPath() == null) {
+            settings.setProjectPath(PluginUtils.getProjectPath().normalize().toString());
+        }
         BEAN_TRANSFORM.copyTo(developer, this.developer);
         BEAN_TRANSFORM.copyTo(options, this.options);
         BEAN_TRANSFORM.copyTo(settings, this.settings);
