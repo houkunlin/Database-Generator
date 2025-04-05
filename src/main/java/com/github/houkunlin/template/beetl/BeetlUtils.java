@@ -1,5 +1,6 @@
 package com.github.houkunlin.template.beetl;
 
+import com.github.houkunlin.util.ScriptManager;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.ResourceLoader;
@@ -24,6 +25,8 @@ public class BeetlUtils {
     public BeetlUtils(File templateRootPath) throws IOException {
         //初始化代码
         Configuration configuration = Configuration.defaultConfiguration();
+        configuration.setNativeCall(true);
+        configuration.setNativeSecurity("org.beetl.core.DefaultNativeSecurityManager");
         groupTemplateString = createGroupTemplate(new StringTemplateResourceLoader(), configuration);
         groupTemplateFile = createGroupTemplate(new FileResourceLoader(templateRootPath.getAbsolutePath()), configuration);
     }
@@ -43,11 +46,23 @@ public class BeetlUtils {
      * @throws IOException IO异常
      */
     public String generatorFileToString(String templateFile, Map<String, Object> model) throws Exception {
+        resetScriptsConfig(model);
         //获取模板
         Template template = groupTemplateFile.getTemplate(templateFile);
         template.binding(model);
         //渲染结果
         return template.render();
+    }
+
+    private void resetScriptsConfig(Map<String, Object> model) {
+        var scriptManager = model.get(ScriptManager.VARIABLE);
+        if (!(scriptManager instanceof ScriptManager)) {
+            return;
+        }
+        System.out.println("重置脚本注入");
+        ((ScriptManager) scriptManager).forEach((name, callback) ->
+            groupTemplateFile.registerFunction(ScriptManager.NAMESPACE + name, (paras, ctx) -> callback.call(paras)));
+        model.remove(ScriptManager.VARIABLE);
     }
 
     /**
@@ -59,6 +74,7 @@ public class BeetlUtils {
      * @throws IOException IO异常
      */
     public String generatorToString(String templateContent, Map<String, Object> model) throws Exception {
+        resetScriptsConfig(model);
         //获取模板
         Template template = groupTemplateString.getTemplate(templateContent);
         template.binding(model);

@@ -34,17 +34,14 @@ public class TemplateUtils {
      * @throws IOException IO异常
      */
     public String generatorFileToString(String templateFile, Map<String, Object> model) throws Exception {
-        switch (TplType.create(templateFile)) {
-            case BEETL:
-                return beetlUtils.generatorFileToString(templateFile, model);
-            case VELOCITY:
-                return velocityUtils.generatorFileToString(templateFile, model);
-            case FREEMARKER:
-                return freemarkerUtils.generatorFileToString(templateFile, model);
-            default:
-        }
-        return "";
+        return switch (TplType.create(templateFile)) {
+            case BEETL -> beetlUtils.generatorFileToString(templateFile, model);
+            case VELOCITY -> velocityUtils.generatorFileToString(templateFile, model);
+            case FREEMARKER -> freemarkerUtils.generatorFileToString(templateFile, model);
+            default -> "";
+        };
     }
+
 
     /**
      * 渲染模板
@@ -55,15 +52,11 @@ public class TemplateUtils {
      * @throws IOException IO异常
      */
     public String generatorToString(String templateContent, Map<String, Object> model, TplType type) throws Exception {
-        switch (type) {
-            case BEETL:
-                return beetlUtils.generatorToString(templateContent, model);
-            case VELOCITY:
-                return velocityUtils.generatorToString(templateContent, model);
-            case FREEMARKER:
-                return freemarkerUtils.generatorToString(templateContent, model);
-            default:
-        }
-        return templateContent;
+        return switch (type) {
+            case BEETL -> beetlUtils.generatorToString(templateContent, model);
+            case VELOCITY -> velocityUtils.generatorToString(templateContent, model);
+            case FREEMARKER -> freemarkerUtils.generatorToString(templateContent, model);
+            default -> templateContent;
+        };
     }
 }

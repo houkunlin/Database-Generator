@@ -95,6 +95,10 @@ public class Generator {
             File templateFile = templateFiles.get(i);
 
             final File templateWorkspace = getTemplateWorkspace(templateFile);
+            var scriptManager = ScriptManager.of(templateWorkspace.toPath()
+                                                                  .resolve(ScriptManager.DIR), i == 0);
+
+            map.put(ScriptManager.VARIABLE, scriptManager);
             String templateFilename = FileUtils.relativePath(templateWorkspace, templateFile).replaceFirst(PluginUtils.TEMPLATE_DIR, "");
             if (progress != null) {
                 progress.accept(i, templateFilename);
