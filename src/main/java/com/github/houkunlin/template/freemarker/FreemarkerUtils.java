@@ -1,10 +1,8 @@
 package com.github.houkunlin.template.freemarker;
 
-import com.github.houkunlin.util.ScriptManager;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateModelException;
 
 import java.io.*;
 import java.util.Map;
@@ -39,19 +37,10 @@ public class FreemarkerUtils {
     public String generatorFileToString(String templateFile, Map<String, Object> model) throws IOException, TemplateException {
         Template template = configuration.getTemplate(templateFile);
         Writer out = new StringWriter();
-        resetScriptsConfig(model);
         template.process(model, out);
         return out.toString();
     }
 
-    private void resetScriptsConfig(Map<String, Object> model) throws TemplateModelException {
-        var scriptManager = model.get(ScriptManager.VARIABLE);
-        if (scriptManager == null) {
-            return;
-        }
-        configuration.setSharedVariable(ScriptManager.VARIABLE, scriptManager);
-        model.remove(ScriptManager.VARIABLE);
-    }
 
     /**
      * 渲染模板
@@ -64,7 +53,6 @@ public class FreemarkerUtils {
      */
     public String generatorToString(String templateContent, Map<String, Object> model) throws IOException, TemplateException {
         Template template = new Template(null, new StringReader(templateContent), configuration);
-        resetScriptsConfig(model);
         Writer out = new StringWriter();
         template.process(model, out);
         return out.toString();

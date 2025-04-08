@@ -46,9 +46,9 @@ public class BeetlUtils {
      * @throws IOException IO异常
      */
     public String generatorFileToString(String templateFile, Map<String, Object> model) throws Exception {
-        resetScriptsConfig(model);
         //获取模板
         Template template = groupTemplateFile.getTemplate(templateFile);
+        resetScriptsConfig(model);
         template.binding(model);
         //渲染结果
         return template.render();
@@ -59,11 +59,14 @@ public class BeetlUtils {
         if (!(scriptManager instanceof ScriptManager)) {
             return;
         }
-        System.out.println("重置脚本注入");
-        ((ScriptManager) scriptManager).forEach((name, callback) ->
-            groupTemplateFile.registerFunction(ScriptManager.NAMESPACE + name, (paras, ctx) -> callback.call(paras)));
         model.remove(ScriptManager.VARIABLE);
+        ((ScriptManager) scriptManager).forEach(this::registerScriptMethods);
     }
+
+    private void registerScriptMethods(String name, Object script) {
+        groupTemplateFile.registerFunctionPackage(ScriptManager.NAMESPACE + name, script);
+    }
+
 
     /**
      * 渲染模板
@@ -74,9 +77,9 @@ public class BeetlUtils {
      * @throws IOException IO异常
      */
     public String generatorToString(String templateContent, Map<String, Object> model) throws Exception {
-        resetScriptsConfig(model);
         //获取模板
         Template template = groupTemplateString.getTemplate(templateContent);
+        resetScriptsConfig(model);
         template.binding(model);
         //渲染结果
         return template.render();
