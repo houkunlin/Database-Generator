@@ -35,18 +35,15 @@ public enum TplType {
 
     public static TplType create(String file) {
         String extension = FilenameUtils.getExtension(file);
-        if (extension == null || extension.isBlank()) {
+        if (extension == null) {
             return NONE;
         }
-        switch (extension) {
-            case "ftl":
-                return FREEMARKER;
-            case "vm":
-                return VELOCITY;
-            case "btl":
-                return BEETL;
-            default:
-                return NONE;
-        }
+        return switch (extension) {
+            case "ftl" -> FREEMARKER;
+            case "vm" -> VELOCITY;
+            case "btl" -> BEETL;
+            default -> NONE;
+        };
     }
+
 }

@@ -4,7 +4,8 @@ import com.github.houkunlin.config.Developer;
 import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.model.SaveFilePath;
-import com.github.houkunlin.template.TemplateUtils;
+import com.github.houkunlin.template.ITemplateGenerator;
+import com.github.houkunlin.template.TemplateGeneratorFactory;
 import com.github.houkunlin.vo.Variable;
 import com.github.houkunlin.vo.impl.RootModel;
 import com.intellij.openapi.project.Project;
@@ -14,7 +15,6 @@ import lombok.Data;
 import org.joda.time.DateTime;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,52 +31,20 @@ import java.util.function.BiConsumer;
 public class Generator {
     private final Settings settings;
     private final Options options;
-    private final Map<String, Object> map;
+    private final Map<String, Object> context;
     private final List<PsiFile> saveFiles;
     private final Project project;
-    private final Map<File, TemplateUtils> templates = new HashMap<>();
 
     public Generator(Settings settings, Options options, Developer developer) {
         this.project = PluginUtils.getProject();
         this.settings = settings;
         this.options = options;
         this.saveFiles = new ArrayList<>();
-        this.map = new HashMap<>(8);
-        map.put("settings", settings);
-        map.put("developer", developer);
-        map.put("gen", Variable.getInstance());
-        map.put("date", DateTime.now());
-    }
-
-    private File getTemplateWorkspace(File templateFile) {
-        final String absolutePath = templateFile.getAbsolutePath();
-        File file = PluginUtils.getProjectWorkspacePluginDir();
-        if (absolutePath.startsWith(file.getAbsolutePath())) {
-            return file;
-        }
-        file = PluginUtils.getProjectPluginDir();
-        if (absolutePath.startsWith(file.getAbsolutePath())) {
-            return file;
-        }
-        file = PluginUtils.getExtensionPluginDir();
-        if (absolutePath.startsWith(file.getAbsolutePath())) {
-            return file;
-        }
-        throw new RuntimeException("无法找到代码模板文件在插件中的根路径：" + templateFile.getAbsolutePath());
-    }
-
-    private TemplateUtils getTemplateUtils(File templateWorkspace) {
-        TemplateUtils utils = templates.get(templateWorkspace);
-        if (utils == null) {
-            final File templateRoot = new File(templateWorkspace, PluginUtils.TEMPLATE_DIR);
-            try {
-                utils = new TemplateUtils(templateRoot);
-                templates.put(templateWorkspace, utils);
-            } catch (IOException e) {
-                throw new RuntimeException("创建 Root 模板处理器失败：" + templateRoot.getAbsolutePath() + "\r\n" + e.getMessage(), e);
-            }
-        }
-        return utils;
+        this.context = new HashMap<>(8);
+        context.put("settings", settings);
+        context.put("developer", developer);
+        context.put("gen", Variable.getInstance());
+        context.put("date", DateTime.now());
     }
 
     /**
@@ -86,49 +54,57 @@ public class Generator {
         if (rootModel == null || templateFiles == null || templateFiles.isEmpty()) {
             return;
         }
-        map.put("table", rootModel.getTable());
-        map.put("columns", rootModel.getColumns());
-        map.put("entity", rootModel.getEntity(settings));
-        map.put("fields", rootModel.getFields());
-        map.put("primary", rootModel.getPrimary());
+        loadContext(rootModel);
         for (int i = 0; i < templateFiles.size(); i++) {
-            File templateFile = templateFiles.get(i);
-
-            final File templateWorkspace = getTemplateWorkspace(templateFile);
-            var scriptManager = ScriptManager.of(templateWorkspace.toPath()
-                                                                  .resolve(ScriptManager.DIR), i == 0);
-
-            map.put(ScriptManager.VARIABLE, scriptManager);
-            String templateFilename = FileUtils.relativePath(templateWorkspace, templateFile).replaceFirst(PluginUtils.TEMPLATE_DIR, "");
+            var templateFile = templateFiles.get(i);
+            var generator = TemplateGeneratorFactory.create(templateFile);
+            var workspace = generator.getWorkspace();
+            var templateFilename = FileUtils.relativePath(workspace, templateFile)
+                                            .replaceFirst(PluginUtils.TEMPLATE_DIR, "");
             if (progress != null) {
                 progress.accept(i, templateFilename);
             }
             // 重置内容，方便使用默认配置
             Variable.resetVariables();
-            generatorTemplateFile(rootModel, getTemplateUtils(templateWorkspace), templateFile, templateFilename);
+            generatorTemplateFile(rootModel, generator, templateFile, templateFilename);
         }
     }
 
-    private void generatorTemplateFile(RootModel rootModel, TemplateUtils templateUtils, File templateFile, String templateFilename) {
+    private void loadContext(RootModel rootModel) {
+        context.put("table", rootModel.getTable());
+        context.put("columns", rootModel.getColumns());
+        context.put("entity", rootModel.getEntity(settings));
+        context.put("fields", rootModel.getFields());
+        context.put("primary", rootModel.getPrimary());
+    }
+
+    private void generatorTemplateFile(RootModel rootModel, ITemplateGenerator generator, File templateFile, String templateFilename) {
         try {
-            String result = templateUtils.generatorFileToString(templateFilename, map);
+            var result = generator.generate(templateFilename, context);
             if (result == null || result.isBlank()) {
                 // 不保存空内容的文件
                 return;
             }
-            SaveFilePath saveFilePath;
-            if (Variable.type == null) {
-                saveFilePath = new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
-            } else {
-                saveFilePath = SaveFilePath.create(rootModel, settings);
-            }
-            File saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
-            PsiFile psiFile = FileUtils.getInstance().saveFileContent(project, saveFile, result, saveFilePath.isOverride(options));
-            if (psiFile != null && !saveFiles.contains(psiFile)) {
-                saveFiles.add(psiFile);
+            var savePsiFile = getSavePsiFile(rootModel, templateFile, result);
+            if (savePsiFile != null && !saveFiles.contains(savePsiFile)) {
+                saveFiles.add(savePsiFile);
             }
         } catch (Throwable e) {
             ExceptionUtil.rethrow(new RuntimeException("解析错误：" + templateFile.getAbsolutePath() + "\r\n" + e.getMessage(), e));
         }
+    }
+
+    private PsiFile getSavePsiFile(RootModel rootModel, File templateFile, String result) {
+        var saveFilePath = getSaveFilePath(rootModel, templateFile);
+        var saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
+        return FileUtils.getInstance()
+                        .saveFileContent(project, saveFile, result, saveFilePath.isOverride(options));
+    }
+
+    private SaveFilePath getSaveFilePath(RootModel rootModel, File templateFile) {
+        if (Variable.type == null) {
+            return new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
+        }
+        return SaveFilePath.create(rootModel, settings);
     }
 }
