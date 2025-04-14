@@ -42,7 +42,10 @@ public class ConfigService implements PersistentStateComponent<ConfigService> {
         assert settings != null;
     }
 
-    public synchronized void refresh(){
+    /**
+     * 重新从配置文件中读取配置信息
+     */
+    public synchronized void reset(){
         ConfigVo configVo = PluginUtils.loadConfig();
         Developer developer = configVo.getDeveloper();
         Options options = configVo.getOptions();

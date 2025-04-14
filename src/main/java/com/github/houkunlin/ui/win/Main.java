@@ -118,9 +118,9 @@ public class Main extends JFrame {
     private JPanel content;
 
     /**
-     * 刷新按钮
+     * 重置按钮
      */
-    private JButton refreshConfig;
+    private JButton resetConfig;
 
     public Main(PsiElement[] psiElements, ConfigService configService) {
         super("代码生成器");
@@ -160,8 +160,8 @@ public class Main extends JFrame {
         setResizable(false);
         pack();
         setVisible(true);
-        refreshConfig.setEnabled(true);
-        refreshConfig.setIcon(DatabaseIcons.REFRESH);
+        resetConfig.setEnabled(true);
+        resetConfig.setIcon(DatabaseIcons.REFRESH);
     }
 
     /**
@@ -175,11 +175,10 @@ public class Main extends JFrame {
         chooserDescriptor.setTitle("选择项目路径");
 
         projectPathField.addBrowseFolderListener(new TextBrowseFolderListener(chooserDescriptor, project));
-        doRefresh(PluginUtils.getProject());
-        refreshConfig.addActionListener(e -> {
+        resetConfig.addActionListener(e -> {
             JButton jButton = (JButton) e.getSource();
             jButton.setEnabled(false);
-            doRefresh(PluginUtils.getProject());
+            doReset(PluginUtils.getProject());
             jButton.setEnabled(true);
         });
         // 点击完成按钮 默认
@@ -207,12 +206,12 @@ public class Main extends JFrame {
         });
     }
 
-    private void doRefresh(Project project) {
+    private void doReset(Project project) {
         ConfigService configService = ConfigService.getInstance(project);
         if (configService == null) {
             return;
         }
-        configService.refresh();
+        configService.reset();
         refreshMainConfig();
         baseSetting.initConfig();
     }
@@ -237,6 +236,7 @@ public class Main extends JFrame {
         if (projectPath == null || projectPath.isBlank()) {
             projectPath = PluginUtils.getProject().getBasePath();
         }
+        refreshMainConfig();
         projectPathField.setText(projectPath);
     }
 
