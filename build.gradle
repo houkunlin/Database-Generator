@@ -21,7 +21,7 @@ var intellijVersion = findProperty("intellijVersion") ?: System.getenv("intellij
 var intellijPublishToken = findProperty("intellijPublishToken") ?: System.getenv("intellijPublishToken")
 
 group = "com.github.houkunlin"
-version = "2.8.2-2023.3+"
+version = "2.8.3-2023.3+"
 
 println(">>> PROJECT INFO : $group --> { intellij-version = IU-$intellijVersion, plugin-version = $version }")
 
