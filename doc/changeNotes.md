@@ -1,3 +1,9 @@
+- **2025-04-18: 2.8.3**
+    - ZH-CN
+        - fix: 配置面板“项目路径”会丢失和没有自动刷新的问题 @daiwenzh5
+        - feat: “记住选择模板”选项 @daiwenzh5
+        - feat: 在模板中支持调用groovy脚本定义的方法 @daiwenzh5
+
 - **2024-08-19: 2.8.2**
     - ZH-CN
         - 升级 beetl 到 3.17.0.RELEASE
