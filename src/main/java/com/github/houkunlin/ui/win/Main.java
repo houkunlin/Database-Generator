@@ -212,6 +212,7 @@ public class Main extends JFrame {
             return;
         }
         configService.reset();
+        selectTemplate.reset();
         refreshMainConfig();
         baseSetting.initConfig();
     }

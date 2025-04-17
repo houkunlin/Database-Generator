@@ -164,4 +164,16 @@ public class SelectTemplate implements IWindows {
                    .map(mapper)
                    .collect(Collectors.toList());
     }
+
+    /**
+     * 重置已选择模板
+     *
+     * <p>
+     * 清除所有已选择的模板
+     * </p>
+     */
+    public void reset() {
+        root.getAllSelectNodes()
+            .forEach(node -> node.setSelected(false));
+    }
 }
