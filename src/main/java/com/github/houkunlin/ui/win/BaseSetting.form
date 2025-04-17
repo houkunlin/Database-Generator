@@ -2,19 +2,19 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.houkunlin.ui.win.BaseSetting">
   <grid id="27dc6" binding="content" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
     <constraints>
-      <xy x="35" y="20" width="950" height="500"/>
+      <xy x="35" y="20" width="970" height="500"/>
     </constraints>
     <properties>
-      <maximumSize width="950" height="500"/>
-      <minimumSize width="950" height="500"/>
-      <preferredSize width="950" height="500"/>
+      <maximumSize width="970" height="500"/>
+      <minimumSize width="970" height="500"/>
+      <preferredSize width="970" height="500"/>
     </properties>
     <border type="none"/>
     <children>
       <grid id="8f10a" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints/>
         <properties>
-          <preferredSize width="940" height="68"/>
+          <preferredSize width="960" height="68"/>
         </properties>
         <border type="etched" title-resource-bundle="i18n/language" title-key="panel.entity.title"/>
         <children>
@@ -56,7 +56,7 @@
       <grid id="b10d9" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints/>
         <properties>
-          <preferredSize width="940" height="68"/>
+          <preferredSize width="960" height="68"/>
         </properties>
         <border type="etched" title-resource-bundle="i18n/language" title-key="panel.dao.title"/>
         <children>
@@ -110,7 +110,7 @@
       <grid id="c64a4" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints/>
         <properties>
-          <preferredSize width="940" height="68"/>
+          <preferredSize width="960" height="68"/>
         </properties>
         <border type="etched" title-resource-bundle="i18n/language" title-key="panel.service.title"/>
         <children>
@@ -151,7 +151,7 @@
       <grid id="b8b9d" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints/>
         <properties>
-          <preferredSize width="940" height="68"/>
+          <preferredSize width="960" height="68"/>
         </properties>
         <border type="etched" title-resource-bundle="i18n/language" title-key="panel.controller.title"/>
         <children>
@@ -194,7 +194,7 @@
         <properties>
           <enabled value="true"/>
           <opaque value="true"/>
-          <preferredSize width="940" height="68"/>
+          <preferredSize width="960" height="68"/>
         </properties>
         <border type="etched" title-resource-bundle="i18n/language" title-key="panel.developer.title"/>
         <children>
@@ -227,7 +227,7 @@
       <grid id="d1527" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints/>
         <properties>
-          <preferredSize width="940" height="68"/>
+          <preferredSize width="960" height="68"/>
         </properties>
         <border type="etched" title="构建选项"/>
         <children>

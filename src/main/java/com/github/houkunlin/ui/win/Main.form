@@ -2,19 +2,19 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.houkunlin.ui.win.Main">
   <grid id="27dc6" binding="content" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
     <constraints>
-      <xy x="20" y="20" width="960" height="600"/>
+      <xy x="20" y="20" width="980" height="600"/>
     </constraints>
     <properties>
-      <maximumSize width="960" height="600"/>
-      <minimumSize width="960" height="600"/>
-      <preferredSize width="960" height="600"/>
+      <maximumSize width="980" height="600"/>
+      <minimumSize width="980" height="600"/>
+      <preferredSize width="980" height="600"/>
     </properties>
     <border type="none"/>
     <children>
       <grid id="99a21" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints/>
         <properties>
-          <preferredSize width="950" height="40"/>
+          <preferredSize width="970" height="40"/>
         </properties>
         <border type="none"/>
         <children>
@@ -71,9 +71,9 @@
       <tabbedpane id="fea9c" binding="tableTabbedPane">
         <constraints/>
         <properties>
-          <maximumSize width="950" height="500"/>
-          <minimumSize width="950" height="500"/>
-          <preferredSize width="950" height="500"/>
+          <maximumSize width="970" height="500"/>
+          <minimumSize width="970" height="500"/>
+          <preferredSize width="970" height="500"/>
         </properties>
         <border type="none"/>
         <children/>
@@ -81,7 +81,7 @@
       <grid id="2f7b6" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="2">
         <constraints/>
         <properties>
-          <preferredSize width="950" height="40"/>
+          <preferredSize width="970" height="40"/>
         </properties>
         <border type="none"/>
         <children>
