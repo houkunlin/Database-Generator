@@ -267,6 +267,7 @@ public class BaseSetting implements IWindows {
         overrideXmlCheckBox.addItemListener(checkBoxItemListener);
         overrideOtherCheckBox.addItemListener(checkBoxItemListener);
         databaseFieldStyleType.addItemListener(checkBoxItemListener);
+        retainLastSelectionTemplates.addItemListener(e -> options.setRetainLastSelectionTemplates(retainLastSelectionTemplates.isSelected()));
     }
 
     private void createUIComponents() {
