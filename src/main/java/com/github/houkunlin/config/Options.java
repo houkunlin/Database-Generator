@@ -23,10 +23,16 @@ public class Options {
      * 覆盖其他文件
      */
     private boolean overrideOther = true;
+
     /**
      * 数据库字段风格类型
      */
     private int dbFieldStyleType = 0;
+
+    /**
+     * 记住上次选择的模板
+     */
+    private boolean retainLastSelectionTemplates = true;
 
     public CaseFormat obtainCaseFormat() {
         if (dbFieldStyleType == 0) {

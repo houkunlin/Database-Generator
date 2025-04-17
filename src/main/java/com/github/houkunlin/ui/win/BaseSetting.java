@@ -125,6 +125,12 @@ public class BaseSetting implements IWindows {
      * 下拉框：数据库字段风格类型
      */
     private JComboBox<String> databaseFieldStyleType;
+
+    /**
+     * 复选：是否记住上次的模板
+     */
+    private JCheckBox retainLastSelectionTemplates;
+
     private Runnable noteReset;
 
     public BaseSetting(Settings settings, Developer developer, Options options, Runnable noteReset) {
@@ -261,6 +267,7 @@ public class BaseSetting implements IWindows {
         overrideXmlCheckBox.addItemListener(checkBoxItemListener);
         overrideOtherCheckBox.addItemListener(checkBoxItemListener);
         databaseFieldStyleType.addItemListener(checkBoxItemListener);
+        retainLastSelectionTemplates.addItemListener(e -> options.setRetainLastSelectionTemplates(retainLastSelectionTemplates.isSelected()));
     }
 
     private void createUIComponents() {
@@ -342,6 +349,7 @@ public class BaseSetting implements IWindows {
         overrideXmlCheckBox.setSelected(options.isOverrideXml());
         overrideOtherCheckBox.setSelected(options.isOverrideOther());
         databaseFieldStyleType.setSelectedIndex(options.getDbFieldStyleType());
+        retainLastSelectionTemplates.setSelected(options.isRetainLastSelectionTemplates());
     }
 
     @Override

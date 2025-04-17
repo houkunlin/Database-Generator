@@ -7,6 +7,7 @@ import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectUtil;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -17,6 +18,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -59,6 +61,22 @@ public class PluginUtils {
 
     public static Project getProject() {
         return project;
+    }
+
+    /**
+     * 获取当前项目路径
+     *
+     * @return 当前项目路径
+     */
+    public static @NotNull Path getProjectPath() {
+        if (project == null) {
+            return Path.of("");
+        }
+        var projectDir = ProjectUtil.guessProjectDir(project);
+        if (projectDir == null) {
+            return Path.of("");
+        }
+        return projectDir.toNioPath();
     }
 
     public static File getExtensionPluginDir() {

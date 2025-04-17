@@ -18,8 +18,13 @@
 
 默认提供三种模板引擎（`beetl`/`freemarker`/`velocity`）的代码模板（SpringBoot+MyBatis-Plus+自定义工具），可选择保留其中一种模板引擎的代码模板，然后根据自己的需求对代码模板进行修改，阅读 [模板变量说明](./doc/template-document.md) 了解模板变量的具体内容。
 
-
-
+支持在模板中使用自定义的Groovy脚本，需要在模板父级目录下创建 `scripts` 文件夹，然后放置 `*.groovy` 文件即可。阅读 [Groovy脚本使用文档](./doc/groovy-scripts.md) 了解如何使用 Groovy 脚本。
+```text
+${工作空间}
+|-templates
+|-scripts
+|--*.groovy
+```
 ## 代码模板文件在IDEA中存放的位置
 
 - 代码模板文件默认放到：`Scratches and Consoles/Extensions` （中文：草稿文件和控制台/扩展/Database Generator）

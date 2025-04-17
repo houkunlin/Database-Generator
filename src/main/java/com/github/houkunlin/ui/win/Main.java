@@ -22,8 +22,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
 
@@ -58,7 +56,7 @@ public class Main extends JFrame {
     /**
      * 面板对象：模板选择配置
      */
-    private SelectTemplate selectTemplate;
+    private final SelectTemplate selectTemplate;
     /**
      * 输入框：项目路径输入、选择
      */
@@ -105,6 +103,7 @@ public class Main extends JFrame {
             }
         }
     };
+
     /**
      * 内容Tab标签
      */
@@ -117,7 +116,11 @@ public class Main extends JFrame {
      * 面板：内容面板
      */
     private JPanel content;
-    private JButton refreshConfig;
+
+    /**
+     * 重置按钮
+     */
+    private JButton resetConfig;
 
     public Main(PsiElement[] psiElements, ConfigService configService) {
         super("代码生成器");
@@ -125,7 +128,7 @@ public class Main extends JFrame {
         this.settings = configService.getSettings();
         this.developer = configService.getDeveloper();
         this.options = configService.getOptions();
-        selectTemplate = new SelectTemplate();
+        selectTemplate = new SelectTemplate(configService.getLastSelectionTemplates());
         final Runnable initPane = new Runnable() {
             @Override
             public void run() {
@@ -157,8 +160,8 @@ public class Main extends JFrame {
         setResizable(false);
         pack();
         setVisible(true);
-        refreshConfig.setEnabled(true);
-        refreshConfig.setIcon(DatabaseIcons.REFRESH);
+        resetConfig.setEnabled(true);
+        resetConfig.setIcon(DatabaseIcons.REFRESH);
     }
 
     /**
@@ -172,22 +175,11 @@ public class Main extends JFrame {
         chooserDescriptor.setTitle("选择项目路径");
 
         projectPathField.addBrowseFolderListener(new TextBrowseFolderListener(chooserDescriptor, project));
-
-        refreshConfig.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton jButton = (JButton) e.getSource();
-                Project project = PluginUtils.getProject();
-
-                jButton.setEnabled(false);
-                ConfigService configService = ConfigService.getInstance(project);
-                if (configService != null) {
-                    configService.refresh();
-                    refreshMainConfig();
-                    baseSetting.initConfig();
-                }
-                jButton.setEnabled(true);
-            }
+        resetConfig.addActionListener(e -> {
+            JButton jButton = (JButton) e.getSource();
+            jButton.setEnabled(false);
+            doReset(PluginUtils.getProject());
+            jButton.setEnabled(true);
         });
         // 点击完成按钮 默认
         finishButton.addActionListener(event -> {
@@ -197,12 +189,14 @@ public class Main extends JFrame {
                     Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
                     return;
                 }
+                var allSelectFilePaths = selectTemplate.getAllSelectFilePaths();
+                configService.setLastSelectionTemplates(allSelectFilePaths);
                 setVisible(false);
                 Generator generator = new Generator(settings, options, developer);
                 GeneratorTask generatorTask = new GeneratorTask(project, this, generator, allSelectFile, tableSetting.getRootModels());
                 ProgressManager.getInstance().run(generatorTask);
             } catch (Throwable throwable) {
-                throwable.printStackTrace();
+                log.error(throwable);
                 setVisible(true);
                 Messages.showErrorDialog("初始化代码生成处理器失败，请联系开发者。\n\n" + throwable.getMessage(), "生成代码失败");
             }
@@ -210,6 +204,17 @@ public class Main extends JFrame {
             configService.setOptions(options);
             configService.setSettings(settings);
         });
+    }
+
+    private void doReset(Project project) {
+        ConfigService configService = ConfigService.getInstance(project);
+        if (configService == null) {
+            return;
+        }
+        configService.reset();
+        selectTemplate.reset();
+        refreshMainConfig();
+        baseSetting.initConfig();
     }
 
     /**
@@ -232,6 +237,7 @@ public class Main extends JFrame {
         if (projectPath == null || projectPath.isBlank()) {
             projectPath = PluginUtils.getProject().getBasePath();
         }
+        refreshMainConfig();
         projectPathField.setText(projectPath);
     }
 

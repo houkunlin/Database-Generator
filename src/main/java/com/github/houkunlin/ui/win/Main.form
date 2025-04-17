@@ -58,11 +58,11 @@
               <text value="src/main/resources"/>
             </properties>
           </component>
-          <component id="40fc8" class="javax.swing.JButton" binding="refreshConfig">
+          <component id="40fc8" class="javax.swing.JButton" binding="resetConfig">
             <constraints/>
             <properties>
               <enabled value="false"/>
-              <text value="刷新"/>
+              <text value="重置"/>
               <verticalAlignment value="0"/>
             </properties>
           </component>
