@@ -27,18 +27,12 @@ public class TableSetting implements IWindows {
      */
     private JTabbedPane tableTabbedPane;
     private PsiElement[] psiElements;
+    private Options options;
     private List<TablePanel> tablePanels = new ArrayList<>();
 
     public TableSetting(PsiElement[] psiElements, Options options) {
         this.psiElements = psiElements;
-        for (PsiElement psiElement : psiElements) {
-            if (psiElement instanceof DbTable) {
-                DbTable dbTable = (DbTable) psiElement;
-                TablePanel tablePanel = new TablePanel(dbTable, options);
-                tableTabbedPane.addTab(dbTable.getName(), tablePanel.getContent());
-                tablePanels.add(tablePanel);
-            }
-        }
+        this.options = options;
     }
 
     public List<RootModel> getRootModels() {
@@ -52,5 +46,18 @@ public class TableSetting implements IWindows {
     @Override
     public JPanel getContent() {
         return content;
+    }
+
+    public void initConfig() {
+        tableTabbedPane.removeAll();
+        tablePanels.clear();
+        for (PsiElement psiElement : psiElements) {
+            if (psiElement instanceof DbTable) {
+                DbTable dbTable = (DbTable) psiElement;
+                TablePanel tablePanel = new TablePanel(dbTable, options);
+                tableTabbedPane.addTab(dbTable.getName(), tablePanel.getContent());
+                tablePanels.add(tablePanel);
+            }
+        }
     }
 }

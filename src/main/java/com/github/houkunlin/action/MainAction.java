@@ -49,12 +49,13 @@ public class MainAction extends AnAction {
             return;
         }
         PluginUtils.setProject(project);
-        PluginUtils.syncResources();
+        PluginUtils.syncResources(project);
         ConfigService configService = ConfigService.getInstance(project);
         if (configService == null) {
             Messages.showWarningDialog("初始化配置信息失败，但并不影响继续使用！", "错误");
             configService = new ConfigService();
         }
-        new Main(actionEvent.getData(LangDataKeys.PSI_ELEMENT_ARRAY), configService);
+        PluginUtils.reloadColumnTypes();
+        new Main(project, psiElements, configService);
     }
 }

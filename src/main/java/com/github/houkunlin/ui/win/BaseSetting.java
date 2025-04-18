@@ -33,6 +33,7 @@ import java.util.function.Consumer;
  * @date 2020/8/15 0015 16:00
  */
 public class BaseSetting implements IWindows {
+    private final Project project;
     /**
      * 配置对象：设置信息
      */
@@ -130,10 +131,13 @@ public class BaseSetting implements IWindows {
      * 复选：是否记住上次的模板
      */
     private JCheckBox retainLastSelectionTemplates;
-
+    /**
+     * 通知重置
+     */
     private Runnable noteReset;
 
-    public BaseSetting(Settings settings, Developer developer, Options options, Runnable noteReset) {
+    public BaseSetting(Project project, Settings settings, Developer developer, Options options, Runnable noteReset) {
+        this.project = project;
         this.settings = settings;
         this.developer = developer;
         this.options = options;
@@ -271,7 +275,6 @@ public class BaseSetting implements IWindows {
     }
 
     private void createUIComponents() {
-        Project project = PluginUtils.getProject();
         entityPackageField = createEditorTextField(project);
         daoPackageField = createEditorTextField(project);
         servicePackageField = createEditorTextField(project);
@@ -317,7 +320,7 @@ public class BaseSetting implements IWindows {
      * @param consumer      完成事件
      */
     private void chooserPackage(String defaultSelect, Consumer<String> consumer) {
-        PackageChooserDialog chooser = new PackageChooserDialog("请选择模块包", PluginUtils.getProject());
+        PackageChooserDialog chooser = new PackageChooserDialog("请选择模块包", project);
         chooser.selectPackage(defaultSelect);
         chooser.show();
         PsiPackage psiPackage = chooser.getSelectedPackage();

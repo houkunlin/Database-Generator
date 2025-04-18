@@ -28,7 +28,10 @@ import java.util.List;
 public class Main extends JFrame {
 
     private static final Logger log = Logger.getInstance(Main.class);
-
+    /**
+     * 当前项目对象
+     */
+    private final Project project;
     /**
      * 配置对象
      */
@@ -122,17 +125,19 @@ public class Main extends JFrame {
      */
     private JButton resetConfig;
 
-    public Main(PsiElement[] psiElements, ConfigService configService) {
+    public Main(Project project, PsiElement[] psiElements, ConfigService configService) {
         super("代码生成器");
+        this.project = project;
         this.configService = configService;
         this.settings = configService.getSettings();
         this.developer = configService.getDeveloper();
         this.options = configService.getOptions();
-        selectTemplate = new SelectTemplate(configService.getLastSelectionTemplates());
+        this.selectTemplate = new SelectTemplate(configService.getLastSelectionTemplates());
         final Runnable initPane = new Runnable() {
             @Override
             public void run() {
-                baseSetting = new BaseSetting(settings, developer, options, this);
+                PluginUtils.reloadColumnTypes();
+                baseSetting = new BaseSetting(project, settings, developer, options, this);
                 tableSetting = new TableSetting(psiElements, options);
                 tableTabbedPane.removeAll();
                 tableTabbedPane.addTab("基础配置", baseSetting.getContent());
@@ -169,7 +174,6 @@ public class Main extends JFrame {
      */
     private void initConfig() {
         initSettings();
-        Project project = PluginUtils.getProject();
 
         FileChooserDescriptor chooserDescriptor = FileChooserDescriptorFactory.createSingleFileOrFolderDescriptor();
         chooserDescriptor.setTitle("选择项目路径");
@@ -178,7 +182,7 @@ public class Main extends JFrame {
         resetConfig.addActionListener(e -> {
             JButton jButton = (JButton) e.getSource();
             jButton.setEnabled(false);
-            doReset(PluginUtils.getProject());
+            doReset();
             jButton.setEnabled(true);
         });
         // 点击完成按钮 默认
@@ -189,10 +193,10 @@ public class Main extends JFrame {
                     Messages.showWarningDialog("当前无选中代码模板文件，无法进行代码生成，请选中至少一个代码模板文件！", "警告");
                     return;
                 }
-                var allSelectFilePaths = selectTemplate.getAllSelectFilePaths();
+                List<String> allSelectFilePaths = selectTemplate.getAllSelectFilePaths();
                 configService.setLastSelectionTemplates(allSelectFilePaths);
                 setVisible(false);
-                Generator generator = new Generator(settings, options, developer);
+                Generator generator = new Generator(project, settings, options, developer);
                 GeneratorTask generatorTask = new GeneratorTask(project, this, generator, allSelectFile, tableSetting.getRootModels());
                 ProgressManager.getInstance().run(generatorTask);
             } catch (Throwable throwable) {
@@ -206,15 +210,17 @@ public class Main extends JFrame {
         });
     }
 
-    private void doReset(Project project) {
+    private void doReset() {
+        PluginUtils.reloadColumnTypes();
         ConfigService configService = ConfigService.getInstance(project);
         if (configService == null) {
             return;
         }
         configService.reset();
-        selectTemplate.reset();
         refreshMainConfig();
         baseSetting.initConfig();
+        selectTemplate.reset();
+        tableSetting.initConfig();
     }
 
     /**
@@ -233,15 +239,15 @@ public class Main extends JFrame {
         javaPathField.getDocument().addDocumentListener(documentListener);
         sourcesPathField.getDocument().addDocumentListener(documentListener);
 
-        String projectPath = settings.getProjectPath();
-        if (projectPath == null || projectPath.isBlank()) {
-            projectPath = PluginUtils.getProject().getBasePath();
-        }
         refreshMainConfig();
-        projectPathField.setText(projectPath);
     }
 
     private void refreshMainConfig() {
+        String projectPath = settings.getProjectPath();
+        if (projectPath == null || projectPath.isBlank()) {
+            projectPath = project.getBasePath();
+        }
+        projectPathField.setText(projectPath);
         javaPathField.setText(settings.getJavaPath());
         sourcesPathField.setText(settings.getSourcesPath());
     }
