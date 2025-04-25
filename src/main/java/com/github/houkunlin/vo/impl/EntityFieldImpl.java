@@ -9,7 +9,6 @@ import com.google.common.base.CaseFormat;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;
-import com.intellij.util.ReflectionUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,8 +51,8 @@ public class EntityFieldImpl implements IEntityField {
     public EntityFieldImpl(DasColumn dbColumn, Options options) {
         this.name = new FieldNameInfo(dbColumn, options);
         this.dataType = dbColumn.getDasType().toDataType();
-        String typeName = ReflectionUtil.getField(DataType.class, dataType, String.class, "typeName");
-        TableColumnType columnType = type(typeName);
+        // 获取完整的数据库类型，如：varchar(255)，char(1)
+        var columnType = type(dataType.toString());
         this.typeName = columnType.getShortName();
         this.fullTypeName = columnType.getLongName();
         this.comment = Objects.toString(dbColumn.getComment(), "");
