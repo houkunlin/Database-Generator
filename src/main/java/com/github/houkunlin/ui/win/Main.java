@@ -215,6 +215,7 @@ public class Main extends JFrame {
         selectTemplate.reset();
         refreshMainConfig();
         baseSetting.initConfig();
+        tableSetting.reset();
     }
 
     /**

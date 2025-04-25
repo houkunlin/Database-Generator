@@ -19,8 +19,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * 插件工具类
@@ -188,8 +190,19 @@ public class PluginUtils {
         if (columnTypes == null) {
             columnTypes = getTableColumnTypes();
         }
+        System.out.println(Arrays.stream(columnTypes)
+                                 .map(it -> it.getShortName())
+                                 .collect(Collectors.joining(",")));
         return columnTypes;
     }
+
+    /**
+     * 重置列类型信息，将内部存储的列类型设置为null，以便后续操作时重新加载或初始化。
+     */
+    public static void resetColumnTypes() {
+        columnTypes = null;
+    }
+
 
     /**
      * 刷新项目
