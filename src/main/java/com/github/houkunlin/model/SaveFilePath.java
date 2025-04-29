@@ -3,6 +3,7 @@ package com.github.houkunlin.model;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.vo.Variable;
 import com.github.houkunlin.vo.impl.RootModel;
+import com.intellij.openapi.util.text.StringUtil;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,7 +61,7 @@ public class SaveFilePath {
     }
 
     private static @NotNull SaveFilePath createSaveFilePath(Settings settings, String entityName, FileType item) {
-        var filename = entityName + item.getSuffix() + item.getExt();
+        var filename = entityName + item.getSuffix() + StringUtil.defaultIfEmpty(item.getExt(), ".java");
         var relativePath = settings.getPathAt(item.getPath(), item.getPackageName());
         return new SaveFilePath(filename, relativePath, item.isOverride());
     }

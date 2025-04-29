@@ -60,6 +60,7 @@ public class FileTypeTableDecorator extends TableDecorator<FileType, FileTypeTab
                                  .withCellEditor(editorTableCellEditor))
             .addColumn(ColumnSpec.of(Bundles.message("fileTypes.ext"), String.class, FileType::getExt, FileType::setExt)
                                  .withCellEditor(extTableCellEditor)
+                                 .withPlaceholder(Bundles.message("fileTypes.ext.placeholder"))
                                  .withWidth(50))
             .addColumn(ColumnSpec.of(Bundles.message("fileTypes.path"), String.class, FileType::getPath, FileType::setPath)
                                  .withCellEditor(pathTableCellEditor)
