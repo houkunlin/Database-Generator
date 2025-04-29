@@ -3,6 +3,7 @@ package com.github.houkunlin.util;
 import com.github.houkunlin.config.ConfigVo;
 import com.github.houkunlin.model.TableColumnType;
 import com.intellij.openapi.application.PathManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
@@ -19,10 +20,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 /**
  * 插件工具类
@@ -32,11 +32,13 @@ import java.util.stream.Collectors;
  */
 @Getter
 public class PluginUtils {
+    private static final Logger log = Logger.getInstance(PluginUtils.class);
+
     public static final String PLUGIN_ID = "com.github.houkunlin.database.generator";
     public static final String CONFIG_DIR = "config";
     public static final String TEMPLATE_DIR = "templates";
     public static final String PROJECT_WORK_DIR = "generator";
-    public static final Yaml YAML = new Yaml();
+
     /**
      * 当前项目对象
      */
@@ -131,19 +133,26 @@ public class PluginUtils {
     public static ConfigVo loadConfig() {
         final File file = getConfigFile("config.yml");
         if (file != null) {
-            // 此时 file 一定是存在的
-            try (final InputStream inputStream = new FileInputStream(file)) {
-                return YAML.loadAs(inputStream, ConfigVo.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return loadConfig(file).orElseThrow(() -> new RuntimeException("加载配置文件失败"));
         }
-        try (final InputStream inputStream = PluginUtils.class.getResourceAsStream("config.yml")) {
-            return YAML.loadAs(inputStream, ConfigVo.class);
+        return loadConfig(PluginUtils.class.getResourceAsStream("config.yml"))
+            .orElseGet(ConfigVo::getInstance);
+    }
+
+    private static Optional<ConfigVo> loadConfig(File file) {
+        try (var inputStream = new FileInputStream(file)) {
+            return YamlUtils.load(inputStream, ConfigVo.class);
         } catch (Exception e) {
-            e.printStackTrace();
+            return Optional.empty();
         }
-        return ConfigVo.getInstance();
+    }
+
+    private static Optional<ConfigVo> loadConfig(InputStream inputStream) {
+        try (inputStream) {
+            return YamlUtils.load(inputStream, ConfigVo.class);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     /**
@@ -177,7 +186,7 @@ public class PluginUtils {
         try {
             return loadConfig().getTypes();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
             Messages.showMessageDialog(e.getMessage(), "解析默认类型映射配置失败(严重影响功能)", Messages.getErrorIcon());
             return new TableColumnType[0];
         }
@@ -190,9 +199,6 @@ public class PluginUtils {
         if (columnTypes == null) {
             columnTypes = getTableColumnTypes();
         }
-        System.out.println(Arrays.stream(columnTypes)
-                                 .map(it -> it.getShortName())
-                                 .collect(Collectors.joining(",")));
         return columnTypes;
     }
 
@@ -245,7 +251,7 @@ public class PluginUtils {
         try {
             new SyncResources().run();
         } catch (Exception error) {
-            error.printStackTrace();
+            log.error(error);
             Messages.showErrorDialog("插件初始化错误，可能导致无法使用，主要涉及到插件配置 JSON 文件和插件代码模板文件。\n\n" + error.getMessage(), "初始化错误");
         }
     }
