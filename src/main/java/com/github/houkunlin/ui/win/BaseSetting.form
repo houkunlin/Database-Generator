@@ -78,7 +78,7 @@
         <properties>
           <preferredSize width="960" height="320"/>
         </properties>
-        <border type="etched" title="文件类型"/>
+        <border type="etched" title-resource-bundle="i18n/language" title-key="fileTypes.title"/>
         <children/>
       </grid>
     </children>

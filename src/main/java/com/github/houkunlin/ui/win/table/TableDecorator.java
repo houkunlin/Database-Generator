@@ -1,5 +1,6 @@
 package com.github.houkunlin.ui.win.table;
 
+import com.github.houkunlin.message.Bundles;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.ui.table.JBTable;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class TableDecorator<E, T extends TableDecorator<E, T>> {
     private GenericTableModel<E> model;
 
     public final T setModel(GenericTableModel<E> model) {
-        Objects.requireNonNull(model, "表格数据模型不能为空");
+        Objects.requireNonNull(model, Bundles.message("table-decorator.not-null"));
         this.model = model.bindTable(table);
         return getSelf();
     }

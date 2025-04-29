@@ -1,6 +1,7 @@
 package com.github.houkunlin.ui.win.table;
 
 import com.github.houkunlin.config.Settings;
+import com.github.houkunlin.message.Bundles;
 import com.github.houkunlin.model.FileType;
 import com.github.houkunlin.util.PluginUtils;
 import com.intellij.openapi.actionSystem.ActionToolbarPosition;
@@ -52,19 +53,19 @@ public class FileTypeTableDecorator extends TableDecorator<FileType, FileTypeTab
             settings.getResourcesPath()
         );
         return new GenericTableModel<>(settings.getFileTypes())
-            .addColumn(ColumnSpec.of("类型", String.class, FileType::getType, FileType::setType))
-            .addColumn(ColumnSpec.of("后缀", String.class, FileType::getSuffix, FileType::setSuffix))
-            .addColumn(ColumnSpec.of("包名", String.class, FileType::getPackageName, FileType::setPackageName)
+            .addColumn(ColumnSpec.of(Bundles.message("fileTypes.type"), String.class, FileType::getType, FileType::setType))
+            .addColumn(ColumnSpec.of(Bundles.message("fileTypes.suffix"), String.class, FileType::getSuffix, FileType::setSuffix))
+            .addColumn(ColumnSpec.of(Bundles.message("fileTypes.package"), String.class, FileType::getPackageName, FileType::setPackageName)
                                  .withWidth(120)
                                  .withCellEditor(editorTableCellEditor))
-            .addColumn(ColumnSpec.of("拓展名", String.class, FileType::getExt, FileType::setExt)
+            .addColumn(ColumnSpec.of(Bundles.message("fileTypes.ext"), String.class, FileType::getExt, FileType::setExt)
                                  .withCellEditor(extTableCellEditor)
                                  .withWidth(50))
-            .addColumn(ColumnSpec.of("存储路径", String.class, FileType::getPath, FileType::setPath)
+            .addColumn(ColumnSpec.of(Bundles.message("fileTypes.path"), String.class, FileType::getPath, FileType::setPath)
                                  .withCellEditor(pathTableCellEditor)
-                                 .withPlaceholder("默认为代码路径")
+                                 .withPlaceholder(Bundles.message("fileTypes.path.placeholder"))
                                  .withWidth(200))
-            .addColumn(ColumnSpec.of("允许覆盖", Boolean.class, FileType::isOverride, FileType::setOverride)
+            .addColumn(ColumnSpec.of(Bundles.message("fileTypes.override"), Boolean.class, FileType::isOverride, FileType::setOverride)
                                  .withWidth(30));
     }
 
