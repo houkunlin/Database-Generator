@@ -7,16 +7,33 @@ options:
   overrideOther: true
 settings:
   javaPath: src/main/java
-  sourcesPath: src/main/resources
-  entitySuffix: Entity
-  daoSuffix: Repository
-  serviceSuffix: Service
-  controllerSuffix: Controller
-  entityPackage: com.example.entity
-  daoPackage: com.example.repository
-  servicePackage: com.example.service
-  controllerPackage: com.example.controller
-  xmlPackage: mapper
+  resourcesPath: src/main/resources
+  fileTypes:
+    - type: entity
+      suffix: Entity
+      packageName: com.example.entity
+      override: true
+    - type: dao
+      suffix: Repository
+      packageName: com.example.repository
+      override: true
+    - type: service
+      suffix: Service
+      packageName: com.example.service
+      override: true
+    - type: serviceImpl
+      suffix: ServiceImpl
+      packageName: com.example.service.impl
+      override: true
+    - type: controller
+      suffix: Controller
+      packageName: com.example.controller
+      override: true
+    - type: mapper
+      suffix: Mapper
+      packageName: mapper
+      asSourceCode: false
+      override: true
 types:
   - shortName: Object
     longName: java.lang.Object

@@ -13,32 +13,12 @@ import java.util.stream.Collectors;
  * @date 2020/7/5 0005 15:12
  */
 @Getter
-public class EntityPackage {
+public class EntityPackage extends BaseTypeMap<EntityPackageInfo> {
     /**
      * 实体类字段所需要导入的包列表
      */
     private final HashSet<String> list = new HashSet<>();
     private String toString = "";
-    /**
-     * 实体类包名信息
-     */
-    private EntityPackageInfo entity;
-    /**
-     * Service 包名信息
-     */
-    private EntityPackageInfo service;
-    /**
-     * ServiceImpl 包名信息
-     */
-    private EntityPackageInfo serviceImpl;
-    /**
-     * Dao 包名信息
-     */
-    private EntityPackageInfo dao;
-    /**
-     * Controller 包名信息
-     */
-    private EntityPackageInfo controller;
 
     public void add(String fullPackageName) {
         if (fullPackageName.startsWith("java.lang.")) {
@@ -46,6 +26,12 @@ public class EntityPackage {
         }
         list.add(fullPackageName);
     }
+
+
+    public void initMore(Settings settings, EntityName entityName) {
+        init(settings, item -> new EntityPackageInfo(item.getPackageName(), entityName.get(item.getType())));
+    }
+
 
     public void clear() {
         list.clear();
@@ -60,11 +46,4 @@ public class EntityPackage {
         return toString;
     }
 
-    public void initMore(Settings settings, EntityName entityName) {
-        this.entity = new EntityPackageInfo(settings.getEntityPackage(), entityName.getEntity());
-        this.service = new EntityPackageInfo(settings.getServicePackage(), entityName.getService());
-        this.serviceImpl = new EntityPackageInfo(settings.getServicePackage() + ".impl", entityName.getServiceImpl());
-        this.dao = new EntityPackageInfo(settings.getDaoPackage(), entityName.getDao());
-        this.controller = new EntityPackageInfo(settings.getControllerPackage(), entityName.getController());
-    }
 }

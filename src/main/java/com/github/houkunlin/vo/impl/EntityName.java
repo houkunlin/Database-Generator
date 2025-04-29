@@ -14,30 +14,10 @@ import lombok.Getter;
  * @date 2020/7/5 0005 15:07
  */
 @Getter
-public class EntityName implements IName {
+public class EntityName extends BaseTypeMap<IName> implements IName {
     private final String value;
     private final String firstUpper;
     private final String firstLower;
-    /**
-     * 实体类完整名称
-     */
-    private IName entity;
-    /**
-     * Service 完整名称
-     */
-    private IName service;
-    /**
-     * ServiceImpl 完整名称
-     */
-    private IName serviceImpl;
-    /**
-     * Dao 完整名称
-     */
-    private IName dao;
-    /**
-     * Controller 完整名称
-     */
-    private IName controller;
 
     public EntityName(DbTable dbTable, Options options) {
         this.value = options.obtainCaseFormat().to(CaseFormat.UPPER_CAMEL, dbTable.getName());
@@ -57,11 +37,7 @@ public class EntityName implements IName {
     }
 
     public void initMore(Settings settings) {
-        this.entity = build(settings.getEntitySuffix());
-        this.service = build(settings.getServiceSuffix());
-        this.serviceImpl = build(settings.getServiceSuffix() + "Impl");
-        this.dao = build(settings.getDaoSuffix());
-        this.controller = build(settings.getControllerSuffix());
+        init(settings, item -> new EntityNameInfo(value, item.getSuffix()));
     }
 
     private IName build(String suffix) {

@@ -98,12 +98,12 @@ public class Generator {
         var saveFilePath = getSaveFilePath(rootModel, templateFile);
         var saveFile = new File(settings.getProjectPath(), String.valueOf(saveFilePath));
         return FileUtils.getInstance()
-                        .saveFileContent(project, saveFile, result, saveFilePath.isOverride(options));
+                        .saveFileContent(project, saveFile, result, saveFilePath.isOverride());
     }
 
     private SaveFilePath getSaveFilePath(RootModel rootModel, File templateFile) {
         if (Variable.type == null) {
-            return new SaveFilePath(templateFile.getName(), settings.getSourcesPathAt("temp"));
+            return SaveFilePath.createTemp(templateFile.getName(), settings);
         }
         return SaveFilePath.create(rootModel, settings);
     }
