@@ -97,7 +97,7 @@ public class Main extends JFrame {
         public void documentChanged(DocumentEvent e) {
             javax.swing.text.Document document = e.getDocument();
             if (!TextFieldDocumentUtil.updateSettingValue(document, javaPathField, settings::setJavaPath)) {
-                if (!TextFieldDocumentUtil.updateSettingValue(document, sourcesPathField, settings::setSourcesPath)) {
+                if (!TextFieldDocumentUtil.updateSettingValue(document, sourcesPathField, settings::setResourcesPath)) {
                     TextFieldDocumentUtil.updateSettingValue(document, projectPathField.getTextField(), settings::setProjectPath);
                 }
             }
@@ -215,6 +215,7 @@ public class Main extends JFrame {
         selectTemplate.reset();
         refreshMainConfig();
         baseSetting.initConfig();
+        tableSetting.reset();
     }
 
     /**
@@ -243,6 +244,6 @@ public class Main extends JFrame {
 
     private void refreshMainConfig() {
         javaPathField.setText(settings.getJavaPath());
-        sourcesPathField.setText(settings.getSourcesPath());
+        sourcesPathField.setText(settings.getResourcesPath());
     }
 }

@@ -1,6 +1,7 @@
 package com.github.houkunlin.ui.win;
 
 import com.github.houkunlin.config.Options;
+import com.github.houkunlin.util.PluginUtils;
 import com.github.houkunlin.vo.impl.RootModel;
 import com.intellij.database.psi.DbTable;
 import com.intellij.psi.PsiElement;
@@ -28,17 +29,32 @@ public class TableSetting implements IWindows {
     private JTabbedPane tableTabbedPane;
     private PsiElement[] psiElements;
     private List<TablePanel> tablePanels = new ArrayList<>();
+    private Runnable initRunnable;
 
     public TableSetting(PsiElement[] psiElements, Options options) {
         this.psiElements = psiElements;
-        for (PsiElement psiElement : psiElements) {
-            if (psiElement instanceof DbTable) {
-                DbTable dbTable = (DbTable) psiElement;
-                TablePanel tablePanel = new TablePanel(dbTable, options);
+        initRunnable = () -> {
+            // 确保即时加载types信息
+            PluginUtils.resetColumnTypes();
+            for (PsiElement psiElement : psiElements) {
+                if (!(psiElement instanceof DbTable dbTable)) {
+                    continue;
+                }
+                var tablePanel = new TablePanel(dbTable, options);
                 tableTabbedPane.addTab(dbTable.getName(), tablePanel.getContent());
                 tablePanels.add(tablePanel);
             }
-        }
+        };
+        initRunnable.run();
+    }
+
+    /**
+     * 重置配置面板
+     */
+    public void reset() {
+        tableTabbedPane.removeAll();
+        tablePanels.clear();
+        initRunnable.run();
     }
 
     public List<RootModel> getRootModels() {

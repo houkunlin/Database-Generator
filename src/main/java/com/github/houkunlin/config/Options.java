@@ -12,19 +12,6 @@ import lombok.Data;
 @Data
 public class Options {
     /**
-     * 覆盖Java文件
-     */
-    private boolean overrideJava = true;
-    /**
-     * 覆盖XML文件
-     */
-    private boolean overrideXml = true;
-    /**
-     * 覆盖其他文件
-     */
-    private boolean overrideOther = true;
-
-    /**
      * 数据库字段风格类型
      */
     private int dbFieldStyleType = 0;
