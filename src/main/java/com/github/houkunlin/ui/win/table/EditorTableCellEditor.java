@@ -1,6 +1,5 @@
 package com.github.houkunlin.ui.win.table;
 
-import com.github.houkunlin.util.PluginUtils;
 import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.project.Project;
@@ -31,8 +30,8 @@ public class EditorTableCellEditor extends AbstractTableCellEditor {
      */
     private String cellValue;
 
-    public EditorTableCellEditor() {
-        this.editorTextField = createEditorTextField(PluginUtils.getProject());
+    public EditorTableCellEditor(Project project) {
+        this.editorTextField = createEditorTextField(project);
         // 当获取到焦点时，尝试将输入框的值设置为单元格值
         this.editorTextField.addFocusListener(new FocusListener() {
             @Override

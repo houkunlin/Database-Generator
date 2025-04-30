@@ -55,7 +55,7 @@ public class MainAction extends AnAction {
             Messages.showWarningDialog("初始化配置信息失败，但并不影响继续使用！", "错误");
             configService = new ConfigService();
         }
-        PluginUtils.reloadColumnTypes();
+        PluginUtils.resetColumnTypes();
         new Main(project, psiElements, configService);
     }
 }

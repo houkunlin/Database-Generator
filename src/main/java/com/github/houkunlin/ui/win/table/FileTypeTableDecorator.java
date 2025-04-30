@@ -5,6 +5,7 @@ import com.github.houkunlin.message.Bundles;
 import com.github.houkunlin.model.FileType;
 import com.github.houkunlin.util.PluginUtils;
 import com.intellij.openapi.actionSystem.ActionToolbarPosition;
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.ToolbarDecorator;
 import com.intellij.util.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
@@ -22,9 +23,9 @@ public class FileTypeTableDecorator extends TableDecorator<FileType, FileTypeTab
     private FileTypeTableDecorator() {
     }
 
-    public static JPanel create(Settings settings) {
+    public static JPanel create(Project project, Settings settings) {
         return new FileTypeTableDecorator()
-            .setModel(createTableModel(settings))
+            .setModel(createTableModel(project, settings))
             .applyToolbar((tableDecorator, toolbarDecorator) -> configurationToolbar(settings, tableDecorator, toolbarDecorator));
     }
 
@@ -43,8 +44,8 @@ public class FileTypeTableDecorator extends TableDecorator<FileType, FileTypeTab
             });
     }
 
-    private static @NotNull GenericTableModel<FileType> createTableModel(Settings settings) {
-        var editorTableCellEditor = new EditorTableCellEditor();
+    private static @NotNull GenericTableModel<FileType> createTableModel(Project project, Settings settings) {
+        var editorTableCellEditor = new EditorTableCellEditor(project);
         var extTableCellEditor = new ComboBoxTableCellEditor<>(".java", ".kt", ".xml");
         var javaPath = ObjectUtils.notNull(settings.getJavaPath(), "src/main/java");
         var pathTableCellEditor = new ComboBoxTableCellEditor<>(

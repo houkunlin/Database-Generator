@@ -5,6 +5,7 @@ import com.github.houkunlin.config.Options;
 import com.github.houkunlin.config.Settings;
 import com.github.houkunlin.ui.win.table.FileTypeTableDecorator;
 import com.google.common.collect.Maps;
+import com.intellij.openapi.project.Project;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -118,7 +119,7 @@ public class BaseSetting implements IWindows {
     }
 
     private void initFileTypeTable() {
-        fileTypeTablePanel.add(FileTypeTableDecorator.create(settings), BorderLayout.CENTER);
+        fileTypeTablePanel.add(FileTypeTableDecorator.create(project, settings), BorderLayout.CENTER);
     }
 
     private void initDatabaseFieldStyle() {
