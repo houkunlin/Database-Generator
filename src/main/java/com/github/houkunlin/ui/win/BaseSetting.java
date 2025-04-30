@@ -23,6 +23,7 @@ import java.util.function.Consumer;
  * @date 2020/8/15 0015 16:00
  */
 public class BaseSetting implements IWindows {
+    private final Project project;
     /**
      * 配置对象：设置信息
      */
@@ -58,7 +59,8 @@ public class BaseSetting implements IWindows {
     private JCheckBox retainLastSelectionTemplates;
     private JPanel fileTypeTablePanel;
 
-    public BaseSetting(Settings settings, Developer developer, Options options, Runnable noteReset) {
+    public BaseSetting(Project project, Settings settings, Developer developer, Options options, Runnable noteReset) {
+        this.project = project;
         this.settings = settings;
         this.developer = developer;
         this.options = options;

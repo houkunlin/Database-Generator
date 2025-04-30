@@ -28,24 +28,13 @@ public class TableSetting implements IWindows {
      */
     private JTabbedPane tableTabbedPane;
     private PsiElement[] psiElements;
+    private Options options;
     private List<TablePanel> tablePanels = new ArrayList<>();
-    private Runnable initRunnable;
 
     public TableSetting(PsiElement[] psiElements, Options options) {
         this.psiElements = psiElements;
-        initRunnable = () -> {
-            // 确保即时加载types信息
-            PluginUtils.resetColumnTypes();
-            for (PsiElement psiElement : psiElements) {
-                if (!(psiElement instanceof DbTable dbTable)) {
-                    continue;
-                }
-                var tablePanel = new TablePanel(dbTable, options);
-                tableTabbedPane.addTab(dbTable.getName(), tablePanel.getContent());
-                tablePanels.add(tablePanel);
-            }
-        };
-        initRunnable.run();
+        this.options = options;
+        this.reset();
     }
 
     /**
@@ -54,7 +43,16 @@ public class TableSetting implements IWindows {
     public void reset() {
         tableTabbedPane.removeAll();
         tablePanels.clear();
-        initRunnable.run();
+        // 确保即时加载types信息
+        PluginUtils.resetColumnTypes();
+        for (PsiElement psiElement : psiElements) {
+            if (psiElement instanceof DbTable) {
+                DbTable dbTable = (DbTable) psiElement;
+                TablePanel tablePanel = new TablePanel(dbTable, options);
+                tableTabbedPane.addTab(dbTable.getName(), tablePanel.getContent());
+                tablePanels.add(tablePanel);
+            }
+        }
     }
 
     public List<RootModel> getRootModels() {

@@ -3,6 +3,7 @@ package com.github.houkunlin.util;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.ExceptionUtil;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +16,13 @@ import java.io.InputStream;
  * @date 2020/4/6 0006 19:10
  */
 @Data
+@RequiredArgsConstructor
 public class SyncResources implements Runnable {
     /**
      * 插件初始化文件
      */
     private static final String INIT_FILENAME = "init.properties";
-    private Project project = PluginUtils.getProject();
+    private final Project project;
 
     /**
      * 复制插件内部的模板文件到项目路径中

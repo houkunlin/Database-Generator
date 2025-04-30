@@ -35,8 +35,8 @@ public class Generator {
     private final List<PsiFile> saveFiles;
     private final Project project;
 
-    public Generator(Settings settings, Options options, Developer developer) {
-        this.project = PluginUtils.getProject();
+    public Generator(Project project, Settings settings, Options options, Developer developer) {
+        this.project = project;
         this.settings = settings;
         this.options = options;
         this.saveFiles = new ArrayList<>();

@@ -63,10 +63,6 @@ public class PluginUtils {
     private PluginUtils() {
     }
 
-    public static Project getProject() {
-        return project;
-    }
-
     /**
      * 获取当前项目路径
      *
@@ -209,7 +205,6 @@ public class PluginUtils {
         columnTypes = null;
     }
 
-
     /**
      * 刷新项目
      */
@@ -247,9 +242,9 @@ public class PluginUtils {
     /**
      * 同步插件内部的代码模板、配置文件
      */
-    public static void syncResources() {
+    public static void syncResources(Project project) {
         try {
-            new SyncResources().run();
+            new SyncResources(project).run();
         } catch (Exception error) {
             log.error(error);
             Messages.showErrorDialog("插件初始化错误，可能导致无法使用，主要涉及到插件配置 JSON 文件和插件代码模板文件。\n\n" + error.getMessage(), "初始化错误");
