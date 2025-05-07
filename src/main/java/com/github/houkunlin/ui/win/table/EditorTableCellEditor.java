@@ -14,6 +14,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
 import java.util.Objects;
 
 /**
@@ -49,6 +51,14 @@ public class EditorTableCellEditor extends AbstractTableCellEditor {
 
             }
         });
+    }
+
+    @Override
+    public boolean isCellEditable(EventObject e) {
+        if (e instanceof MouseEvent mouseEvent) {
+            return mouseEvent.getClickCount() >= 2;
+        }
+        return false;
     }
 
     @Override
