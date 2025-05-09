@@ -4,6 +4,8 @@ import com.intellij.openapi.ui.ComboBox;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
 
 /**
  * 单元格下拉输入框
@@ -24,5 +26,12 @@ public class ComboBoxTableCellEditor<T> extends DefaultCellEditor {
         return comboBox;
     }
 
+    @Override
+    public boolean isCellEditable(EventObject e) {
+        if (e instanceof MouseEvent mouseEvent) {
+            return mouseEvent.getClickCount() >= 2;
+        }
+        return false;
+    }
 
 }

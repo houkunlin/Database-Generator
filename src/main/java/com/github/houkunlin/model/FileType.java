@@ -25,4 +25,16 @@ public class FileType {
     String ext;
     String path;
     boolean override;
+
+    /**
+     * 创建文件类型
+     *
+     * @param type        文件类型
+     * @param suffix      后缀
+     * @param packageName 包名
+     * @return 文件类型
+     */
+    public static FileType of(String type, String suffix, String packageName) {
+        return new FileType(type, suffix, packageName, null, null, true);
+    }
 }
