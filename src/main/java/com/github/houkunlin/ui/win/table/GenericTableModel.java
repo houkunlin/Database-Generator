@@ -66,7 +66,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
         for (var i = rows.length - 1; i >= 0; i--) {
             this.data.remove(rows[i]);
         }
-        fireTableRowsInserted(rows[0], this.data.size());
+        fireTableDataChanged();
         return this;
     }
 

@@ -38,8 +38,10 @@ public class FileTypeTableDecorator extends TableDecorator<FileType, FileTypeTab
                 if (tableDecorator.table.getSelectedRows().length == 0) {
                     return;
                 }
+                var selectedRows = tableDecorator.table.getSelectedRows();
                 tableDecorator.getModel()
-                              .removeRows(tableDecorator.table.getSelectedRows());
+                              .removeRows(selectedRows);
+                tableDecorator.table.clearSelection();
             });
     }
 
