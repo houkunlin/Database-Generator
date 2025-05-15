@@ -56,7 +56,7 @@ public class TableDecorator<E, T extends TableDecorator<E, T>> {
      */
     public void reset(List<E> data) {
         this.model
-            .clear()
+            .clear(false)
             .addRows(data);
     }
 

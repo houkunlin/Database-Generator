@@ -1,9 +1,9 @@
 package com.github.houkunlin.config;
 
 import com.github.houkunlin.model.FileType;
+import com.google.common.collect.Lists;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ public class Settings {
     /**
      * 文件类型
      */
-    private List<FileType> fileTypes = new ArrayList<>();
+    private List<FileType> fileTypes;
 
     public String getResourcesPathAt(String filename) {
         return resourcesPath + "/" + filename;
@@ -50,5 +50,22 @@ public class Settings {
     public String getPathAt(String path_, String filename) {
         var path = (path_ == null || path_.isBlank()) ? javaPath : path_;
         return path + "/" + filename;
+    }
+
+    public List<FileType> getFileTypes() {
+        if (fileTypes == null) {
+            initFileTypes();
+        }
+        return fileTypes;
+    }
+
+    private void initFileTypes() {
+        fileTypes = Lists.newArrayList(
+            FileType.of("entity", "Entity", "com.example.entity"),
+            FileType.of("dao", "Repository", "com.example.repository"),
+            FileType.of("service", "Service", "com.example.service"),
+            FileType.of("serviceImpl", "ServiceImpl", "com.example.service.impl"),
+            FileType.of("controller", "Controller", "com.example.controller")
+        );
     }
 }

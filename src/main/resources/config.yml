@@ -29,11 +29,11 @@ settings:
       suffix: Controller
       packageName: com.example.controller
       override: true
-    - type: mapper
+    - type: xml
       suffix: Mapper
       packageName: mapper
-      asSourceCode: false
       override: true
+      ext: .xml
 types:
   - shortName: Object
     longName: java.lang.Object

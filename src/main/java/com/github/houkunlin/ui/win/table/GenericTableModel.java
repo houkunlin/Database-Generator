@@ -66,7 +66,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
         for (var i = rows.length - 1; i >= 0; i--) {
             this.data.remove(rows[i]);
         }
-        fireTableRowsInserted(rows[0], this.data.size());
+        fireTableDataChanged();
         return this;
     }
 
@@ -163,9 +163,21 @@ public class GenericTableModel<T> extends AbstractTableModel {
      * @return 当前表格模型
      */
     public GenericTableModel<T> clear() {
+        return clear(true);
+    }
+
+    /**
+     * 清空数据
+     *
+     * @param fireTableDataChanged 是否触发表格数据改变事件
+     * @return 当前表格模型
+     */
+    public GenericTableModel<T> clear(boolean fireTableDataChanged) {
         if (!this.data.isEmpty()) {
             data.clear();
-            fireTableDataChanged();
+            if (fireTableDataChanged) {
+                fireTableDataChanged();
+            }
         }
         return this;
     }
