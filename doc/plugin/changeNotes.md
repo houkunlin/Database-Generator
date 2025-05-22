@@ -1,8 +1,13 @@
+- **2025-05-23: 2.9.0**
+    - ZH-CN
+        - feat: 新增自定义文件类型支持 [@daiwenzh5](https://github.com/daiwenzh5)
+        - 删除了一些 settings 的变量用法，仅保留 settings.projectPath/settings.javaPath/settings.resourcesPath
+
 - **2025-04-18: 2.8.3**
     - ZH-CN
-        - fix: 配置面板“项目路径”会丢失和没有自动刷新的问题 @daiwenzh5
-        - feat: “记住选择模板”选项 @daiwenzh5
-        - feat: 在模板中支持调用groovy脚本定义的方法 @daiwenzh5
+        - fix: 配置面板“项目路径”会丢失和没有自动刷新的问题 [@daiwenzh5](https://github.com/daiwenzh5)
+        - feat: “记住选择模板”选项 [@daiwenzh5](https://github.com/daiwenzh5)
+        - feat: 在模板中支持调用groovy脚本定义的方法 [@daiwenzh5](https://github.com/daiwenzh5)
 
 - **2024-08-19: 2.8.2**
 
