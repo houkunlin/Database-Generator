@@ -123,11 +123,11 @@ public class BaseSetting implements IWindows {
     }
 
     private void initDatabaseFieldStyle() {
-        databaseFieldStyleType.addItem("下划线（LOWER_UNDERSCORE）");
-        databaseFieldStyleType.addItem("下划线（UPPER_UNDERSCORE）");
+        databaseFieldStyleType.addItem("下划线（LOWER_UNDERSCORE）和连接符（LOWER_HYPHEN）");
+        databaseFieldStyleType.addItem("下划线（UPPER_UNDERSCORE）和连接符（LOWER_HYPHEN）");
         databaseFieldStyleType.addItem("小驼峰（LOWER_CAMEL）");
         databaseFieldStyleType.addItem("大坨峰（UPPER_CAMEL）");
-        databaseFieldStyleType.addItem("连接符（LOWER_HYPHEN）");
+        // databaseFieldStyleType.addItem("连接符（LOWER_HYPHEN）");
         databaseFieldStyleType.addItemListener(e -> {
             if (e.getStateChange() != ItemEvent.SELECTED) {
                 return;

@@ -30,8 +30,8 @@ public class Options {
             return CaseFormat.LOWER_CAMEL;
         } else if (dbFieldStyleType == 3) {
             return CaseFormat.UPPER_CAMEL;
-        } else if (dbFieldStyleType == 4) {
-            return CaseFormat.LOWER_HYPHEN;
+        // } else if (dbFieldStyleType == 4) {
+        //     return CaseFormat.LOWER_HYPHEN;
         } else {
             return CaseFormat.LOWER_UNDERSCORE;
         }

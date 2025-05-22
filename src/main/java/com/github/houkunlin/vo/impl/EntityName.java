@@ -20,7 +20,8 @@ public class EntityName extends BaseTypeMap<IName> implements IName {
     private final String firstLower;
 
     public EntityName(DbTable dbTable, Options options) {
-        this.value = options.obtainCaseFormat().to(CaseFormat.UPPER_CAMEL, dbTable.getName());
+        // 把减号替换成下划线
+        this.value = options.obtainCaseFormat().to(CaseFormat.UPPER_CAMEL, dbTable.getName().replaceAll("-", "_"));
         this.firstUpper = value;
         this.firstLower = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, value);
     }

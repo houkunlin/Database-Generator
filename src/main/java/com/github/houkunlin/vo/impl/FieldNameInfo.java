@@ -28,7 +28,8 @@ public class FieldNameInfo implements IName {
     }
 
     public FieldNameInfo(DasColumn dbColumn, Options options) {
-        this.value = options.obtainCaseFormat().to(CaseFormat.LOWER_CAMEL, dbColumn.getName());
+        // 把减号替换成下划线
+        this.value = options.obtainCaseFormat().to(CaseFormat.LOWER_CAMEL, dbColumn.getName().replaceAll("-", "_"));
         this.firstUpper = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, value);
         this.firstLower = value;
     }
