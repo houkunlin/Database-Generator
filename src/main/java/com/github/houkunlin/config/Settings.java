@@ -61,11 +61,12 @@ public class Settings {
 
     private void initFileTypes() {
         fileTypes = Lists.newArrayList(
-            FileType.of("entity", "Entity", "com.example.entity"),
-            FileType.of("dao", "Repository", "com.example.repository"),
-            FileType.of("service", "Service", "com.example.service"),
-            FileType.of("serviceImpl", "ServiceImpl", "com.example.service.impl"),
-            FileType.of("controller", "Controller", "com.example.controller")
+            FileType.of("entity", "Entity", "com.example.entity", ".java", "src/main/java", true),
+            FileType.of("dao", "Repository", "com.example.repository", ".java", "src/main/java", true),
+            FileType.of("service", "Service", "com.example.service", ".java", "src/main/java", true),
+            FileType.of("serviceImpl", "ServiceImpl", "com.example.service.impl", ".java", "src/main/java", true),
+            FileType.of("controller", "Controller", "com.example.controller", ".java", "src/main/java", true),
+            FileType.of("xml", null, null, ".xml", "src/main/resources/mapper", true)
         );
     }
 }
