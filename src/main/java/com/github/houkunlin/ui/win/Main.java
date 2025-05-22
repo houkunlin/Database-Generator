@@ -133,19 +133,14 @@ public class Main extends JFrame {
         this.developer = configService.getDeveloper();
         this.options = configService.getOptions();
         this.selectTemplate = new SelectTemplate(configService.getLastSelectionTemplates());
-        final Runnable initPane = new Runnable() {
-            @Override
-            public void run() {
-                PluginUtils.resetColumnTypes();
-                baseSetting = new BaseSetting(project, settings, developer, options, this);
-                tableSetting = new TableSetting(psiElements, options);
-                tableTabbedPane.removeAll();
-                tableTabbedPane.addTab("基础配置", baseSetting.getContent());
-                tableTabbedPane.addTab("模板选择", selectTemplate.getContent());
-                tableTabbedPane.addTab("数据库表配置", tableSetting.getContent());
-            }
-        };
-        initPane.run();
+
+        PluginUtils.resetColumnTypes();
+        tableSetting = new TableSetting(psiElements, options);
+        baseSetting = new BaseSetting(project, settings, developer, options, tableSetting::reset);
+        tableTabbedPane.removeAll();
+        tableTabbedPane.addTab("基础配置", baseSetting.getContent());
+        tableTabbedPane.addTab("模板选择", selectTemplate.getContent());
+        tableTabbedPane.addTab("数据库表配置", tableSetting.getContent());
 
         initWindows();
         initConfig();

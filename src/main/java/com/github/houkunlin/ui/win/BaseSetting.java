@@ -59,12 +59,14 @@ public class BaseSetting implements IWindows {
      */
     private JCheckBox retainLastSelectionTemplates;
     private JPanel fileTypeTablePanel;
+    private Runnable noteReset;
 
     public BaseSetting(Project project, Settings settings, Developer developer, Options options, Runnable noteReset) {
         this.project = project;
         this.settings = settings;
         this.developer = developer;
         this.options = options;
+        this.noteReset = noteReset;
         initFileTypeTable();
         initDatabaseFieldStyle();
         initConfig();
@@ -133,6 +135,7 @@ public class BaseSetting implements IWindows {
                 return;
             }
             options.setDbFieldStyleType(databaseFieldStyleType.getSelectedIndex());
+            this.noteReset.run();
         });
     }
 
