@@ -18,9 +18,12 @@ public class FieldNameInfo implements IName {
     private final String firstUpper;
     private final String firstLower;
 
-    public FieldNameInfo(String value, String firstUpper, String firstLower) {
-        this.value = value;
-        this.firstUpper = firstUpper;
+    /**
+     * @param firstLower 首字母小写
+     */
+    public FieldNameInfo(String firstLower) {
+        this.value = firstLower;
+        this.firstUpper = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, value);
         this.firstLower = firstLower;
     }
 
