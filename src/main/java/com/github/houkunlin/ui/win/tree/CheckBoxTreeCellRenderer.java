@@ -8,11 +8,10 @@ import java.awt.*;
  * 复选框的树形渲染
  *
  * @author HouKunLin
- * @date 2020/8/17 0017 11:04
  */
 public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer {
-    protected JCheckBox check;
-    protected CheckBoxTreeLabel label;
+    protected final JCheckBox check;
+    protected final CheckBoxTreeLabel label;
 
     public CheckBoxTreeCellRenderer() {
         setLayout(null);

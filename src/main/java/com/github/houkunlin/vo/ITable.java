@@ -4,7 +4,6 @@ package com.github.houkunlin.vo;
  * 数据库表信息
  *
  * @author HouKunLin
- * @date 2020/5/27 0027 23:55
  */
 public interface ITable {
     /**

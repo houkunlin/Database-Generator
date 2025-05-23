@@ -10,7 +10,6 @@ import lombok.Getter;
  * Java字段名称对象
  *
  * @author HouKunLin
- * @date 2020/7/18 0018 2:41
  */
 @Getter
 public class FieldNameInfo implements IName {

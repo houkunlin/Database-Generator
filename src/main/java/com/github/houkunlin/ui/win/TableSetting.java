@@ -15,7 +15,6 @@ import java.util.List;
  * 数据库表配置面板（涵盖多个数据库表的内容）
  *
  * @author HouKunLin
- * @date 2020/8/15 0015 16:10
  */
 @Data
 public class TableSetting implements IWindows {

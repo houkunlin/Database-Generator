@@ -6,7 +6,6 @@ import com.intellij.database.model.DataType;
  * 数据库表字段信息（数据库表列对象信息）
  *
  * @author HouKunLin
- * @date 2020/5/27 0027 23:55
  */
 public interface ITableColumn {
     /**

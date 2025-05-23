@@ -12,7 +12,6 @@ import java.util.List;
  * 拥有复选框的树形节点
  *
  * @author HouKunLin
- * @date 2020/8/17 0017 11:04
  */
 @Getter
 public class CheckBoxTreeNode extends DefaultMutableTreeNode {

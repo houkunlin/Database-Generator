@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  * 模板选择界面
  *
  * @author HouKunLin
- * @date 2020/8/15 0015 16:11
  */
 public class SelectTemplate implements IWindows {
     private final CheckBoxTreeNode root;

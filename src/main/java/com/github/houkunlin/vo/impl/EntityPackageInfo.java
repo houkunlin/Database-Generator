@@ -7,7 +7,6 @@ import lombok.Getter;
  * 实体类包信息
  *
  * @author HouKunLin
- * @date 2020/7/5 0005 15:41
  */
 @Getter
 public class EntityPackageInfo {

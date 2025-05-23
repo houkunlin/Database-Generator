@@ -12,7 +12,6 @@ import java.io.InputStream;
  * 同步插件资源到项目路径
  *
  * @author HouKunLin
- * @date 2020/4/6 0006 19:10
  */
 @Data
 @RequiredArgsConstructor

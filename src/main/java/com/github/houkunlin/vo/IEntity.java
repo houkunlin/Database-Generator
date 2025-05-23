@@ -6,7 +6,6 @@ import com.github.houkunlin.vo.impl.EntityPackage;
  * 实体类信息
  *
  * @author HouKunLin
- * @date 2020 /5/27 0027 23:54
  */
 public interface IEntity {
     /**

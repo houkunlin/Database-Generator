@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
  * 实体类对象的包信息
  *
  * @author HouKunLin
- * @date 2020/7/5 0005 15:12
  */
 @Getter
 public class EntityPackage extends BaseTypeMap<EntityPackageInfo> {

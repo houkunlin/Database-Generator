@@ -22,7 +22,6 @@ import java.util.List;
  * 表格列名信息
  *
  * @author HouKunLin
- * @date 2020/4/3 0003 9:32
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

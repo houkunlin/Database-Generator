@@ -11,7 +11,6 @@ import lombok.Getter;
  * 实体类名称对象。提供方便直接获取 Entity、Service、ServiceImpl、Dao、Controller 的对象完整名称
  *
  * @author HouKunLin
- * @date 2020/7/5 0005 15:07
  */
 @Getter
 public class EntityName extends BaseTypeMap<IName> implements IName {

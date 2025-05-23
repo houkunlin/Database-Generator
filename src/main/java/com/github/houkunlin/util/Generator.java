@@ -25,7 +25,6 @@ import java.util.function.BiConsumer;
  * 代码生成工具
  *
  * @author HouKunLin
- * @date 2020/4/3 0003 11:22
  */
 @Data
 public class Generator {

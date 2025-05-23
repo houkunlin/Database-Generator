@@ -21,7 +21,6 @@ import java.util.function.Consumer;
  * 基础设置窗口
  *
  * @author HouKunLin
- * @date 2020/8/15 0015 16:00
  */
 public class BaseSetting implements IWindows {
     private final Project project;

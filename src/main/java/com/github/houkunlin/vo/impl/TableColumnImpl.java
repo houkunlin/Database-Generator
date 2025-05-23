@@ -17,7 +17,6 @@ import java.util.Objects;
  * 数据库表字段信息（数据库表列对象信息）
  *
  * @author HouKunLin
- * @date 2020/5/28 0028 0:59
  */
 @Getter
 public class TableColumnImpl implements ITableColumn {

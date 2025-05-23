@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  * 完整的类型信息
  *
  * @author HouKunLin
- * @date 2020/6/30 0030 16:58
  */
 @Getter
 public class RootModel {

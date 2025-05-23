@@ -14,7 +14,6 @@ import java.util.Objects;
  * 数据库表面板（对应了单个表的配置信息）
  *
  * @author HouKunLin
- * @date 2020/8/15 0015 16:09
  */
 @Data
 public class TablePanel implements IWindows {

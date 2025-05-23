@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
  * 字段类型数据
  *
  * @author HouKunLin
- * @date 2020/4/3 0003 16:52
  */
 @Data
 public class TableColumnType {

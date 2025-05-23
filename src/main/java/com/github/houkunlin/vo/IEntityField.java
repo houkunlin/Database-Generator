@@ -6,7 +6,6 @@ import com.intellij.database.model.DataType;
  * 实体类字段信息
  *
  * @author HouKunLin
- * @date 2020/5/27 0027 23:54
  */
 public interface IEntityField {
     /**

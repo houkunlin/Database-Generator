@@ -24,7 +24,6 @@ import java.io.IOException;
  * 文件处理工具
  *
  * @author HouKunLin
- * @date 2020 /9/17 0017 11:00
  * @see <a href="https://github.com/makejavas/EasyCode/blob/8da33606c991e54a0c59423f33d4cd32052100bd/src/main/java/com/sjhy/plugin/tool/FileUtils.java">参考资料</a>
  */
 public class FileUtils {

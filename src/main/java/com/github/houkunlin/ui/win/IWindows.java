@@ -6,7 +6,6 @@ import javax.swing.*;
  * 内容窗口
  *
  * @author HouKunLin
- * @date 2020/8/15 0015 16:00
  */
 public interface IWindows {
     /**

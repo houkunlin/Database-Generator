@@ -10,7 +10,6 @@ import java.util.List;
  * 设置信息
  *
  * @author HouKunLin
- * @date 2020/4/3 0003 14:56
  */
 @Data
 public class Settings {

@@ -8,7 +8,6 @@ import lombok.Getter;
  * 实体类名称信息对象
  *
  * @author HouKunLin
- * @date 2020/7/18 0018 3:00
  */
 @Getter
 public class EntityNameInfo implements IName {

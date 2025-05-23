@@ -14,7 +14,6 @@ import java.util.Set;
  * 实体类信息
  *
  * @author HouKunLin
- * @date 2020/5/28 0028 0:59
  */
 @Getter
 public class EntityImpl implements IEntity {

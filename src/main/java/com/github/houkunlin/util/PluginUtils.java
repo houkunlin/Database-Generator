@@ -27,7 +27,6 @@ import java.util.function.Consumer;
  * 插件工具类
  *
  * @author HouKunLin
- * @date 2020/11/17 0017 16:32
  */
 @Getter
 public class PluginUtils {
@@ -71,12 +70,13 @@ public class PluginUtils {
      * @return 当前项目路径
      */
     public static @NotNull Path getProjectPath() {
+        Path path = Path.of("");
         if (project == null) {
-            return Path.of("");
+            return path;
         }
         var projectDir = ProjectUtil.guessProjectDir(project);
         if (projectDir == null) {
-            return Path.of("");
+            return path;
         }
         return projectDir.toNioPath();
     }

@@ -4,7 +4,6 @@ package com.github.houkunlin.vo;
  * 名称处理
  *
  * @author HouKunLin
- * @date 2020/7/5 0005 12:26
  */
 public interface IName {
 

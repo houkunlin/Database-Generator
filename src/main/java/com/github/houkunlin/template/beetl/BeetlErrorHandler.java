@@ -12,7 +12,6 @@ import java.io.Writer;
  * Beetl 模板的异常处理器
  *
  * @author HouKunLin
- * @date 2020/7/18 0018 1:51
  */
 public class BeetlErrorHandler extends ConsoleErrorHandler {
     @Override

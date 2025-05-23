@@ -19,7 +19,6 @@ import java.util.List;
  * 配置 Service
  *
  * @author HouKunLin
- * @date 2020/8/18 0018 17:17
  */
 @Data
 @State(name = "com.github.houkunlin.database.generator.config.ConfigService",

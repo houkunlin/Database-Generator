@@ -18,7 +18,6 @@ import java.util.List;
 
 /**
  * @author HouKunLin
- * @date 2020/9/18 0018 0:31
  */
 public class GeneratorTask extends Task.Modal {
     private final Project project;
