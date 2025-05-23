@@ -12,28 +12,39 @@ settings:
     - type: entity
       suffix: Entity
       packageName: com.example.entity
+      ext: .java
+      path: src/main/java
       override: true
     - type: dao
       suffix: Repository
       packageName: com.example.repository
+      ext: .java
+      path: src/main/java
       override: true
     - type: service
       suffix: Service
       packageName: com.example.service
+      ext: .java
+      path: src/main/java
       override: true
     - type: serviceImpl
       suffix: ServiceImpl
       packageName: com.example.service.impl
+      ext: .java
+      path: src/main/java
       override: true
     - type: controller
       suffix: Controller
       packageName: com.example.controller
+      ext: .java
+      path: src/main/java
       override: true
     - type: xml
       suffix: Mapper
       packageName: mapper
-      override: true
       ext: .xml
+      path: src/main/resources
+      override: true
 types:
   - shortName: Object
     longName: java.lang.Object
@@ -42,7 +53,9 @@ types:
   - shortName: Boolean
     longName: java.lang.Boolean
     dbTypes:
-      - ^bit
+      - ^bit$
+      - ^bool # Postgresql
+      - ^boolean # Postgresql
   - shortName: Long
     longName: java.lang.Long
     dbTypes:
@@ -53,6 +66,8 @@ types:
       - ^tinyint
       - ^smallint
       - ^mediumint
+      - ^integer # Postgresql
+      - ^interval # Postgresql
       - ^int
   - shortName: String
     longName: java.lang.String
@@ -62,15 +77,23 @@ types:
       - ^text
       - ^longtext
       - ^tinytext
+      - ^cidr # Postgresql
+      - ^inet # Postgresql
+      - ^macaddr # Postgresql
+      - ^path # Postgresql
+      - ^uuid # Postgresql
+      - ^xml # Postgresql
   - shortName: BigDecimal
     longName: java.math.BigDecimal
     dbTypes:
       - ^decimal
       - ^numeric
+      - ^money # Postgresql
   - shortName: Float
     longName: java.lang.Float
     dbTypes:
       - ^float
+      - ^real # Postgresql
   - shortName: Double
     longName: java.lang.Double
     dbTypes:

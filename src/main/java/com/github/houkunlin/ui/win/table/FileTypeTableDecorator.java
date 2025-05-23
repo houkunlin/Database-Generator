@@ -53,8 +53,7 @@ public class FileTypeTableDecorator extends TableDecorator<FileType, FileTypeTab
         var pathTableCellEditor = new ComboBoxTableCellEditor<>(
             javaPath,
             javaPath.replace("java", "kotlin"),
-            settings.getResourcesPath(),
-            settings.getResourcesPath() + "/mapper"
+            settings.getResourcesPath()
         );
         return new GenericTableModel<>(settings.getFileTypes())
             .addColumn(ColumnSpec.of(Bundles.message("fileTypes.type"), String.class, FileType::getType, FileType::setType))

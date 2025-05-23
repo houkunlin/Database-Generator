@@ -66,7 +66,7 @@ public class Settings {
             FileType.of("service", "Service", "com.example.service", ".java", "src/main/java", true),
             FileType.of("serviceImpl", "ServiceImpl", "com.example.service.impl", ".java", "src/main/java", true),
             FileType.of("controller", "Controller", "com.example.controller", ".java", "src/main/java", true),
-            FileType.of("xml", null, null, ".xml", "src/main/resources/mapper", true)
+            FileType.of("xml", "Mapper", "mapper", ".xml", "src/main/resources", true)
         );
     }
 }
