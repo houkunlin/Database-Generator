@@ -1,11 +1,14 @@
 package com.github.houkunlin.util;
 
+import com.intellij.openapi.diagnostic.Logger;
+
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class IO {
+    private static final Logger log = Logger.getInstance(IO.class);
     /**
      * 获取资源文件的输入流
      *
@@ -46,7 +49,7 @@ public class IO {
             outputStream.flush();
             return outputStream.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("读取文件失败", e);
         } finally {
             close(outputStream, inputStream);
         }
@@ -62,8 +65,7 @@ public class IO {
         for (Closeable closeable : closeables) {
             try {
                 closeable.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignore) {
             }
         }
     }

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -54,9 +53,8 @@ public class SyncResources implements Runnable {
     /**
      * 复制插件内部的代码模板到项目路径中
      *
-     * @throws IOException 复制异常
      */
-    private void syncFiles() throws IOException {
+    private void syncFiles() {
         String syncFiles = IO.readResources("syncFiles.txt");
         String[] split = syncFiles.split("\n");
         for (String filePath : split) {
