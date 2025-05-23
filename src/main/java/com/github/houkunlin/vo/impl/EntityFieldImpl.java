@@ -5,7 +5,6 @@ import com.github.houkunlin.model.TableColumnType;
 import com.github.houkunlin.util.PluginUtils;
 import com.github.houkunlin.vo.IEntityField;
 import com.github.houkunlin.vo.ITableColumn;
-import com.google.common.base.CaseFormat;
 import com.intellij.database.model.DasColumn;
 import com.intellij.database.model.DataType;
 import com.intellij.database.util.DasUtil;

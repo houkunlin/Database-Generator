@@ -1,5 +1,7 @@
 package com.github.houkunlin.vo;
 
+import lombok.Getter;
+
 /**
  * 模板传递给程序的变量信息
  *
@@ -7,8 +9,11 @@ package com.github.houkunlin.vo;
  * @date 2020/7/5 0005 0:58
  */
 public class Variable {
+    @Getter
     public static String filename;
+    @Getter
     public static String filepath;
+    @Getter
     public static String type;
 
     private static Variable instance;
@@ -30,24 +35,12 @@ public class Variable {
         type = null;
     }
 
-    public static String getFilename() {
-        return filename;
-    }
-
     public static void setFilename(String filename) {
         Variable.filename = filename;
     }
 
-    public static String getFilepath() {
-        return filepath;
-    }
-
     public static void setFilepath(String filepath) {
         Variable.filepath = filepath;
-    }
-
-    public static String getType() {
-        return type;
     }
 
     public static void setType(String type) {

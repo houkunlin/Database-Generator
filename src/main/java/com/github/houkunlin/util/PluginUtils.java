@@ -49,14 +49,17 @@ public class PluginUtils {
     /**
      * 全局的草稿文件和控制台-扩展 路径： ${PathManager.getConfigPath}/extensions/${PLUGIN_ID}
      */
+    @Getter
     private static File extensionPluginDir;
     /**
      * 当前项目下的插件路径： ${project.dir}/${PROJECT_WORK_DIR}
      */
+    @Getter
     private static File projectPluginDir;
     /**
      * 当前项目下的idea配置路径下的插件路径： ${project.dir}/.idea/${PROJECT_WORK_DIR}
      */
+    @Getter
     private static File projectWorkspacePluginDir;
 
     private PluginUtils() {
@@ -76,18 +79,6 @@ public class PluginUtils {
             return Path.of("");
         }
         return projectDir.toNioPath();
-    }
-
-    public static File getExtensionPluginDir() {
-        return extensionPluginDir;
-    }
-
-    public static File getProjectPluginDir() {
-        return projectPluginDir;
-    }
-
-    public static File getProjectWorkspacePluginDir() {
-        return projectWorkspacePluginDir;
     }
 
     public static void setProject(Project project) {

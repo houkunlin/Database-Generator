@@ -7,9 +7,6 @@ import com.intellij.openapi.util.text.StringUtil;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 保存文件信息
  *

@@ -1,5 +1,8 @@
 package com.github.houkunlin.ui.win.tree;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
@@ -10,9 +13,12 @@ import java.awt.*;
  * @author HouKunLin
  * @date 2020/8/17 0017 11:05
  */
-@SuppressWarnings("serial")
 public class CheckBoxTreeLabel extends JLabel {
-    private boolean isSelected;
+    @Setter
+    @Getter
+    private boolean selected;
+    @Setter
+    @Getter
     private boolean hasFocus;
 
     public CheckBoxTreeLabel() {
@@ -32,13 +38,5 @@ public class CheckBoxTreeLabel extends JLabel {
             retDimension = new Dimension(retDimension.width + 3, retDimension.height);
         }
         return retDimension;
-    }
-
-    public void setSelected(boolean isSelected) {
-        this.isSelected = isSelected;
-    }
-
-    public void setFocus(boolean hasFocus) {
-        this.hasFocus = hasFocus;
     }
 }

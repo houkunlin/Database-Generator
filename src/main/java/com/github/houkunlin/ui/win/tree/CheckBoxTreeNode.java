@@ -1,5 +1,7 @@
 package com.github.houkunlin.ui.win.tree;
 
+import lombok.Getter;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import java.io.File;
@@ -12,7 +14,7 @@ import java.util.List;
  * @author HouKunLin
  * @date 2020/8/17 0017 11:04
  */
-@SuppressWarnings("serial")
+@Getter
 public class CheckBoxTreeNode extends DefaultMutableTreeNode {
     protected boolean selected;
 
@@ -27,10 +29,6 @@ public class CheckBoxTreeNode extends DefaultMutableTreeNode {
     public CheckBoxTreeNode(Object userObject, boolean allowsChildren, boolean selected) {
         super(userObject, allowsChildren);
         this.selected = selected;
-    }
-
-    public boolean isSelected() {
-        return selected;
     }
 
     public void setSelected(boolean selected) {
