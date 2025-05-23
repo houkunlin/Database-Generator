@@ -37,12 +37,6 @@ public class SaveFilePath {
         Variable.resetVariables();
     }
 
-    public static void resetVariables() {
-        Variable.filename = null;
-        Variable.filepath = null;
-        Variable.type = null;
-    }
-
     public static SaveFilePath create(RootModel rootModel, Settings settings) {
         var entityName = String.valueOf(rootModel.getEntity().getName());
         if (Variable.type == null) {

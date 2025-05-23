@@ -59,7 +59,7 @@ public class BaseSetting implements IWindows {
      */
     private JCheckBox retainLastSelectionTemplates;
     private JPanel fileTypeTablePanel;
-    private Runnable noteReset;
+    private final Runnable noteReset;
 
     public BaseSetting(Project project, Settings settings, Developer developer, Options options, Runnable noteReset) {
         this.project = project;

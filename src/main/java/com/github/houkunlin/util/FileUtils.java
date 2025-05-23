@@ -125,7 +125,6 @@ public class FileUtils {
      * @param psiFile 文件对象
      * @see <a href="https://github.com/makejavas/EasyCode/blob/8da33606c991e54a0c59423f33d4cd32052100bd/src/main/java/com/sjhy/plugin/tool/FileUtils.java#L143">参考资料</a>
      */
-    @SuppressWarnings("unchecked")
     public void reformatCode(Project project, PsiFile[] psiFile) {
         // 尝试对文件进行格式化处理
         AbstractLayoutCodeProcessor processor = new ReformatCodeProcessor(project, psiFile, null, false);

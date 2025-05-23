@@ -10,7 +10,6 @@ import java.awt.*;
  * @author HouKunLin
  * @date 2020/8/17 0017 11:04
  */
-@SuppressWarnings("serial")
 public class CheckBoxTreeCellRenderer extends JPanel implements TreeCellRenderer {
     protected JCheckBox check;
     protected CheckBoxTreeLabel label;

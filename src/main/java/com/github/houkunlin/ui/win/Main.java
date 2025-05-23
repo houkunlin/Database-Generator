@@ -51,11 +51,11 @@ public class Main extends JFrame {
     /**
      * 面板对象：数据库表配置
      */
-    private TableSetting tableSetting;
+    private final TableSetting tableSetting;
     /**
      * 面板对象：基础信息配置
      */
-    private BaseSetting baseSetting;
+    private final BaseSetting baseSetting;
     /**
      * 面板对象：模板选择配置
      */

@@ -40,7 +40,7 @@ public class VelocityTemplateGenerator extends AbstractScriptedTemplateGenerator
     }
 
     @Override
-    protected String doGenerateInline(String templateContent, Map<String, Object> context_) throws Exception {
+    protected String doGenerateInline(String templateContent, Map<String, Object> context_) {
         var context = new VelocityContext(context_);
         var out = new StringWriter();
         engine.evaluate(context, out, "", templateContent);
