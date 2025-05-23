@@ -46,8 +46,7 @@ public class TableSetting implements IWindows {
         // 确保即时加载types信息
         PluginUtils.resetColumnTypes();
         for (PsiElement psiElement : psiElements) {
-            if (psiElement instanceof DbTable) {
-                DbTable dbTable = (DbTable) psiElement;
+            if (psiElement instanceof DbTable dbTable) {
                 TablePanel tablePanel = new TablePanel(dbTable, options);
                 tableTabbedPane.addTab(dbTable.getName(), tablePanel.getContent());
                 tablePanels.add(tablePanel);

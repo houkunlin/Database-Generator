@@ -108,8 +108,7 @@ public class CheckBoxTreeNode extends DefaultMutableTreeNode {
         }
         if (children != null) {
             for (TreeNode child : children) {
-                if (child instanceof CheckBoxTreeNode) {
-                    CheckBoxTreeNode node = (CheckBoxTreeNode) child;
+                if (child instanceof CheckBoxTreeNode node) {
                     list.addAll(node.getAllSelectNodes());
                 }
             }
